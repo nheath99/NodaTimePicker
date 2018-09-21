@@ -1,0 +1,131 @@
+﻿@import "datetimepicker-tempusdominus.scss";
+
+.datepicker {
+	display: grid;
+	grid-template-areas: "header" "days-of-week" "days";
+
+	.datepicker-header {
+		grid-area: header;
+		display: grid;
+		grid-template-columns: 1fr 5fr 1fr;
+		grid-template-areas: "prev month next";
+		justify-items: stretch;
+		align-items: center;
+		font-weight: bold;
+		border-top: 1px solid rgb(222, 226, 230);
+
+		> * {
+			text-align: center;
+			border-radius: 0.25rem;
+			padding: 0.1rem;
+
+			&:hover {
+				background: #e9ecef;
+				cursor: pointer;
+			}
+		}
+
+		.prev {
+			grid-area: prev;
+		}
+
+		.month {
+			grid-area: month;
+		}
+
+		.next {
+			grid-area: next;
+		}
+
+		.prev, .next {
+			user-select: none;
+		}
+	}
+
+
+	.datepicker-days-of-week {
+		grid-area: days-of-week;
+		display: grid;
+		grid-template-columns: repeat(7, 1fr);
+		justify-items: stretch;
+		align-items: center;
+		font-weight: bold;
+		border-top: 2px solid rgb(222, 226, 230);
+		border-bottom: 1px solid rgb(222, 226, 230);
+
+		.dow {
+			text-align: center;
+
+			&.weekend {
+			}
+
+			&.weekday {
+			}
+
+			&.disabled {
+				background: none;
+				color: $bs-datetimepicker-disabled-color;
+				cursor: not-allowed;
+			}
+		}
+	}
+
+	.days {
+		grid-area: days;
+		display: grid;
+		grid-auto-rows: 1fr;
+		grid-template-columns: repeat(7, 1fr);
+		justify-items: stretch;
+		align-items: center;
+
+		.day-wrapper {
+			border-top: 1px solid rgb(222, 226, 230);
+		}
+
+		.day {
+			border-radius: 0.25rem;
+			text-align: center;
+			padding: 0.3rem;
+
+			&:hover {
+				background: #e9ecef;
+				cursor: pointer;
+			}
+
+			&.old, &.new {
+				color: #6c757d;
+			}
+
+			&.active {
+				background-color: $blue;
+				color: white;
+			}
+
+			&.today {
+				position: relative;
+
+				&:before {
+					content: '';
+					display: inline-block;
+					border: solid transparent;
+					border-width: 0 0 7px 7px;
+					border-bottom-color: $blue;
+					border-top-color: rgba(0, 0, 0, 0.2);
+					position: absolute;
+					bottom: 4px;
+					right: 4px;
+				}
+			}
+
+			&.active.today:before {
+				border-bottom-color: $white;
+			}
+
+			&.disabled {
+				background: none;
+				color: $bs-datetimepicker-disabled-color;
+				cursor: not-allowed;
+			}
+		}
+	}
+}

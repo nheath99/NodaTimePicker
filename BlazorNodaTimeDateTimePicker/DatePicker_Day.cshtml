@@ -1,0 +1,47 @@
+﻿@using NodaTime
+
+<div class="day-wrapper">
+	<div class="@ClassAttribute" onclick="@OnClick">
+		@Date.Day
+	</div>
+</div>
+
+@functions {
+	[Parameter] protected LocalDate Date { get; set; }
+	[Parameter] protected bool IsToday { get; set; }
+	[Parameter] protected LocalDate? ActiveDate { get; set; }
+	[Parameter] protected LocalDate MonthToDisplay { get; set; }
+	[Parameter] protected Action<LocalDate> OnSelected { get; set; }
+	[Parameter] protected bool Disabled { get; set; }
+
+	private void OnClick()
+	{
+		if (!Disabled)
+			OnSelected?.Invoke(Date);
+	}
+
+	private bool IsOld => Date.Month < MonthToDisplay.Month;
+	private bool IsNew => Date.Month > MonthToDisplay.Month;
+
+	private string ClassAttribute
+	{
+		get
+		{
+			var sb = new List<string>();
+			sb.Add("day");
+			sb.Add(Date.DayOfWeek.IsWeekday() ? "weekday" : "weekend");
+			if (IsOld)
+				sb.Add("old");
+			if (IsNew)
+				sb.Add("new");
+			if (IsToday)
+				sb.Add("today");
+			if (ActiveDate == Date)
+				sb.Add("active");
+			if (Disabled)
+				sb.Add("disabled");
+
+			return string.Join(" ", sb);
+		}
+	}
+}

@@ -1,0 +1,196 @@
+﻿@using NodaTime
+
+<div class="datepicker">
+	<div class="datepicker-days">
+		<div class="datepicker-header">
+			<div class="prev" onclick="@PreviousMonth">&lt;</div>
+			<div class="month">@MonthText</div>
+			<div class="next" onclick="@NextMonth">&gt;</div>
+		</div>
+		<div class="datepicker-days-of-week">
+			<div class="@DayOfWeekClass(IsoDayOfWeek.Sunday)">Su</div>
+			<div class="@DayOfWeekClass(IsoDayOfWeek.Monday)">Mo</div>
+			<div class="@DayOfWeekClass(IsoDayOfWeek.Tuesday)">Tu</div>
+			<div class="@DayOfWeekClass(IsoDayOfWeek.Wednesday)">We</div>
+			<div class="@DayOfWeekClass(IsoDayOfWeek.Thursday)">Th</div>
+			<div class="@DayOfWeekClass(IsoDayOfWeek.Friday)">Fr</div>
+			<div class="@DayOfWeekClass(IsoDayOfWeek.Saturday)">Sa</div>
+		</div>
+		<div class="days">
+			@foreach (var item in Days)
+			{
+				<DatePicker_Day Date="item" Disabled="!IsEnabled(item)" IsToday="item == Today" MonthToDisplay="StartOfMonthToDisplay" OnSelected=@DateSelected ActiveDate="SelectedDate" />
+			}
+		</div>
+	</div>
+</div>
+
+@functions {
+	private void DateSelected(LocalDate selectedDate)
+	{
+		if (SelectedDate != selectedDate)
+		{
+			SelectedDate = selectedDate;
+
+			if (selectedDate.Month < StartOfMonthToDisplay.Month)
+				PreviousMonth();
+			else if (selectedDate.Month > StartOfMonthToDisplay.Month)
+				NextMonth();
+
+			StateHasChanged();
+
+			OnChanged();
+		}
+	}
+
+	// Parameters in use
+	[Parameter] protected IsoDayOfWeek FirstDayOfWeek { get; set; } = IsoDayOfWeek.Sunday;
+	[Parameter] protected string DayViewHeaderFormat { get; set; } = "MMMM yyyy";
+	[Parameter] protected LocalDate? SelectedDate { get; set; } = new LocalDate(2018, 9, 19);
+	[Parameter] protected LocalDate MinDate { get; set; } = LocalDate.MinIsoValue;
+	[Parameter] protected LocalDate MaxDate { get; set; } = LocalDate.MaxIsoValue;
+	[Parameter] protected IEnumerable<LocalDate> DisabledDates { get; set; }
+	[Parameter] protected IEnumerable<LocalDate> EnabledDates { get; set; }
+	[Parameter] protected IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled { get; set; }
+	[Parameter] protected IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals { get; set; }
+
+	// Events in use
+	[Parameter] protected Action Changed { get; set; }
+	[Parameter] protected Action Updated { get; set; }
+
+	// Parameters not yet in use
+	[Parameter] protected ViewMode ViewMode { get; set; } = ViewMode.Days;
+	[Parameter] protected bool ShowToday { get; set; } = false;
+	[Parameter] protected bool ShowClear { get; set; } = false;
+	[Parameter] protected bool ShowClose { get; set; } = false;
+	[Parameter] protected bool CloseOnSelect { get; set; } = true;
+
+	// Events not yet in use
+	[Parameter] protected Action Shown { get; set; }
+	[Parameter] protected Action Hidden { get; set; }
+	[Parameter] protected Action Disabled { get; set; }
+	[Parameter] protected Action Enabled { get; set; }
+
+	// Private properties and fields
+	private IEnumerable<LocalDate> Days { get; set; }
+	private IClock Clock;
+	private LocalDate Today { get; set; }
+	private LocalDate StartOfMonthToDisplay { get; set; }
+
+	protected override void OnInit()
+	{
+		Clock = SystemClock.Instance;
+
+		Today = Clock.Today();
+
+		StartOfMonthToDisplay = Today.StartOfMonth();
+	}
+
+	protected override void OnParametersSet()
+	{
+		DisplayDays();
+	}
+
+	protected static IEnumerable<LocalDate> GetDaysBetween(LocalDate start, LocalDate end)
+	{
+		do
+		{
+			yield return start;
+			start = start.PlusDays(1);
+		} while (start <= end);
+	}
+
+	protected string MonthText
+	{
+		get { return StartOfMonthToDisplay.ToString(DayViewHeaderFormat, null); }
+	}
+
+	void DisplayDays()
+	{
+		var startOfWeekOfMonth = StartOfMonthToDisplay.StartOfWeek(FirstDayOfWeek);
+
+		var endOfMonth = StartOfMonthToDisplay.EndOfMonth();
+		var endOfWeekOfMonth = endOfMonth.EndOfWeek(FirstDayOfWeek);
+
+		Days = GetDaysBetween(startOfWeekOfMonth, endOfWeekOfMonth);
+	}
+
+	protected void NextMonth()
+	{
+		StartOfMonthToDisplay = StartOfMonthToDisplay.PlusMonths(1);
+
+		DisplayDays();
+
+		OnUpdated();
+	}
+
+	protected void PreviousMonth()
+	{
+		StartOfMonthToDisplay = StartOfMonthToDisplay.PlusMonths(-1);
+
+		DisplayDays();
+
+		OnUpdated();
+	}
+
+	protected bool IsEnabled(LocalDate date)
+	{
+		if (EnabledDates != null)
+		{
+			if (EnabledDates.Contains(date) == false)
+				return false;
+		}
+
+		if (DisabledDates != null)
+		{
+			if (DisabledDates.Contains(date))
+				return false;
+		}
+
+		if (date < MinDate)
+			return false;
+		if (date > MaxDate)
+			return false;
+
+		if (DaysOfWeekDisabled != null)
+		{
+			if (DaysOfWeekDisabled.Contains(date.DayOfWeek))
+				return false;
+		}
+
+		if (DisabledDateIntervals != null)
+		{
+			if (DisabledDateIntervals.Any(x => date >= x.start && date <= x.end))
+				return false;
+		}
+
+		return true;
+	}
+
+	protected string DayOfWeekClass(IsoDayOfWeek dayOfWeek)
+	{
+		var strClass = "dow";
+		if (dayOfWeek.IsWeekday())
+			strClass += " weekday";
+		else
+			strClass += " weekend";
+
+		if (DaysOfWeekDisabled != null)
+		{
+			if (DaysOfWeekDisabled.Contains(dayOfWeek))
+				strClass += " disabled";
+		}
+
+		return strClass;
+	}
+
+	protected void OnChanged()
+	{
+		Changed?.Invoke();
+	}
+
+	protected void OnUpdated()
+	{
+		Updated?.Invoke();
+	}
+}
