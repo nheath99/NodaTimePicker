@@ -1,28 +1,42 @@
 ﻿@using NodaTime
 
 <div class="datepicker">
-	<div class="datepicker-days">
-		<div class="datepicker-header">
-			<div class="prev" onclick="@PreviousMonth">&lt;</div>
-			<div class="month">@MonthText</div>
-			<div class="next" onclick="@NextMonth">&gt;</div>
+	@if (ViewMode == ViewMode.Days)
+	{
+		<div class="datepicker-days">
+			<div class="datepicker-header">
+				<div class="prev" onclick="@PreviousMonth">&lt;</div>
+				<div class="month-year" onclick="@SelectMonth">@MonthText</div>
+				<div class="next" onclick="@NextMonth">&gt;</div>
+			</div>
+			<div class="datepicker-days-of-week">
+				<div class="@DayOfWeekClass(IsoDayOfWeek.Sunday)">Su</div>
+				<div class="@DayOfWeekClass(IsoDayOfWeek.Monday)">Mo</div>
+				<div class="@DayOfWeekClass(IsoDayOfWeek.Tuesday)">Tu</div>
+				<div class="@DayOfWeekClass(IsoDayOfWeek.Wednesday)">We</div>
+				<div class="@DayOfWeekClass(IsoDayOfWeek.Thursday)">Th</div>
+				<div class="@DayOfWeekClass(IsoDayOfWeek.Friday)">Fr</div>
+				<div class="@DayOfWeekClass(IsoDayOfWeek.Saturday)">Sa</div>
+			</div>
+			<div class="days">
+				@foreach (var item in Days)
+				{
+					<DatePicker_Day Date="item" Disabled="!IsEnabled(item)" IsToday="item == Today" MonthToDisplay="StartOfMonthToDisplay" OnSelected=DateSelected ActiveDate="SelectedDate" />
+				}
+			</div>
 		</div>
-		<div class="datepicker-days-of-week">
-			<div class="@DayOfWeekClass(IsoDayOfWeek.Sunday)">Su</div>
-			<div class="@DayOfWeekClass(IsoDayOfWeek.Monday)">Mo</div>
-			<div class="@DayOfWeekClass(IsoDayOfWeek.Tuesday)">Tu</div>
-			<div class="@DayOfWeekClass(IsoDayOfWeek.Wednesday)">We</div>
-			<div class="@DayOfWeekClass(IsoDayOfWeek.Thursday)">Th</div>
-			<div class="@DayOfWeekClass(IsoDayOfWeek.Friday)">Fr</div>
-			<div class="@DayOfWeekClass(IsoDayOfWeek.Saturday)">Sa</div>
+	}
+	else if (ViewMode == ViewMode.Months)
+	{
+		<div class="datepicker-months">
+			<div class="datepicker-header">
+				<div class="prev">&lt;</div>
+				<div class="year">@YearText</div>
+				<div class="next">&gt;</div>
+			</div>
+			<DatePicker_Months SelectedMonth="SelectedDate" OnSelected="MonthSelected" />
 		</div>
-		<div class="days">
-			@foreach (var item in Days)
-			{
-				<DatePicker_Day Date="item" Disabled="!IsEnabled(item)" IsToday="item == Today" MonthToDisplay="StartOfMonthToDisplay" OnSelected=@DateSelected ActiveDate="SelectedDate" />
-			}
-		</div>
-	</div>
+	}
 </div>
 
 @functions {
@@ -43,9 +57,20 @@
 		}
 	}
 
+	void MonthSelected(int selectedMonth)
+	{
+		Console.WriteLine("MonthSelected " + selectedMonth.ToString());
+		StartOfMonthToDisplay = new LocalDate(StartOfMonthToDisplay.Year, selectedMonth, StartOfMonthToDisplay.Day);
+		Console.WriteLine(StartOfMonthToDisplay);
+		ViewMode = ViewMode.Days;
+
+		StateHasChanged();
+	}
+
 	// Parameters in use
 	[Parameter] protected IsoDayOfWeek FirstDayOfWeek { get; set; } = IsoDayOfWeek.Sunday;
 	[Parameter] protected string DayViewHeaderFormat { get; set; } = "MMMM yyyy";
+	[Parameter] protected string MonthViewHeaderFormat { get; set; } = "yyyy";
 	[Parameter] protected LocalDate? SelectedDate { get; set; } = new LocalDate(2018, 9, 19);
 	[Parameter] protected LocalDate MinDate { get; set; } = LocalDate.MinIsoValue;
 	[Parameter] protected LocalDate MaxDate { get; set; } = LocalDate.MaxIsoValue;
@@ -105,6 +130,11 @@
 		get { return StartOfMonthToDisplay.ToString(DayViewHeaderFormat, null); }
 	}
 
+	protected string YearText
+	{
+		get { return StartOfMonthToDisplay.ToString(MonthViewHeaderFormat, null); }
+	}
+
 	void DisplayDays()
 	{
 		var startOfWeekOfMonth = StartOfMonthToDisplay.StartOfWeek(FirstDayOfWeek);
@@ -131,6 +161,25 @@
 		DisplayDays();
 
 		OnUpdated();
+	}
+
+	protected void SelectMonth()
+	{
+		switch (ViewMode)
+		{
+			case ViewMode.Days:
+				ViewMode = ViewMode.Months;
+				break;
+			case ViewMode.Months:
+				ViewMode = ViewMode.Years;
+				break;
+			case ViewMode.Years:
+				ViewMode = ViewMode.Decades;
+				break;
+			case ViewMode.Decades:
+			default:
+				break;
+		}
 	}
 
 	protected bool IsEnabled(LocalDate date)

@@ -29,24 +29,3 @@ $grid-breakpoint-sm: 576px;
 $grid-breakpoint-md: 768px;
 $grid-breakpoint-lg: 992px;
 $grid-breakpoint-xl: 1200px;
-
-
-.sr-only {
-	border: 0;
-	clip: rect(0,0,0,0);
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	width: 1px
-}
-
-.sr-only-focusable:active, .sr-only-focusable:focus {
-	clip: auto;
-	height: auto;
-	margin: 0;
-	overflow: visible;
-	position: static;
-	width: auto
-}

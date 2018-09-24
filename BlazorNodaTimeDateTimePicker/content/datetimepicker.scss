@@ -1,4 +1,16 @@
-﻿@import "datetimepicker-tempusdominus.scss";
+﻿@import "variables.scss";
+
+$datetimepicker-timepicker-font-size: 1.2em !default;
+$datetimepicker-active-bg: $blue !default;
+$datetimepicker-active-color: $white !default;
+$datetimepicker-border-radius: $border-radius !default;
+$datetimepicker-btn-hover-bg: $gray-200 !default;
+$datetimepicker-disabled-color: $gray-600 !default;
+$datetimepicker-alternate-color: $gray-600 !default;
+$datetimepicker-secondary-border-color: #ccc !default;
+$datetimepicker-secondary-border-color-rgba: rgba(0, 0, 0, 0.2) !default;
+$datetimepicker-primary-border-color: white !default;
+$datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
 
 .datepicker {
 	display: grid;
@@ -8,7 +20,7 @@
 		grid-area: header;
 		display: grid;
 		grid-template-columns: 1fr 5fr 1fr;
-		grid-template-areas: "prev month next";
+		grid-template-areas: "prev header next";
 		justify-items: stretch;
 		align-items: center;
 		font-weight: bold;
@@ -29,8 +41,8 @@
 			grid-area: prev;
 		}
 
-		.month {
-			grid-area: month;
+		.month-year, .year {
+			grid-area: header;
 		}
 
 		.next {
@@ -64,7 +76,7 @@
 
 			&.disabled {
 				background: none;
-				color: $bs-datetimepicker-disabled-color;
+				color: $datetimepicker-disabled-color;
 				cursor: not-allowed;
 			}
 		}
@@ -88,7 +100,7 @@
 			padding: 0.3rem;
 
 			&:hover {
-				background: #e9ecef;
+				background-color: #e9ecef;
 				cursor: pointer;
 			}
 
@@ -123,8 +135,32 @@
 
 			&.disabled {
 				background: none;
-				color: $bs-datetimepicker-disabled-color;
+				color: $datetimepicker-disabled-color;
 				cursor: not-allowed;
+			}
+		}
+	}
+
+	.months {
+		display: grid;
+		grid-auto-rows: 1fr;
+		grid-template-columns: repeat(4, 1fr);
+		justify-items: stretch;
+		align-items: center;
+
+		.month {
+			border-radius: 0.25rem;
+			text-align: center;
+			padding: 1rem 0.3rem;
+
+			&:hover {
+				background-color: #e9ecef;
+				cursor: pointer;
+			}
+
+			&.active {
+				background-color: $blue;
+				color: white;
 			}
 		}
 	}

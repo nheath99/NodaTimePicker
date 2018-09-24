@@ -1,0 +1,86 @@
+﻿@using NodaTime
+
+<div class="months">
+	<div class="@ClassName(1)" onclick="@JanClicked">Jan</div>
+	<div class="@ClassName(2)" onclick="@FebClicked">Feb</div>
+	<div class="@ClassName(3)" onclick="@MarClicked">Mar</div>
+	<div class="@ClassName(4)" onclick="@AprClicked">Apr</div>
+	<div class="@ClassName(5)" onclick="@MayClicked">May</div>
+	<div class="@ClassName(6)" onclick="@JunClicked">Jun</div>
+	<div class="@ClassName(7)" onclick="@JulClicked">Jul</div>
+	<div class="@ClassName(8)" onclick="@AugClicked">Aug</div>
+	<div class="@ClassName(9)" onclick="@SepClicked">Sep</div>
+	<div class="@ClassName(10)" onclick="@OctClicked">Oct</div>
+	<div class="@ClassName(11)" onclick="@NovClicked">Nov</div>
+	<div class="@ClassName(12)" onclick="@DecClicked">Dec</div>
+</div>
+
+@functions {
+
+	[Parameter] protected LocalDate? SelectedMonth { get; set; }
+	[Parameter] protected Action<int> OnSelected { get; set; }
+
+	void _onSelected(int month)
+	{
+		OnSelected?.Invoke(month);
+	}
+
+	void JanClicked()
+	{
+		_onSelected(1);
+	}
+	void FebClicked()
+	{
+		_onSelected(2);
+	}
+	void MarClicked()
+	{
+		_onSelected(3);
+	}
+	void AprClicked()
+	{
+		_onSelected(4);
+	}
+	void MayClicked()
+	{
+		_onSelected(5);
+	}
+	void JunClicked()
+	{
+		_onSelected(6);
+	}
+	void JulClicked()
+	{
+		_onSelected(7);
+	}
+	void AugClicked()
+	{
+		_onSelected(8);
+	}
+	void SepClicked()
+	{
+		_onSelected(9);
+	}
+	void OctClicked()
+	{
+		_onSelected(10);
+	}
+	void NovClicked()
+	{
+		_onSelected(11);
+	}
+	void DecClicked()
+	{
+		_onSelected(12);
+	}
+
+	protected string ClassName(int month)
+	{
+		var strClass = "month";
+
+		if (SelectedMonth.HasValue && month == SelectedMonth.Value.Month)
+			strClass += " active";
+
+		return strClass;
+	}
+}
