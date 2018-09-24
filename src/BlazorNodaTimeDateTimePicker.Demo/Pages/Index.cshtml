@@ -1,0 +1,36 @@
+﻿@page "/"
+@using NodaTime;
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<div style="width: 250px;">
+	<DatePicker Visible="true" />
+</div>
+
+<input type="text" onfocus="@focussed" />
+<DatePicker Visible="datePicker1Visible" Changed="changed" />
+
+<p>This is the text below.</p>
+<p>
+	@selectedDate
+</p>
+
+@functions {
+	LocalDate? selectedDate;
+
+	bool datePicker1Visible = false;
+	void focussed(UIFocusEventArgs e)
+	{
+		datePicker1Visible = true;
+	}
+
+	void changed(LocalDate? localDate)
+	{
+		selectedDate = localDate;
+		datePicker1Visible = false;
+
+		StateHasChanged();
+	}
+}

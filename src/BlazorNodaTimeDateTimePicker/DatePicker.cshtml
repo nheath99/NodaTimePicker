@@ -1,42 +1,28 @@
 ﻿@using NodaTime
 
 <div class="datepicker">
-	@if (ViewMode == ViewMode.Days)
-	{
-		<div class="datepicker-days">
-			<div class="datepicker-header">
-				<div class="prev" onclick="@PreviousMonth">&lt;</div>
-				<div class="month-year" onclick="@SelectMonth">@MonthText</div>
-				<div class="next" onclick="@NextMonth">&gt;</div>
-			</div>
-			<div class="datepicker-days-of-week">
-				<div class="@DayOfWeekClass(IsoDayOfWeek.Sunday)">Su</div>
-				<div class="@DayOfWeekClass(IsoDayOfWeek.Monday)">Mo</div>
-				<div class="@DayOfWeekClass(IsoDayOfWeek.Tuesday)">Tu</div>
-				<div class="@DayOfWeekClass(IsoDayOfWeek.Wednesday)">We</div>
-				<div class="@DayOfWeekClass(IsoDayOfWeek.Thursday)">Th</div>
-				<div class="@DayOfWeekClass(IsoDayOfWeek.Friday)">Fr</div>
-				<div class="@DayOfWeekClass(IsoDayOfWeek.Saturday)">Sa</div>
-			</div>
-			<div class="days">
-				@foreach (var item in Days)
-				{
-					<DatePicker_Day Date="item" Disabled="!IsEnabled(item)" IsToday="item == Today" MonthToDisplay="StartOfMonthToDisplay" OnSelected=DateSelected ActiveDate="SelectedDate" />
-				}
-			</div>
+	<div class="datepicker-days">
+		<div class="datepicker-header">
+			<div class="prev" onclick="@PreviousMonth">&lt;</div>
+			<div class="month">@MonthText</div>
+			<div class="next" onclick="@NextMonth">&gt;</div>
 		</div>
-	}
-	else if (ViewMode == ViewMode.Months)
-	{
-		<div class="datepicker-months">
-			<div class="datepicker-header">
-				<div class="prev">&lt;</div>
-				<div class="year">@YearText</div>
-				<div class="next">&gt;</div>
-			</div>
-			<DatePicker_Months SelectedMonth="SelectedDate" OnSelected="MonthSelected" />
+		<div class="datepicker-days-of-week">
+			<div class="@DayOfWeekClass(IsoDayOfWeek.Sunday)">Su</div>
+			<div class="@DayOfWeekClass(IsoDayOfWeek.Monday)">Mo</div>
+			<div class="@DayOfWeekClass(IsoDayOfWeek.Tuesday)">Tu</div>
+			<div class="@DayOfWeekClass(IsoDayOfWeek.Wednesday)">We</div>
+			<div class="@DayOfWeekClass(IsoDayOfWeek.Thursday)">Th</div>
+			<div class="@DayOfWeekClass(IsoDayOfWeek.Friday)">Fr</div>
+			<div class="@DayOfWeekClass(IsoDayOfWeek.Saturday)">Sa</div>
 		</div>
-	}
+		<div class="days">
+			@foreach (var item in Days)
+			{
+				<DatePicker_Day Date="item" Disabled="!IsEnabled(item)" IsToday="item == Today" MonthToDisplay="StartOfMonthToDisplay" OnSelected=@DateSelected ActiveDate="SelectedDate" />
+			}
+		</div>
+	</div>
 </div>
 
 @functions {
@@ -78,9 +64,11 @@
 	[Parameter] protected IEnumerable<LocalDate> EnabledDates { get; set; }
 	[Parameter] protected IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled { get; set; }
 	[Parameter] protected IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals { get; set; }
+	[Parameter] protected bool Visible { get; set; } = false;
+	[Parameter] protected bool Inline { get; set; } = false;
 
 	// Events in use
-	[Parameter] protected Action Changed { get; set; }
+	[Parameter] protected Action<LocalDate?> Changed { get; set; }
 	[Parameter] protected Action Updated { get; set; }
 
 	// Parameters not yet in use
@@ -123,6 +111,19 @@
 			yield return start;
 			start = start.PlusDays(1);
 		} while (start <= end);
+	}
+
+	protected string MainStyle
+	{
+		get
+		{
+			var str = "";
+
+			if (Visible == false)
+				str += "display:none;";
+
+			return str;
+		}
 	}
 
 	protected string MonthText
@@ -235,7 +236,7 @@
 
 	protected void OnChanged()
 	{
-		Changed?.Invoke();
+		Changed?.Invoke(SelectedDate);
 	}
 
 	protected void OnUpdated()
