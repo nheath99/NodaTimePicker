@@ -9,14 +9,15 @@
 				<div class="month" onclick="@SelectMonth">@MonthText</div>
 				<div class="next" onclick="@NextMonth">&gt;</div>
 			</div>
-			<div class="datepicker-days-of-week">
-				<div class="@DayOfWeekClass(IsoDayOfWeek.Sunday)">Su</div>
-				<div class="@DayOfWeekClass(IsoDayOfWeek.Monday)">Mo</div>
-				<div class="@DayOfWeekClass(IsoDayOfWeek.Tuesday)">Tu</div>
-				<div class="@DayOfWeekClass(IsoDayOfWeek.Wednesday)">We</div>
-				<div class="@DayOfWeekClass(IsoDayOfWeek.Thursday)">Th</div>
-				<div class="@DayOfWeekClass(IsoDayOfWeek.Friday)">Fr</div>
-				<div class="@DayOfWeekClass(IsoDayOfWeek.Saturday)">Sa</div>
+			<div class="datepicker-days-of-week">			
+				@{
+					var dow = FirstDayOfWeek;
+					do
+					{						
+						<div class="@DayOfWeekClass(dow)">@dow.ToStringAbbr()</div>
+						dow = dow.Next();						
+					} while (dow != FirstDayOfWeek);
+				}
 			</div>
 			<div class="days">
 				@foreach (var item in Days)
@@ -68,7 +69,7 @@
 	}
 
 	// Parameters in use
-	[Parameter] protected IsoDayOfWeek FirstDayOfWeek { get; set; } = IsoDayOfWeek.Sunday;
+	[Parameter] protected IsoDayOfWeek FirstDayOfWeek { get; set; } = IsoDayOfWeek.Monday;
 	[Parameter] protected string DayViewHeaderFormat { get; set; } = "MMMM yyyy";
 	[Parameter] protected string MonthViewHeaderFormat { get; set; } = "yyyy";
 	[Parameter] protected LocalDate? SelectedDate { get; set; } = new LocalDate(2018, 9, 19);
