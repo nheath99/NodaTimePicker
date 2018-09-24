@@ -1,6 +1,6 @@
 ﻿@using NodaTime
 
-<div class="datepicker">
+<div class="datepicker" style="@MainStyle">
 	<div class="datepicker-days">
 		<div class="datepicker-header">
 			<div class="prev" onclick="@PreviousMonth">&lt;</div>
@@ -53,9 +53,11 @@
 	[Parameter] protected IEnumerable<LocalDate> EnabledDates { get; set; }
 	[Parameter] protected IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled { get; set; }
 	[Parameter] protected IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals { get; set; }
+	[Parameter] protected bool Visible { get; set; } = false;
+	[Parameter] protected bool Inline { get; set; } = false;
 
 	// Events in use
-	[Parameter] protected Action Changed { get; set; }
+	[Parameter] protected Action<LocalDate?> Changed { get; set; }
 	[Parameter] protected Action Updated { get; set; }
 
 	// Parameters not yet in use
@@ -98,6 +100,19 @@
 			yield return start;
 			start = start.PlusDays(1);
 		} while (start <= end);
+	}
+
+	protected string MainStyle
+	{
+		get
+		{
+			var str = "";
+
+			if (Visible == false)
+				str += "display:none;";
+
+			return str;
+		}
 	}
 
 	protected string MonthText
@@ -186,7 +201,7 @@
 
 	protected void OnChanged()
 	{
-		Changed?.Invoke();
+		Changed?.Invoke(SelectedDate);
 	}
 
 	protected void OnUpdated()
