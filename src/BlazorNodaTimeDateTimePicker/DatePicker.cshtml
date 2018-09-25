@@ -1,43 +1,45 @@
 ﻿@using NodaTime
 
-<div class="datepicker" style="@MainStyle">
-	@if (ViewMode == ViewMode.Days)
-	{
-		<div class="datepicker-days">
-			<div class="datepicker-header">
-				<div class="prev" onclick="@PreviousMonth">&lt;</div>
-				<div class="month" onclick="@SelectMonth">@MonthText</div>
-				<div class="next" onclick="@NextMonth">&gt;</div>
+<div class="@MainClass" style="@MainStyle">
+	<div class="datepicker-content">
+		@if (ViewMode == ViewMode.Days)
+		{
+			<div class="datepicker-days">
+				<div class="datepicker-header">
+					<div class="prev" onclick="@PreviousMonth">&lt;</div>
+					<div class="month" onclick="@SelectMonth">@MonthText</div>
+					<div class="next" onclick="@NextMonth">&gt;</div>
+				</div>
+				<div class="datepicker-days-of-week">
+					@{
+						var dow = FirstDayOfWeek;
+						do
+						{
+							<div class="@DayOfWeekClass(dow)">@dow.ToStringAbbr()</div>
+							dow = dow.Next();
+						} while (dow != FirstDayOfWeek);
+					}
+				</div>
+				<div class="days">
+					@foreach (var item in Days)
+					{
+						<DatePicker_Day Date="item" Disabled="!IsEnabled(item)" IsToday="item == Today" MonthToDisplay="StartOfMonthToDisplay" OnSelected=@DateSelected ActiveDate="SelectedDate" />
+					}
+				</div>
 			</div>
-			<div class="datepicker-days-of-week">			
-				@{
-					var dow = FirstDayOfWeek;
-					do
-					{						
-						<div class="@DayOfWeekClass(dow)">@dow.ToStringAbbr()</div>
-						dow = dow.Next();						
-					} while (dow != FirstDayOfWeek);
-				}
+		}
+		else if (ViewMode == ViewMode.Months)
+		{
+			<div class="datepicker-months">
+				<div class="datepicker-header">
+					<div class="prev">&lt;</div>
+					<div class="year">@YearText</div>
+					<div class="next">&gt;</div>
+				</div>
+				<DatePicker_Months SelectedMonth="SelectedDate" OnSelected="MonthSelected" />
 			</div>
-			<div class="days">
-				@foreach (var item in Days)
-				{
-					<DatePicker_Day Date="item" Disabled="!IsEnabled(item)" IsToday="item == Today" MonthToDisplay="StartOfMonthToDisplay" OnSelected=@DateSelected ActiveDate="SelectedDate" />
-				}
-			</div>
-		</div>
-	}
-	else if (ViewMode == ViewMode.Months)
-	{
-		<div class="datepicker-months">
-			<div class="datepicker-header">
-				<div class="prev">&lt;</div>
-				<div class="year">@YearText</div>
-				<div class="next">&gt;</div>
-			</div>
-			<DatePicker_Months SelectedMonth="SelectedDate" OnSelected="MonthSelected" />
-		</div>
-	}
+		}
+	</div>
 </div>
 
 @functions {
@@ -81,6 +83,8 @@
 	[Parameter] protected IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals { get; set; }
 	[Parameter] protected bool Visible { get; set; } = false;
 	[Parameter] protected bool Inline { get; set; } = false;
+	[Parameter] protected string MaxWidth { get; set; }
+	[Parameter] protected string Width { get; set; }
 
 	// Events in use
 	[Parameter] protected Action<LocalDate?> Changed { get; set; }
@@ -128,16 +132,32 @@
 		} while (start <= end);
 	}
 
+	protected string MainClass
+	{
+		get
+		{
+			var str = "datepicker";
+			if (Inline == false)
+				str += " datepicker-dropdown-menu";
+
+			return str;
+		}
+	}
+
 	protected string MainStyle
 	{
 		get
 		{
-			var str = "";
+			var str = new List<string>();
 
-			if (Visible == false)
-				str += "display:none;";
+			if (Inline == false && Visible == false)
+				str.Add("display:none;");
+			if (!string.IsNullOrEmpty(Width))
+				str.Add($"width:{Width};");
+			if (!string.IsNullOrEmpty(MaxWidth))
+				str.Add($"max-width:{MaxWidth};");
 
-			return str;
+			return string.Join(" ", str);
 		}
 	}
 

@@ -13,6 +13,43 @@ $datetimepicker-primary-border-color: white !default;
 $datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
 
 .datepicker {
+	&.datepicker-dropdown-menu {
+		position: absolute;
+		z-index: 1000;
+		background-color: white;
+		border: 1px solid rgba(0,0,0,.15);
+		border-radius: 0.25rem;
+		margin: 2px 0;
+		padding: 4px;
+
+		&:before {
+			content: '';
+			display: inline-block;
+			position: absolute;
+			// bottom
+			border-left: 7px solid transparent;
+			border-right: 7px solid transparent;
+			border-bottom: 7px solid #ccc;
+			border-bottom-color: rgba(0, 0, 0, 0.2);
+			top: -7px;
+			left: 7px;
+		}
+
+		&:after {
+			content: '';
+			display: inline-block;
+			position: absolute;
+			// bottom
+			border-left: 6px solid transparent;
+			border-right: 6px solid transparent;
+			border-bottom: 6px solid white;
+			top: -6px;
+			left: 8px;
+		}
+	}
+}
+
+.datepicker-content {
 	display: grid;
 	grid-template-areas: "header" "days-of-week" "days";
 
