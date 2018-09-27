@@ -2,8 +2,8 @@
 
 <div class="@MainClass" style="@MainStyle">
 	<div class="datepicker-content">
-		@if (ViewMode == ViewMode.Days)
-		{
+		@if (State.ViewMode == ViewMode.Days)
+		{			
 			<div class="datepicker-days">
 				<div class="datepicker-header">
 					<div class="prev" onclick="@PreviousMonth">&lt;</div>
@@ -28,7 +28,7 @@
 				</div>
 			</div>
 		}
-		else if (ViewMode == ViewMode.Months)
+		else if (State.ViewMode == ViewMode.Months)
 		{
 			<div class="datepicker-months">
 				<div class="datepicker-header">
@@ -65,10 +65,11 @@
 		Console.WriteLine("MonthSelected " + selectedMonth.ToString());
 		StartOfMonthToDisplay = new LocalDate(StartOfMonthToDisplay.Year, selectedMonth, StartOfMonthToDisplay.Day);
 		Console.WriteLine(StartOfMonthToDisplay);
-		ViewMode = ViewMode.Days;
 
-		StateHasChanged();
+		State.SetViewMode(ViewMode.Days);
 	}
+
+	protected DatePickerState State { get; set; } = new DatePickerState();
 
 	// Parameters in use
 	[Parameter] protected IsoDayOfWeek FirstDayOfWeek { get; set; } = IsoDayOfWeek.Monday;
@@ -91,7 +92,6 @@
 	[Parameter] protected Action Updated { get; set; }
 
 	// Parameters not yet in use
-	[Parameter] protected ViewMode ViewMode { get; set; } = ViewMode.Days;
 	[Parameter] protected bool ShowToday { get; set; } = false;
 	[Parameter] protected bool ShowClear { get; set; } = false;
 	[Parameter] protected bool ShowClose { get; set; } = false;
@@ -116,6 +116,8 @@
 		Today = Clock.Today();
 
 		StartOfMonthToDisplay = Today.StartOfMonth();
+
+		State.OnStateChanged += StateHasChanged;
 	}
 
 	protected override void OnParametersSet()
@@ -201,21 +203,7 @@
 
 	protected void SelectMonth()
 	{
-		switch (ViewMode)
-		{
-			case ViewMode.Days:
-				ViewMode = ViewMode.Months;
-				break;
-			case ViewMode.Months:
-				ViewMode = ViewMode.Years;
-				break;
-			case ViewMode.Years:
-				ViewMode = ViewMode.Decades;
-				break;
-			case ViewMode.Decades:
-			default:
-				break;
-		}
+		State.NextViewMode();
 	}
 
 	protected bool IsEnabled(LocalDate date)
