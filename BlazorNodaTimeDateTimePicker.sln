@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorNodaTimeDateTimePicke
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorNodaTimeDateTimePicker", "src\BlazorNodaTimeDateTimePicker\BlazorNodaTimeDateTimePicker.csproj", "{F07BB3DF-F3C1-45E6-911B-02FED7C1FE66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorNodaTimeDateTimePicker.Tests", "tests\BlazorNodaTimeDateTimePicker.Tests\BlazorNodaTimeDateTimePicker.Tests.csproj", "{15F79422-4E2B-4CAA-8609-CDAE66F5DB8E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F07BB3DF-F3C1-45E6-911B-02FED7C1FE66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F07BB3DF-F3C1-45E6-911B-02FED7C1FE66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F07BB3DF-F3C1-45E6-911B-02FED7C1FE66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15F79422-4E2B-4CAA-8609-CDAE66F5DB8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15F79422-4E2B-4CAA-8609-CDAE66F5DB8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15F79422-4E2B-4CAA-8609-CDAE66F5DB8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15F79422-4E2B-4CAA-8609-CDAE66F5DB8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

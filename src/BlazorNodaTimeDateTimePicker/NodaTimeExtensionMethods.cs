@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BlazorNodaTimeDateTimePicker
 {
-	internal static class NodaTimeExtensionMethods
+	public static class NodaTimeExtensionMethods
 	{
 		#region IClock
 
