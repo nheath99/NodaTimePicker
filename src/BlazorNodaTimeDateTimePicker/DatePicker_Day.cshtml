@@ -7,21 +7,20 @@
 </div>
 
 @functions {
-	[Parameter] protected LocalDate Date { get; set; }
-	[Parameter] protected bool IsToday { get; set; }
-	[Parameter] protected LocalDate? ActiveDate { get; set; }
-	[Parameter] protected LocalDate MonthToDisplay { get; set; }
-	[Parameter] protected Action<LocalDate> OnSelected { get; set; }
+	[Parameter] protected LocalDate Date { get; set; }		
 	[Parameter] protected bool Disabled { get; set; }
+	[Parameter] protected DatePickerState State { get; set; }
 
+	bool IsToday => Date == State.Today;
+	
 	private void OnClick()
 	{
 		if (!Disabled)
-			OnSelected?.Invoke(Date);
+			State.SetSelectedDate(Date);
 	}
 
-	private bool IsOld => Date.Month < MonthToDisplay.Month;
-	private bool IsNew => Date.Month > MonthToDisplay.Month;
+	private bool IsOld => Date.Month < State.MonthToDisplay.Month;
+	private bool IsNew => Date.Month > State.MonthToDisplay.Month;
 
 	private string ClassAttribute
 	{
@@ -36,7 +35,7 @@
 				sb.Add("new");
 			if (IsToday)
 				sb.Add("today");
-			if (ActiveDate == Date)
+			if (State.SelectedDate == Date)
 				sb.Add("active");
 			if (Disabled)
 				sb.Add("disabled");

@@ -23,7 +23,7 @@
 				<div class="days">
 					@foreach (var item in Days)
 					{
-						<DatePicker_Day Date="item" Disabled="!IsEnabled(item)" IsToday="item == Today" MonthToDisplay="StartOfMonthToDisplay" OnSelected=@DateSelected ActiveDate="SelectedDate" />
+						<DatePicker_Day Date="item" Disabled="!IsEnabled(item)" State="State" />
 					}
 				</div>
 			</div>
@@ -42,36 +42,19 @@
 	</div>
 </div>
 
-@functions {
-	private void DateSelected(LocalDate selectedDate)
-	{
-		if (SelectedDate != selectedDate)
-		{
-			SelectedDate = selectedDate;
-
-			if (selectedDate.Month < StartOfMonthToDisplay.Month)
-				PreviousMonth();
-			else if (selectedDate.Month > StartOfMonthToDisplay.Month)
-				NextMonth();
-
-			StateHasChanged();
-
-			OnChanged();
-		}
-	}
-
+@functions {	
 	void MonthSelected(int selectedMonth)
 	{
 		Console.WriteLine("MonthSelected " + selectedMonth.ToString());
-		StartOfMonthToDisplay = new LocalDate(StartOfMonthToDisplay.Year, selectedMonth, StartOfMonthToDisplay.Day);
-		Console.WriteLine(StartOfMonthToDisplay);
+		State.MonthToDisplay = new LocalDate(State.MonthToDisplay.Year, selectedMonth, State.MonthToDisplay.Day);
+		Console.WriteLine(State.MonthToDisplay);
 
 		State.SetViewMode(ViewMode.Days);
 	}
 
 	protected DatePickerState State { get; set; } = new DatePickerState();
 
-	// Parameters in use
+	// Parameters in use -> move most of these to DatePickerState
 	[Parameter] protected IsoDayOfWeek FirstDayOfWeek { get; set; } = IsoDayOfWeek.Monday;
 	[Parameter] protected string DayViewHeaderFormat { get; set; } = "MMMM yyyy";
 	[Parameter] protected string MonthViewHeaderFormat { get; set; } = "yyyy";
@@ -105,18 +88,9 @@
 
 	// Private properties and fields
 	private IEnumerable<LocalDate> Days { get; set; }
-	private IClock Clock;
-	private LocalDate Today { get; set; }
-	private LocalDate StartOfMonthToDisplay { get; set; }
-
+	
 	protected override void OnInit()
-	{
-		Clock = SystemClock.Instance;
-
-		Today = Clock.Today();
-
-		StartOfMonthToDisplay = Today.StartOfMonth();
-
+	{	
 		State.OnStateChanged += StateHasChanged;
 	}
 
@@ -165,19 +139,19 @@
 
 	protected string MonthText
 	{
-		get { return StartOfMonthToDisplay.ToString(DayViewHeaderFormat, null); }
+		get { return State.MonthToDisplay.ToString(DayViewHeaderFormat, null); }
 	}
 
 	protected string YearText
 	{
-		get { return StartOfMonthToDisplay.ToString(MonthViewHeaderFormat, null); }
+		get { return State.MonthToDisplay.ToString(MonthViewHeaderFormat, null); }
 	}
 
 	void DisplayDays()
 	{
-		var startOfWeekOfMonth = StartOfMonthToDisplay.StartOfWeek(FirstDayOfWeek);
+		var startOfWeekOfMonth = State.MonthToDisplay.StartOfWeek(FirstDayOfWeek);
 
-		var endOfMonth = StartOfMonthToDisplay.EndOfMonth();
+		var endOfMonth = State.MonthToDisplay.EndOfMonth();
 		var endOfWeekOfMonth = endOfMonth.EndOfWeek(FirstDayOfWeek);
 
 		Days = GetDaysBetween(startOfWeekOfMonth, endOfWeekOfMonth);
@@ -185,7 +159,7 @@
 
 	protected void NextMonth()
 	{
-		StartOfMonthToDisplay = StartOfMonthToDisplay.PlusMonths(1);
+		State.NextMonth();
 
 		DisplayDays();
 
@@ -194,7 +168,7 @@
 
 	protected void PreviousMonth()
 	{
-		StartOfMonthToDisplay = StartOfMonthToDisplay.PlusMonths(-1);
+		State.PreviousMonth();
 
 		DisplayDays();
 
