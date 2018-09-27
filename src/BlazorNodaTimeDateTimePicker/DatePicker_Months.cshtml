@@ -16,13 +16,12 @@
 </div>
 
 @functions {
-
-	[Parameter] protected LocalDate? SelectedMonth { get; set; }
-	[Parameter] protected Action<int> OnSelected { get; set; }
+	[Parameter] protected DatePickerState State { get; set; }
 
 	void _onSelected(int month)
 	{
-		OnSelected?.Invoke(month);
+		State.SetDisplayMonth(month);
+		State.SetViewMode(ViewMode.Days);
 	}
 
 	void JanClicked()
@@ -78,7 +77,7 @@
 	{
 		var strClass = "month";
 
-		if (SelectedMonth.HasValue && month == SelectedMonth.Value.Month)
+		if (State.SelectedMonth.HasValue && month == State.SelectedMonth.Value)
 			strClass += " active";
 
 		return strClass;

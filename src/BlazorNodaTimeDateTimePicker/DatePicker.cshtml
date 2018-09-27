@@ -36,22 +36,13 @@
 					<div class="year">@YearText</div>
 					<div class="next">&gt;</div>
 				</div>
-				<DatePicker_Months SelectedMonth="SelectedDate" OnSelected="MonthSelected" />
+				<DatePicker_Months State="State" />
 			</div>
 		}
 	</div>
 </div>
 
-@functions {	
-	void MonthSelected(int selectedMonth)
-	{
-		Console.WriteLine("MonthSelected " + selectedMonth.ToString());
-		State.MonthToDisplay = new LocalDate(State.MonthToDisplay.Year, selectedMonth, State.MonthToDisplay.Day);
-		Console.WriteLine(State.MonthToDisplay);
-
-		State.SetViewMode(ViewMode.Days);
-	}
-
+@functions {
 	protected DatePickerState State { get; set; } = new DatePickerState();
 
 	// Parameters in use -> move most of these to DatePickerState
@@ -88,10 +79,12 @@
 
 	// Private properties and fields
 	private IEnumerable<LocalDate> Days { get; set; }
-	
+
 	protected override void OnInit()
-	{	
+	{
 		State.OnStateChanged += StateHasChanged;
+
+		State.OnMonthSelected += DisplayDays;
 	}
 
 	protected override void OnParametersSet()
@@ -149,6 +142,8 @@
 
 	void DisplayDays()
 	{
+		Console.WriteLine(nameof(DisplayDays));
+
 		var startOfWeekOfMonth = State.MonthToDisplay.StartOfWeek(FirstDayOfWeek);
 
 		var endOfMonth = State.MonthToDisplay.EndOfMonth();

@@ -13,19 +13,19 @@ namespace BlazorNodaTimeDateTimePicker
 
 		public LocalDate Today { get; }
 		
-		public string Val { get; set; } = "123";
-		public LocalDate? SelectedDate { get; private set; }
+		internal LocalDate? SelectedDate { get; private set; }
+		internal LocalDate MonthToDisplay { get; private set; }
 		public ViewMode ViewMode { get; private set; } = ViewMode.Days;
-		public LocalDate MonthToDisplay { get; set; }
 
-		public event Action OnSelected;
-		public event Action OnUpdated;
-		public event Action OnOpened;
-		public event Action OnClosed;
-		public event Action OnCleared;
-		public event Action OnToday;
-
+		internal event Action OnSelected;
+		internal event Action OnUpdated;
+		internal event Action OnOpened;
+		internal event Action OnClosed;
+		internal event Action OnCleared;
+		internal event Action OnToday;
 		internal event Action OnStateChanged;
+
+		internal event Action OnMonthSelected;
 
 		void Selected() => OnSelected?.Invoke();
 		void Updated() => OnUpdated?.Invoke();
@@ -34,10 +34,14 @@ namespace BlazorNodaTimeDateTimePicker
 		void Cleared() => OnCleared?.Invoke();
 		void TodaySelected() => OnToday?.Invoke();
 		void StateChanged() => OnStateChanged?.Invoke();
+		void MonthSelected() => OnMonthSelected?.Invoke();
+
+		internal int? SelectedMonth => SelectedDate?.Month;
 
 		internal void SetSelectedDate(LocalDate selectedDate)
 		{
-			//SelectedDate = selectedDate;
+			Console.WriteLine(nameof(SetSelectedDate));
+
 			if (SelectedDate != selectedDate)
 			{
 				SelectedDate = selectedDate;
@@ -52,15 +56,33 @@ namespace BlazorNodaTimeDateTimePicker
 			}
 		}
 
+		internal void SetDisplayMonth(int month)
+		{
+			Console.WriteLine(nameof(SetDisplayMonth));
+
+			MonthToDisplay = new LocalDate(MonthToDisplay.Year, month, 1);			
+		}
+
+		internal void SetDisplayYear(int year)
+		{
+			Console.WriteLine(nameof(SetDisplayYear));
+
+			MonthToDisplay = new LocalDate(year, MonthToDisplay.Month, 1);
+		}
+
 		internal void SetViewMode(ViewMode viewMode)
 		{
-			ViewMode = viewMode;
+			Console.WriteLine(nameof(SetViewMode));
 
+			ViewMode = viewMode;
+			MonthSelected();
 			OnStateChanged();
 		}
 
 		internal void NextViewMode()
 		{
+			Console.WriteLine(nameof(NextViewMode));
+
 			switch (ViewMode)
 			{
 				case ViewMode.Days:
@@ -80,6 +102,8 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal void PreviousViewMode()
 		{
+			Console.WriteLine(nameof(PreviousViewMode));
+
 			switch (ViewMode)
 			{
 				case ViewMode.Months:
@@ -99,12 +123,18 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal void NextMonth()
 		{
+			Console.WriteLine(nameof(NextMonth));
+
 			MonthToDisplay = MonthToDisplay.PlusMonths(1);
+			MonthSelected();
 		}
 
 		internal void PreviousMonth()
 		{
+			Console.WriteLine(nameof(PreviousMonth));
+
 			MonthToDisplay = MonthToDisplay.PlusMonths(-1);
+			MonthSelected();
 		}
 	}
 }
