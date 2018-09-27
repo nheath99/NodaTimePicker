@@ -17,3 +17,4 @@ Get in touch if you want to collaborate!!
 - Month picker
 - Year picker
 - Support for different calendars
+- Timezone awareness
