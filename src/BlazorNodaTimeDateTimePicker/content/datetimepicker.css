@@ -1,30 +1,32 @@
-﻿.datepicker.datepicker-dropdown-menu {
-  position: absolute;
-  z-index: 1000;
-  background-color: white;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 0.25rem;
-  margin: 2px 0;
-  padding: 4px; }
-  .datepicker.datepicker-dropdown-menu:before {
-    content: '';
-    display: inline-block;
+﻿.datepicker {
+  margin-bottom: 10px; }
+  .datepicker.datepicker-dropdown-menu {
     position: absolute;
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-bottom: 7px solid #ccc;
-    border-bottom-color: rgba(0, 0, 0, 0.2);
-    top: -7px;
-    left: 7px; }
-  .datepicker.datepicker-dropdown-menu:after {
-    content: '';
-    display: inline-block;
-    position: absolute;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-bottom: 6px solid white;
-    top: -6px;
-    left: 8px; }
+    z-index: 1000;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+    margin: 2px 0;
+    padding: 4px; }
+    .datepicker.datepicker-dropdown-menu:before {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-bottom: 7px solid #ccc;
+      border-bottom-color: rgba(0, 0, 0, 0.2);
+      top: -7px;
+      left: 7px; }
+    .datepicker.datepicker-dropdown-menu:after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 6px solid white;
+      top: -6px;
+      left: 8px; }
 
 .datepicker-content {
   display: grid;
@@ -107,6 +109,21 @@
         background: none;
         color: #6c757d;
         cursor: not-allowed; }
+  .datepicker-content .datepicker-footer {
+    margin-top: 2px;
+    display: flex;
+    justify-content: space-around; }
+    .datepicker-content .datepicker-footer > * {
+      flex-grow: 1;
+      text-align: center;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 5px;
+      padding: 0.22rem; }
+      .datepicker-content .datepicker-footer > *:not(:last-of-type) {
+        margin-right: 10px; }
+      .datepicker-content .datepicker-footer > *:hover {
+        background-color: #e9ecef;
+        cursor: pointer; }
   .datepicker-content .months {
     display: grid;
     grid-auto-rows: 1fr;

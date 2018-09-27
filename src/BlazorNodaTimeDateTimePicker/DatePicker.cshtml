@@ -26,6 +26,19 @@
 						<DatePicker_Day Date="item" Disabled="!IsEnabled(item)" State="State" />
 					}
 				</div>
+				@if (ShowToday || ShowClear)
+				{
+					<div class="datepicker-footer">
+						@if (ShowToday)
+						{
+							<div>Today</div>
+						}
+						@if (ShowClear)
+						{
+							<div>Clear</div>
+						}
+					</div>
+				}
 			</div>
 		}
 		else if (State.ViewMode == ViewMode.Months)
@@ -60,14 +73,14 @@
 	[Parameter] protected bool Inline { get; set; } = false;
 	[Parameter] protected string MaxWidth { get; set; }
 	[Parameter] protected string Width { get; set; }
+	[Parameter] protected bool ShowToday { get; set; } = true;
+	[Parameter] protected bool ShowClear { get; set; } = true;
 
 	// Events in use
 	[Parameter] protected Action<LocalDate?> Changed { get; set; }
 	[Parameter] protected Action Updated { get; set; }
 
 	// Parameters not yet in use
-	[Parameter] protected bool ShowToday { get; set; } = false;
-	[Parameter] protected bool ShowClear { get; set; } = false;
 	[Parameter] protected bool ShowClose { get; set; } = false;
 	[Parameter] protected bool CloseOnSelect { get; set; } = true;
 

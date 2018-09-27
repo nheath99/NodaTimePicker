@@ -13,6 +13,8 @@ $datetimepicker-primary-border-color: white !default;
 $datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
 
 .datepicker {
+	margin-bottom: 10px;
+
 	&.datepicker-dropdown-menu {
 		position: absolute;
 		z-index: 1000;
@@ -90,7 +92,6 @@ $datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
 			user-select: none;
 		}
 	}
-
 
 	.datepicker-days-of-week {
 		grid-area: days-of-week;
@@ -174,6 +175,29 @@ $datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
 				background: none;
 				color: $datetimepicker-disabled-color;
 				cursor: not-allowed;
+			}
+		}
+	}
+
+	.datepicker-footer {
+		margin-top: 2px;
+		display: flex;
+		justify-content: space-around;
+
+		> * {
+			flex-grow: 1;
+			text-align: center;
+			border: 1px solid rgba(0,0,0,.15);
+			border-radius: 5px;
+			padding: 0.22rem;
+
+			&:not(:last-of-type) {
+				margin-right: 10px;
+			}
+
+			&:hover {
+				background-color: #e9ecef;
+				cursor: pointer;
 			}
 		}
 	}
