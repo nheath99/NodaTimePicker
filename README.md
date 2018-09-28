@@ -18,3 +18,4 @@ Get in touch if you want to collaborate!!
 - Year picker
 - Support for different calendars
 - Timezone awareness
+- Locale support
