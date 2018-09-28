@@ -17,24 +17,34 @@ namespace BlazorNodaTimeDateTimePicker
 		internal LocalDate MonthToDisplay { get; private set; }
 		public ViewMode ViewMode { get; private set; } = ViewMode.Days;
 
-		internal event Action OnSelected;
+		internal event Action<LocalDate> OnSelected; // when a date is selected
+		internal event Action OnCleared; // when the date is set to null
+		internal event Action<LocalDate?> OnSelectedDateChanged; // when the selected date is changed
+
 		internal event Action OnUpdated;
-		internal event Action OnOpened;
-		internal event Action OnClosed;
-		internal event Action OnCleared;
-		internal event Action OnToday;
+		internal event Action OnOpened; // when the datepicker is opened
+		internal event Action OnClosed; // when the datepicker is closed
+		
+		internal event Action OnToday; // the Today button has been clicked
 		internal event Action OnStateChanged;
 
-		internal event Action OnMonthSelected;
+		internal event Action OnMonthToDisplayChanged;
 
-		void Selected() => OnSelected?.Invoke();
+		void SelectedDateChanged()
+		{
+			OnSelectedDateChanged?.Invoke(SelectedDate);
+
+			if (SelectedDate.HasValue)
+				OnSelected?.Invoke(SelectedDate.Value);
+			else
+				OnCleared?.Invoke();
+		}
+		
 		void Updated() => OnUpdated?.Invoke();
 		void Opened() => OnOpened?.Invoke();
-		void Closed() => OnClosed?.Invoke();
-		void Cleared() => OnCleared?.Invoke();
 		void TodaySelected() => OnToday?.Invoke();
 		void StateChanged() => OnStateChanged?.Invoke();
-		void MonthSelected() => OnMonthSelected?.Invoke();
+		void MonthToDisplayChanged() => OnMonthToDisplayChanged?.Invoke();
 
 		internal int? SelectedMonth => SelectedDate?.Month;
 
@@ -45,15 +55,30 @@ namespace BlazorNodaTimeDateTimePicker
 			if (SelectedDate != selectedDate)
 			{
 				SelectedDate = selectedDate;
-
-				if (selectedDate.Month < MonthToDisplay.Month)
-					PreviousMonth();
-				else if (selectedDate.Month > MonthToDisplay.Month)
-					NextMonth();
-
+				
 				StateChanged();
-				Selected();
+				SelectedDateChanged();
 			}
+
+			MonthToDisplay = new LocalDate(selectedDate.Year, selectedDate.Month, 1);
+			MonthToDisplayChanged();
+		}
+
+		internal void SetSelectedDateToday()
+		{
+			Console.WriteLine(nameof(SetSelectedDateToday));
+
+			SetSelectedDate(Today);
+		}
+
+		internal void ClearSelectedDate()
+		{
+			Console.WriteLine(nameof(ClearSelectedDate));
+
+			SelectedDate = null;
+
+			StateChanged();
+			SelectedDateChanged();
 		}
 
 		internal void SetDisplayMonth(int month)
@@ -75,7 +100,7 @@ namespace BlazorNodaTimeDateTimePicker
 			Console.WriteLine(nameof(SetViewMode));
 
 			ViewMode = viewMode;
-			MonthSelected();
+			MonthToDisplayChanged();
 			OnStateChanged();
 		}
 
@@ -126,7 +151,7 @@ namespace BlazorNodaTimeDateTimePicker
 			Console.WriteLine(nameof(NextMonth));
 
 			MonthToDisplay = MonthToDisplay.PlusMonths(1);
-			MonthSelected();
+			MonthToDisplayChanged();
 		}
 
 		internal void PreviousMonth()
@@ -134,7 +159,7 @@ namespace BlazorNodaTimeDateTimePicker
 			Console.WriteLine(nameof(PreviousMonth));
 
 			MonthToDisplay = MonthToDisplay.PlusMonths(-1);
-			MonthSelected();
+			MonthToDisplayChanged();
 		}
 	}
 }

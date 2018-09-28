@@ -31,11 +31,11 @@
 					<div class="datepicker-footer">
 						@if (ShowToday)
 						{
-							<div>Today</div>
+							<button onclick=@TodayClicked>Today</button>
 						}
 						@if (ShowClear)
 						{
-							<div>Clear</div>
+							<button onclick="@ClearClicked">Clear</button>
 						}
 					</div>
 				}
@@ -78,6 +78,9 @@
 
 	// Events in use
 	[Parameter] protected Action<LocalDate?> Changed { get; set; }
+	[Parameter] protected Action<LocalDate> Selected { get; set; }
+	[Parameter] protected Action Cleared { get; set; }
+
 	[Parameter] protected Action Updated { get; set; }
 
 	// Parameters not yet in use
@@ -97,7 +100,26 @@
 	{
 		State.OnStateChanged += StateHasChanged;
 
-		State.OnMonthSelected += DisplayDays;
+		State.OnSelectedDateChanged += OnChanged;
+		State.OnSelected += OnSelected;
+		State.OnCleared += OnCleared;
+
+		State.OnMonthToDisplayChanged += DisplayDays;
+	}
+
+	private void OnChanged(LocalDate? localDate)
+	{
+		Changed?.Invoke(localDate);
+	}
+
+	private void OnSelected(LocalDate localDate)
+	{
+		Selected?.Invoke(localDate);
+	}
+
+	private void OnCleared()
+	{
+		Cleared?.Invoke();
 	}
 
 	protected override void OnParametersSet()
@@ -239,9 +261,16 @@
 		return strClass;
 	}
 
-	protected void OnChanged()
+	protected void TodayClicked()
 	{
-		Changed?.Invoke(SelectedDate);
+		Console.WriteLine(nameof(TodayClicked));
+		State.SetSelectedDateToday();
+	}
+
+	protected void ClearClicked()
+	{
+		Console.WriteLine(nameof(ClearClicked));
+		State.ClearSelectedDate();
 	}
 
 	protected void OnUpdated()

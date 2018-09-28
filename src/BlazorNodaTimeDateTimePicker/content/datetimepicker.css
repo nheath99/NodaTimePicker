@@ -118,7 +118,8 @@
       text-align: center;
       border: 1px solid rgba(0, 0, 0, 0.15);
       border-radius: 5px;
-      padding: 0.22rem; }
+      padding: 0.22rem;
+      background-color: white; }
       .datepicker-content .datepicker-footer > *:not(:last-of-type) {
         margin-right: 10px; }
       .datepicker-content .datepicker-footer > *:hover {

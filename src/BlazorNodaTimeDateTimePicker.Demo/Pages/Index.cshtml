@@ -6,30 +6,58 @@
 Welcome to your new app.
 
 <div style="width: 250px;">
-	<DatePicker Inline="true" />
+	<DatePicker Inline=true Changed=changed1 />
 </div>
 
+<p>
+	The selected date is: @selectedDate1
+</p>
+
 <input type="text" onfocus="@focussed" />
-<DatePicker Visible="datePicker1Visible" Changed="changed" Width="250px" />
+<DatePicker Visible="datePicker2Visible" Selected="selected2" Width="250px" />
 
 <p>This is the text below.</p>
 <p>
-	@selectedDate
+	@selectedDate2
 </p>
 
 @functions {
-	LocalDate? selectedDate;
-
-	bool datePicker1Visible = false;
-	void focussed(UIFocusEventArgs e)
+	LocalDate? selectedDate1;
+	void changed1(LocalDate? localDate)
 	{
-		datePicker1Visible = true;
+		Console.WriteLine("changed1");
+		selectedDate1 = localDate;
+
+		StateHasChanged();
 	}
 
-	void changed(LocalDate? localDate)
+	void selected1(LocalDate localDate)
 	{
-		selectedDate = localDate;
-		datePicker1Visible = false;
+		Console.WriteLine("selected1");
+		selectedDate1 = localDate;
+
+		StateHasChanged();
+	}
+
+	void cleared1()
+	{
+		Console.WriteLine("cleared1");
+		selectedDate1 = null;
+		StateHasChanged();
+	}
+
+	LocalDate? selectedDate2;
+
+	bool datePicker2Visible = false;
+	void focussed(UIFocusEventArgs e)
+	{
+		datePicker2Visible = true;
+	}
+
+	void selected2(LocalDate localDate)
+	{
+		selectedDate2 = localDate;
+		datePicker2Visible = false;
 
 		StateHasChanged();
 	}
