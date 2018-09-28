@@ -202,5 +202,43 @@ namespace BlazorNodaTimeDateTimePicker
 					return string.Empty;
 			}
 		}
+
+		public static (int, int) GetDecade(this LocalDate date)
+		{
+			var year0 = (date.Year / 10) * 10; // has the effect of rounding down to first year of current decade
+			var year9 = year0 + 9;
+
+			return (year0, year9);
+		}
+
+		public static string GetDecadeString(this LocalDate date, string format = "{0}-{1}")
+		{
+			// returns the bounding years of the decade of the specified date
+			// e.g. 2018 -> 2010-2019
+			//      2001 -> 2000-2009
+
+			var (year0, year9) = date.GetDecade();
+
+			return string.Format(format, year0, year9);
+		}
+
+		public static (int, int) GetCentury(this LocalDate date)
+		{
+			var year0 = (date.Year / 100) * 100; // has the effect of rounding down to first year of current decade
+			var year90 = year0 + 90;
+
+			return (year0, year90);
+		}
+
+		public static string GetCenturyString(this LocalDate date, string format = "{0}-{1}")
+		{
+			// returns the bounding decades of the century of the specified date
+			// e.g. 2018 -> 2000-2090
+			//      1985 -> 1900-1990
+
+			var (year0, year90) = date.GetCentury();
+
+			return string.Format(format, year0, year90);
+		}
 	}
 }

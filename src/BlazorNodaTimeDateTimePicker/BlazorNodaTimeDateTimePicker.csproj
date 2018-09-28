@@ -34,6 +34,12 @@
   </ItemGroup>
 	
   <ItemGroup>
+    <Content Update="DatePicker_Years.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="DatePicker_Decades.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="DatePicker_Months.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

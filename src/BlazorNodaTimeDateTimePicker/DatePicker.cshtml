@@ -3,7 +3,7 @@
 <div class="@MainClass" style="@MainStyle">
 	<div class="datepicker-content">
 		@if (State.ViewMode == ViewMode.Days)
-		{			
+		{
 			<div class="datepicker-days">
 				<div class="datepicker-header">
 					<div class="prev" onclick="@PreviousMonth">&lt;</div>
@@ -45,12 +45,34 @@
 		{
 			<div class="datepicker-months">
 				<div class="datepicker-header">
-					<div class="prev">&lt;</div>
-					<div class="year">@YearText</div>
-					<div class="next">&gt;</div>
+					<div class="prev" onclick=@PreviousYear>&lt;</div>
+					<div class="year" onclick=@SelectYear>@YearText</div>
+					<div class="next" onclick=@NextYear>&gt;</div>
 				</div>
 				<DatePicker_Months State="State" />
 			</div>
+		}
+		else if (State.ViewMode == ViewMode.Years)
+		{
+			<div class="datepicker-years">
+				<div class="datepicker-header">
+					<div class="prev" onclick=@PreviousDecade>&lt;</div>
+					<div class="decade" onclick=@SelectDecade>@DecadeText</div>
+					<div class="next" onclick=@NextDecade>&gt;</div>
+				</div>
+				<DatePicker_Years State="State" />
+			</div>
+		}
+		else if (State.ViewMode == ViewMode.Decades)
+		{
+			<div class="datepicker-decades">
+				<div class="datepicker-header">
+					<div class="prev" onclick=@PreviousCentury>&lt;</div>
+					<div class="century">@CenturyText</div>
+					<div class="next" onclick=@NextCentury>&gt;</div>
+				</div>
+			</div>
+			<DatePicker_Decades State="State" />
 		}
 	</div>
 </div>
@@ -104,7 +126,7 @@
 		State.OnSelected += OnSelected;
 		State.OnCleared += OnCleared;
 
-		State.OnMonthToDisplayChanged += DisplayDays;
+		State.OnMonthToDisplayChanged += DisplayDays;		
 	}
 
 	private void OnChanged(LocalDate? localDate)
@@ -175,6 +197,10 @@
 		get { return State.MonthToDisplay.ToString(MonthViewHeaderFormat, null); }
 	}
 
+	protected string DecadeText => State.MonthToDisplay.GetDecadeString();
+
+	protected string CenturyText => State.MonthToDisplay.GetCenturyString();
+
 	void DisplayDays()
 	{
 		Console.WriteLine(nameof(DisplayDays));
@@ -187,6 +213,7 @@
 		Days = GetDaysBetween(startOfWeekOfMonth, endOfWeekOfMonth);
 	}
 
+	// Month
 	protected void NextMonth()
 	{
 		State.NextMonth();
@@ -208,6 +235,61 @@
 	protected void SelectMonth()
 	{
 		State.NextViewMode();
+	}
+
+	// Year
+	protected void NextYear()
+	{
+		State.NextYear();
+
+		OnUpdated();
+	}
+
+	protected void PreviousYear()
+	{
+		State.PreviousYear();
+
+		OnUpdated();
+	}
+
+	protected void SelectYear()
+	{
+		State.NextViewMode();
+	}
+
+	// Decade
+	protected void NextDecade()
+	{
+		State.NextDecade();
+
+		OnUpdated();
+	}
+
+	protected void PreviousDecade()
+	{
+		State.PreviousDecade();
+
+		OnUpdated();
+	}
+
+	protected void SelectDecade()
+	{
+		State.NextViewMode();
+	}
+
+	// Century
+	protected void NextCentury()
+	{
+		State.NextCentury();
+
+		OnUpdated();
+	}
+
+	protected void PreviousCentury()
+	{
+		State.PreviousCentury();
+
+		OnUpdated();
 	}
 
 	protected bool IsEnabled(LocalDate date)

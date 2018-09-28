@@ -70,6 +70,14 @@
         background: none;
         color: #6c757d;
         cursor: not-allowed; }
+  .datepicker-content .day.old, .datepicker-content .day.new, .datepicker-content .month.old, .datepicker-content .month.new, .datepicker-content .year.old, .datepicker-content .year.new, .datepicker-content .decade.old, .datepicker-content .decade.new {
+    color: #6c757d; }
+  .datepicker-content .day:hover, .datepicker-content .month:hover, .datepicker-content .year:hover, .datepicker-content .decade:hover {
+    background-color: #e9ecef;
+    cursor: pointer; }
+  .datepicker-content .day.active, .datepicker-content .month.active, .datepicker-content .year.active, .datepicker-content .decade.active {
+    background-color: #007bff;
+    color: white; }
   .datepicker-content .days {
     grid-area: days;
     display: grid;
@@ -83,14 +91,6 @@
       border-radius: 0.25rem;
       text-align: center;
       padding: 0.3rem; }
-      .datepicker-content .days .day:hover {
-        background-color: #e9ecef;
-        cursor: pointer; }
-      .datepicker-content .days .day.old, .datepicker-content .days .day.new {
-        color: #6c757d; }
-      .datepicker-content .days .day.active {
-        background-color: #007bff;
-        color: white; }
       .datepicker-content .days .day.today {
         position: relative; }
         .datepicker-content .days .day.today:before {
@@ -125,20 +125,14 @@
       .datepicker-content .datepicker-footer > *:hover {
         background-color: #e9ecef;
         cursor: pointer; }
-  .datepicker-content .months {
+  .datepicker-content .months, .datepicker-content .years, .datepicker-content .decades {
     display: grid;
     grid-auto-rows: 1fr;
     grid-template-columns: repeat(4, 1fr);
     justify-items: stretch;
     align-items: center; }
-    .datepicker-content .months .month {
+    .datepicker-content .months .month, .datepicker-content .months .year, .datepicker-content .months .decade, .datepicker-content .years .month, .datepicker-content .years .year, .datepicker-content .years .decade, .datepicker-content .decades .month, .datepicker-content .decades .year, .datepicker-content .decades .decade {
       border-radius: 0.25rem;
       text-align: center;
       padding: 1rem 0.3rem; }
-      .datepicker-content .months .month:hover {
-        background-color: #e9ecef;
-        cursor: pointer; }
-      .datepicker-content .months .month.active {
-        background-color: #007bff;
-        color: white; }
 

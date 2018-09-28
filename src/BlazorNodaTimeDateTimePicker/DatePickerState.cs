@@ -29,6 +29,8 @@ namespace BlazorNodaTimeDateTimePicker
 		internal event Action OnStateChanged;
 
 		internal event Action OnMonthToDisplayChanged;
+		internal event Action OnYearToDisplayChanged;
+		internal event Action OnDecadeToDisplayChanged;
 
 		void SelectedDateChanged()
 		{
@@ -45,8 +47,11 @@ namespace BlazorNodaTimeDateTimePicker
 		void TodaySelected() => OnToday?.Invoke();
 		void StateChanged() => OnStateChanged?.Invoke();
 		void MonthToDisplayChanged() => OnMonthToDisplayChanged?.Invoke();
+		void YearToDisplayChanged() => OnYearToDisplayChanged?.Invoke();
+		void DecadeToDisplayChanged() => OnDecadeToDisplayChanged?.Invoke();
 
 		internal int? SelectedMonth => SelectedDate?.Month;
+		internal int? SelectedYear => SelectedDate?.Year;
 
 		internal void SetSelectedDate(LocalDate selectedDate)
 		{
@@ -111,13 +116,13 @@ namespace BlazorNodaTimeDateTimePicker
 			switch (ViewMode)
 			{
 				case ViewMode.Days:
-					ViewMode = ViewMode.Months;
+					SetViewMode(ViewMode.Months);
 					break;
 				case ViewMode.Months:
-					ViewMode = ViewMode.Years;
+					SetViewMode(ViewMode.Years);
 					break;
 				case ViewMode.Years:
-					ViewMode = ViewMode.Decades;
+					SetViewMode(ViewMode.Decades);
 					break;
 				case ViewMode.Decades:
 				default:
@@ -132,13 +137,13 @@ namespace BlazorNodaTimeDateTimePicker
 			switch (ViewMode)
 			{
 				case ViewMode.Months:
-					ViewMode = ViewMode.Days;
+					SetViewMode(ViewMode.Days);
 					break;
 				case ViewMode.Years:
-					ViewMode = ViewMode.Months;
+					SetViewMode(ViewMode.Months);
 					break;
 				case ViewMode.Decades:
-					ViewMode = ViewMode.Years;
+					SetViewMode(ViewMode.Years);
 					break;			
 				case ViewMode.Days:
 				default:
@@ -160,6 +165,50 @@ namespace BlazorNodaTimeDateTimePicker
 
 			MonthToDisplay = MonthToDisplay.PlusMonths(-1);
 			MonthToDisplayChanged();
+		}
+
+		internal void NextYear()
+		{
+			Console.WriteLine(nameof(NextYear));
+
+			MonthToDisplay = MonthToDisplay.PlusYears(1);
+			YearToDisplayChanged();
+		}
+		
+		internal void PreviousYear()
+		{
+			Console.WriteLine(nameof(PreviousYear));
+
+			MonthToDisplay = MonthToDisplay.PlusYears(-1);
+			YearToDisplayChanged();
+		}
+
+		internal void NextDecade()
+		{
+			Console.WriteLine(nameof(NextDecade));
+
+			MonthToDisplay = MonthToDisplay.PlusYears(10);
+			DecadeToDisplayChanged();
+			StateChanged();
+		}
+
+		internal void PreviousDecade()
+		{
+			Console.WriteLine(nameof(PreviousDecade));
+
+			MonthToDisplay = MonthToDisplay.PlusYears(-10);
+			DecadeToDisplayChanged();
+			StateChanged();
+		}
+
+		internal void NextCentury()
+		{
+			Console.WriteLine(nameof(NextCentury));
+		}
+
+		internal void PreviousCentury()
+		{
+			Console.WriteLine(nameof(PreviousCentury));
 		}
 	}
 }

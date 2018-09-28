@@ -120,6 +120,22 @@ $datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
 		}
 	}
 
+	.day, .month, .year, .decade {
+		&.old, &.new {
+			color: #6c757d;
+		}
+
+		&:hover {
+			background-color: #e9ecef;
+			cursor: pointer;
+		}
+
+		&.active {
+			background-color: $blue;
+			color: white;
+		}
+	}
+
 	.days {
 		grid-area: days;
 		display: grid;
@@ -136,20 +152,6 @@ $datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
 			border-radius: 0.25rem;
 			text-align: center;
 			padding: 0.3rem;
-
-			&:hover {
-				background-color: #e9ecef;
-				cursor: pointer;
-			}
-
-			&.old, &.new {
-				color: #6c757d;
-			}
-
-			&.active {
-				background-color: $blue;
-				color: white;
-			}
 
 			&.today {
 				position: relative;
@@ -203,27 +205,17 @@ $datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
 		}
 	}
 
-	.months {
+	.months, .years, .decades {
 		display: grid;
 		grid-auto-rows: 1fr;
 		grid-template-columns: repeat(4, 1fr);
 		justify-items: stretch;
 		align-items: center;
 
-		.month {
+		.month, .year, .decade {
 			border-radius: 0.25rem;
 			text-align: center;
-			padding: 1rem 0.3rem;
-
-			&:hover {
-				background-color: #e9ecef;
-				cursor: pointer;
-			}
-
-			&.active {
-				background-color: $blue;
-				color: white;
-			}
+			padding: 1rem 0.3rem;			
 		}
 	}
 }

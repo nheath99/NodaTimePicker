@@ -21,7 +21,7 @@
 	void _onSelected(int month)
 	{
 		State.SetDisplayMonth(month);
-		State.SetViewMode(ViewMode.Days);
+		State.PreviousViewMode();
 	}
 
 	void JanClicked()
@@ -77,7 +77,8 @@
 	{
 		var strClass = "month";
 
-		if (State.SelectedMonth.HasValue && month == State.SelectedMonth.Value)
+		if ((State.SelectedMonth.HasValue && month == State.SelectedMonth.Value)
+			&& (State.SelectedYear == State.MonthToDisplay.Year))
 			strClass += " active";
 
 		return strClass;
