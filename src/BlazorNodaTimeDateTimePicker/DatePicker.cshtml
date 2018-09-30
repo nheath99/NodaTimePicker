@@ -81,16 +81,52 @@
 	protected DatePickerState State { get; set; } = new DatePickerState();
 
 	// Parameters in use -> move most of these to DatePickerState
-	[Parameter] protected IsoDayOfWeek FirstDayOfWeek { get; set; } = IsoDayOfWeek.Monday;
+	[Parameter] protected IsoDayOfWeek FirstDayOfWeek
+	{
+		get => State.FirstDayOfWeek;
+		set => State.FirstDayOfWeek = value;
+	}
+	[Parameter] protected LocalDate? SelectedDate
+	{
+		get => State.SelectedDate;
+		set => State.SelectedDate = value;
+	}
+	[Parameter] protected LocalDate MinDate
+	{
+		get => State.MinDate;
+		set => State.MinDate = value;
+	}
+
+	[Parameter]
+	protected LocalDate MaxDate
+	{
+		get => State.MaxDate;
+		set => State.MaxDate = value;
+	}
+
+	[Parameter] protected IEnumerable<LocalDate> DisabledDates
+	{
+		get => State.DisabledDates;
+		set => State.DisabledDates = value;
+	}
+	[Parameter] protected IEnumerable<LocalDate> EnabledDates
+	{
+		get => State.EnabledDates;
+		set => State.EnabledDates = value;
+	}
+	[Parameter] protected IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled
+	{
+		get => State.DaysOfWeekDisabled;
+		set => State.DaysOfWeekDisabled = value;
+	}
+	[Parameter] protected IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals
+	{
+		get => State.DisabledDateIntervals;
+		set => State.DisabledDateIntervals = value;
+	}
+
 	[Parameter] protected string DayViewHeaderFormat { get; set; } = "MMMM yyyy";
 	[Parameter] protected string MonthViewHeaderFormat { get; set; } = "yyyy";
-	[Parameter] protected LocalDate? SelectedDate { get; set; } = new LocalDate(2018, 9, 19);
-	[Parameter] protected LocalDate MinDate { get; set; } = LocalDate.MinIsoValue;
-	[Parameter] protected LocalDate MaxDate { get; set; } = LocalDate.MaxIsoValue;
-	[Parameter] protected IEnumerable<LocalDate> DisabledDates { get; set; }
-	[Parameter] protected IEnumerable<LocalDate> EnabledDates { get; set; }
-	[Parameter] protected IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled { get; set; }
-	[Parameter] protected IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals { get; set; }
 	[Parameter] protected bool Visible { get; set; } = false;
 	[Parameter] protected bool Inline { get; set; } = false;
 	[Parameter] protected string MaxWidth { get; set; }
@@ -126,7 +162,7 @@
 		State.OnSelected += OnSelected;
 		State.OnCleared += OnCleared;
 
-		State.OnMonthToDisplayChanged += DisplayDays;		
+		State.OnMonthToDisplayChanged += DisplayDays;
 	}
 
 	private void OnChanged(LocalDate? localDate)

@@ -1,5 +1,7 @@
 ﻿using NodaTime;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BlazorNodaTimeDateTimePicker
 {
@@ -13,10 +15,18 @@ namespace BlazorNodaTimeDateTimePicker
 
 		public LocalDate Today { get; }
 		
-		internal LocalDate? SelectedDate { get; private set; }
+		internal LocalDate? SelectedDate { get; set; }
 		internal LocalDate MonthToDisplay { get; private set; }
-		public ViewMode ViewMode { get; private set; } = ViewMode.Days;
+		internal ViewMode ViewMode { get; private set; } = ViewMode.Days;
+		internal IsoDayOfWeek FirstDayOfWeek { get; set; } = IsoDayOfWeek.Monday;
 
+		internal LocalDate MinDate { get; set; } = LocalDate.MinIsoValue;
+		internal LocalDate MaxDate { get; set; } = LocalDate.MaxIsoValue;
+		internal IEnumerable<LocalDate> DisabledDates { get; set; }
+		internal IEnumerable<LocalDate> EnabledDates { get; set; }
+		internal IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled { get; set; }
+		internal IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals { get; set; }
+		
 		internal event Action<LocalDate> OnSelected; // when a date is selected
 		internal event Action OnCleared; // when the date is set to null
 		internal event Action<LocalDate?> OnSelectedDateChanged; // when the selected date is changed
@@ -31,6 +41,7 @@ namespace BlazorNodaTimeDateTimePicker
 		internal event Action OnMonthToDisplayChanged;
 		internal event Action OnYearToDisplayChanged;
 		internal event Action OnDecadeToDisplayChanged;
+		internal event Action OnCenturyToDisplayChanged;
 
 		void SelectedDateChanged()
 		{
@@ -49,9 +60,20 @@ namespace BlazorNodaTimeDateTimePicker
 		void MonthToDisplayChanged() => OnMonthToDisplayChanged?.Invoke();
 		void YearToDisplayChanged() => OnYearToDisplayChanged?.Invoke();
 		void DecadeToDisplayChanged() => OnDecadeToDisplayChanged?.Invoke();
+		void CentureToDisplayChanged() => OnCenturyToDisplayChanged?.Invoke();
 
 		internal int? SelectedMonth => SelectedDate?.Month;
 		internal int? SelectedYear => SelectedDate?.Year;
+		internal int? SelectedDecade
+		{
+			get
+			{
+				if (SelectedDate.HasValue)
+					return (SelectedDate.Value.Year / 10) * 10;
+				else
+					return null;
+			}
+		}
 
 		internal void SetSelectedDate(LocalDate selectedDate)
 		{
@@ -204,11 +226,65 @@ namespace BlazorNodaTimeDateTimePicker
 		internal void NextCentury()
 		{
 			Console.WriteLine(nameof(NextCentury));
+
+			MonthToDisplay = MonthToDisplay.PlusYears(100);
+			CentureToDisplayChanged();
+			StateChanged();
 		}
 
 		internal void PreviousCentury()
 		{
 			Console.WriteLine(nameof(PreviousCentury));
+
+			MonthToDisplay = MonthToDisplay.PlusYears(-100);
+			CentureToDisplayChanged();
+			StateChanged();
+		}
+
+		internal bool IsMonthDisabled(int month, int year)
+		{
+			// If Month/Year is before MinDate, month is disabled
+			if ((MinDate.Year > year) ||
+				(MinDate.Year == year && MinDate.Month > month))
+				return true;
+
+			// If Month/Year is after MaxDate, month is disabled
+			if ((MaxDate.Year < year) ||
+				(MaxDate.Year == year && MinDate.Month < month))
+				return true;
+
+			// If EnabledDates contains any value falling within Month/Date, month is enabled
+			if (EnabledDates != null && EnabledDates.Any(x => x.Year == year && x.Month == month))
+				return false;
+
+			return false;
+		}
+
+		internal bool IsYearDisabled(int year)
+		{
+			// If Year is before MinDate, year is disabled
+			if (MinDate.Year > year)
+				return true;
+
+			// If Year is after MaxDate, year is disabled
+			if (MaxDate.Year < year)
+				return true;
+
+			return false;
+		}
+
+		internal bool IsDecadeDisabled(int decade)
+		{
+			var minDateDecade = MinDate.Year.Decade();
+			var maxDateDecade = MaxDate.Year.Decade();
+
+			if (minDateDecade > decade)
+				return true;
+
+			if (maxDateDecade < decade)
+				return true;
+
+			return false;
 		}
 	}
 }

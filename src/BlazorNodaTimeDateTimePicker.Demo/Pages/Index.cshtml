@@ -6,7 +6,7 @@
 Welcome to your new app.
 
 <div style="width: 250px;">
-	<DatePicker Inline=true Changed=changed1 />
+	<DatePicker Inline=true Changed=changed1 MinDate=MinDate />
 </div>
 
 <p>
@@ -22,6 +22,8 @@ Welcome to your new app.
 </p>
 
 @functions {
+	LocalDate MinDate = new LocalDate(2018, 9, 29);
+
 	LocalDate? selectedDate1;
 	void changed1(LocalDate? localDate)
 	{

@@ -18,10 +18,48 @@
 @functions {
 	[Parameter] protected DatePickerState State { get; set; }
 
+	bool[] disabled;
+
+	protected override void OnInit()
+	{
+		State.OnYearToDisplayChanged += Render;
+
+		Render();
+	}
+
+	void Render()
+	{
+		disabled = new bool[12];
+
+		for (int i = 0; i < 12; i++)
+		{
+			disabled[i] = State.IsMonthDisabled(i + 1, State.MonthToDisplay.Year);
+		}
+	}
+
 	void _onSelected(int month)
 	{
-		State.SetDisplayMonth(month);
-		State.PreviousViewMode();
+		if (disabled[month - 1] == false)
+		{
+			State.SetDisplayMonth(month);
+			State.PreviousViewMode();
+		}
+	}
+
+	protected string ClassName(int month)
+	{
+		var strClass = "month";
+
+		// Disabled
+		if (disabled[month - 1])
+			strClass += " disabled";
+
+		// Active
+		if ((State.SelectedMonth.HasValue && month == State.SelectedMonth.Value)
+			&& (State.SelectedYear == State.MonthToDisplay.Year))
+			strClass += " active";
+
+		return strClass;
 	}
 
 	void JanClicked()
@@ -71,16 +109,5 @@
 	void DecClicked()
 	{
 		_onSelected(12);
-	}
-
-	protected string ClassName(int month)
-	{
-		var strClass = "month";
-
-		if ((State.SelectedMonth.HasValue && month == State.SelectedMonth.Value)
-			&& (State.SelectedYear == State.MonthToDisplay.Year))
-			strClass += " active";
-
-		return strClass;
 	}
 }

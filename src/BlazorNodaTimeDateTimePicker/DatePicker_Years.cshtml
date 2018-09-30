@@ -12,6 +12,7 @@
 	[Parameter] protected DatePickerState State { get; set; }
 
 	int start, end;
+	Dictionary<int, bool> disabled;
 
 	protected override void OnInit()
 	{
@@ -23,11 +24,21 @@
 	void Render()
 	{
 		(start, end) = State.MonthToDisplay.GetDecade();
+
+		disabled = new Dictionary<int, bool>();
+
+		for (int i = start - 1; i <= end + 1; i++)
+		{
+			disabled.Add(i, State.IsYearDisabled(i));
+		}
 	}
 
 	protected string ClassName(int year)
 	{
 		var strClass = "year";
+
+		if (disabled[year])
+			strClass += " disabled";
 
 		if (State.SelectedYear.HasValue && year == State.SelectedYear.Value)
 			strClass += " active";
@@ -42,7 +53,10 @@
 
 	void YearSelected(int year)
 	{
-		State.SetDisplayYear(year);
-		State.PreviousViewMode();
+		if (disabled[year] == false)
+		{
+			State.SetDisplayYear(year);
+			State.PreviousViewMode();
+		}
 	}
 }

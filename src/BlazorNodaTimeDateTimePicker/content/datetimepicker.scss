@@ -70,8 +70,8 @@ $datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
 			border-radius: 0.25rem;
 			padding: 0.1rem;
 
-			&:hover {
-				background: #e9ecef;
+			&:hover:not(.disabled) {
+				background: $datetimepicker-btn-hover-bg;
 				cursor: pointer;
 			}
 		}
@@ -111,12 +111,6 @@ $datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
 
 			&.weekday {
 			}
-
-			&.disabled {
-				background: none;
-				color: $datetimepicker-disabled-color;
-				cursor: not-allowed;
-			}
 		}
 	}
 
@@ -125,14 +119,14 @@ $datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
 			color: #6c757d;
 		}
 
-		&:hover {
-			background-color: #e9ecef;
+		&:hover:not(.disabled), &:active:not(.disabled) {
+			background-color: $datetimepicker-btn-hover-bg;
 			cursor: pointer;
 		}
 
 		&.active {
-			background-color: $blue;
-			color: white;
+			background-color: $datetimepicker-active-bg;
+			color: $datetimepicker-active-color;
 		}
 	}
 
@@ -172,13 +166,13 @@ $datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
 			&.active.today:before {
 				border-bottom-color: $white;
 			}
-
-			&.disabled {
-				background: none;
-				color: $datetimepicker-disabled-color;
-				cursor: not-allowed;
-			}
 		}
+	}
+
+	.disabled {
+		background: none;
+		color: $datetimepicker-disabled-color;
+		cursor: not-allowed;
 	}
 
 	.datepicker-footer {
@@ -198,8 +192,8 @@ $datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
 				margin-right: 10px;
 			}
 
-			&:hover {
-				background-color: #e9ecef;
+			&:hover:not(.disabled) {
+				background-color: $datetimepicker-btn-hover-bg;
 				cursor: pointer;
 			}
 		}
@@ -215,7 +209,7 @@ $datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
 		.month, .year, .decade {
 			border-radius: 0.25rem;
 			text-align: center;
-			padding: 1rem 0.3rem;			
+			padding: 1rem 0.3rem;
 		}
 	}
 }

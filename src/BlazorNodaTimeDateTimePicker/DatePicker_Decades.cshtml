@@ -1,8 +1,8 @@
 ﻿<div class="decades">
 	@for (int decade = start - 10; decade <= end + 10; decade += 10)
 	{
-		var d = decade; // need to capture current value of 'year' variable for onclick method
-		<div class="@ClassName(decade)" onclick=@(() => YearSelected(d))>
+		var d = decade;
+		<div class="@ClassName(decade)" onclick=@(() => DecadeSelected(d))>
 			@decade
 		</div>
 	}
@@ -12,10 +12,11 @@
 	[Parameter] protected DatePickerState State { get; set; }
 
 	int start, end;
+	Dictionary<int, bool> disabled;
 
 	protected override void OnInit()
 	{
-		State.OnDecadeToDisplayChanged += Render;
+		State.OnCenturyToDisplayChanged += Render;
 
 		Render();
 	}
@@ -23,15 +24,24 @@
 	void Render()
 	{
 		(start, end) = State.MonthToDisplay.GetCentury();
+
+		disabled = new Dictionary<int, bool>();
+
+		for (int i = start - 10; i <= end + 10; i += 10)
+		{
+			disabled.Add(i, State.IsDecadeDisabled(i));
+		}
 	}
 
 	protected string ClassName(int decade)
 	{
 		var strClass = "decade";
 
-		// TODO: this has just been copied from DatePicker_Years
-		if (State.SelectedYear.HasValue && decade == State.SelectedYear.Value)
+		if (State.SelectedDecade.HasValue && decade == State.SelectedDecade.Value)
 			strClass += " active";
+
+		if (disabled[decade])
+			strClass += " disabled";
 
 		if (decade < start)
 			strClass += " old";
@@ -41,9 +51,12 @@
 		return strClass;
 	}
 
-	void YearSelected(int year)
+	void DecadeSelected(int decade)
 	{
-		State.SetDisplayYear(year);
-		State.PreviousViewMode();
+		if (disabled[decade] == false)
+		{
+			State.SetDisplayYear(decade);
+			State.PreviousViewMode();
+		}
 	}
 }
