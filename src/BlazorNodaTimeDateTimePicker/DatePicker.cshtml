@@ -23,7 +23,7 @@
 				<div class="days">
 					@foreach (var item in Days)
 					{
-						<DatePicker_Day Date="item" Disabled="!IsEnabled(item)" State="State" />
+						<DatePicker_Day Date="item" State="State" />
 					}
 				</div>
 				@if (ShowToday || ShowClear)
@@ -326,40 +326,6 @@
 		State.PreviousCentury();
 
 		OnUpdated();
-	}
-
-	protected bool IsEnabled(LocalDate date)
-	{
-		if (EnabledDates != null)
-		{
-			if (EnabledDates.Contains(date) == false)
-				return false;
-		}
-
-		if (DisabledDates != null)
-		{
-			if (DisabledDates.Contains(date))
-				return false;
-		}
-
-		if (date < MinDate)
-			return false;
-		if (date > MaxDate)
-			return false;
-
-		if (DaysOfWeekDisabled != null)
-		{
-			if (DaysOfWeekDisabled.Contains(date.DayOfWeek))
-				return false;
-		}
-
-		if (DisabledDateIntervals != null)
-		{
-			if (DisabledDateIntervals.Any(x => date >= x.start && date <= x.end))
-				return false;
-		}
-
-		return true;
 	}
 
 	protected string DayOfWeekClass(IsoDayOfWeek dayOfWeek)

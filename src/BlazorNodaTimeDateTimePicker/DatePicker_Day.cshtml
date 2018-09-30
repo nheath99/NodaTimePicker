@@ -7,12 +7,19 @@
 </div>
 
 @functions {
-	[Parameter] protected LocalDate Date { get; set; }		
-	[Parameter] protected bool Disabled { get; set; }
+	[Parameter] protected LocalDate Date { get; set; }
+	[Parameter] protected bool Disabled
+	{
+		get => State.IsDayDisabled(Date);
+		set
+		{
+			;
+		}
+	}
 	[Parameter] protected DatePickerState State { get; set; }
 
 	bool IsToday => Date == State.Today;
-	
+
 	private void OnClick()
 	{
 		if (!Disabled)

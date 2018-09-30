@@ -26,7 +26,8 @@ namespace BlazorNodaTimeDateTimePicker
 		internal IEnumerable<LocalDate> EnabledDates { get; set; }
 		internal IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled { get; set; }
 		internal IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals { get; set; }
-		
+		internal Func<LocalDate, bool> DaysEnabledFunction { get; set; }
+
 		internal event Action<LocalDate> OnSelected; // when a date is selected
 		internal event Action OnCleared; // when the date is set to null
 		internal event Action<LocalDate?> OnSelectedDateChanged; // when the selected date is changed
@@ -241,8 +242,63 @@ namespace BlazorNodaTimeDateTimePicker
 			StateChanged();
 		}
 
+		internal bool IsDayDisabled(LocalDate date)
+		{
+			if (DaysEnabledFunction != null)
+			{
+				return !DaysEnabledFunction(date);
+			}
+			else
+			{
+				if (EnabledDates != null)
+				{
+					if (EnabledDates.Contains(date) == false)
+						return false;
+				}
+
+				if (DisabledDates != null)
+				{
+					if (DisabledDates.Contains(date))
+						return false;
+				}
+
+				if (date < MinDate)
+					return true;
+				if (date > MaxDate)
+					return true;
+
+				if (DaysOfWeekDisabled != null)
+				{
+					if (DaysOfWeekDisabled.Contains(date.DayOfWeek))
+						return true;
+				}
+
+				if (DisabledDateIntervals != null)
+				{
+					if (DisabledDateIntervals.Any(x => date >= x.start && date <= x.end))
+						return true;
+				}
+
+				return false;
+			}
+		}
+
 		internal bool IsMonthDisabled(int month, int year)
 		{
+			// If any date in the month is enabled, enable the month
+			if (DaysEnabledFunction != null)
+			{
+				var daysInMonth = NodaTime.CalendarSystem.Iso.GetDaysInMonth(year, month);
+				for (int i = 1; i <= daysInMonth; i++)
+				{
+					var date = new LocalDate(year, month, i);
+					if (DaysEnabledFunction(date))
+						return true;
+				}
+
+				return false;
+			}
+
 			// If Month/Year is before MinDate, month is disabled
 			if ((MinDate.Year > year) ||
 				(MinDate.Year == year && MinDate.Month > month))
@@ -262,9 +318,14 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal bool IsYearDisabled(int year)
 		{
+			// Just ignore the function and enalbe the year.
+			// We could calculate whether any day in the year is enabled, but that seems overkill at the moment
+			if (DaysEnabledFunction != null)
+				return false;
+
 			// If Year is before MinDate, year is disabled
 			if (MinDate.Year > year)
-				return true;
+			return true;
 
 			// If Year is after MaxDate, year is disabled
 			if (MaxDate.Year < year)
@@ -275,6 +336,11 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal bool IsDecadeDisabled(int decade)
 		{
+			// Just ignore the function and enable the decade.
+			// We could calculate whether any day in the decade is enabled, but that seems overkill at the moment
+			if (DaysEnabledFunction != null)
+				return false;
+
 			var minDateDecade = MinDate.Year.Decade();
 			var maxDateDecade = MaxDate.Year.Decade();
 
