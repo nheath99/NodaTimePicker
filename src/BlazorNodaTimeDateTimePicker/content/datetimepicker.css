@@ -44,7 +44,7 @@
       text-align: center;
       border-radius: 0.25rem;
       padding: 0.1rem; }
-      .datepicker-content .datepicker-header > *:hover:not(.disabled) {
+      .datepicker-content .datepicker-header > *:hover:not(.disabled):not(.active) {
         background: #e9ecef;
         cursor: pointer; }
     .datepicker-content .datepicker-header .prev {
@@ -68,8 +68,9 @@
       text-align: center; }
   .datepicker-content .day.old, .datepicker-content .day.new, .datepicker-content .month.old, .datepicker-content .month.new, .datepicker-content .year.old, .datepicker-content .year.new, .datepicker-content .decade.old, .datepicker-content .decade.new {
     color: #6c757d; }
-  .datepicker-content .day:hover:not(.disabled), .datepicker-content .day:active:not(.disabled), .datepicker-content .month:hover:not(.disabled), .datepicker-content .month:active:not(.disabled), .datepicker-content .year:hover:not(.disabled), .datepicker-content .year:active:not(.disabled), .datepicker-content .decade:hover:not(.disabled), .datepicker-content .decade:active:not(.disabled) {
-    background-color: #e9ecef;
+  .datepicker-content .day:hover:not(.disabled):not(.active), .datepicker-content .month:hover:not(.disabled):not(.active), .datepicker-content .year:hover:not(.disabled):not(.active), .datepicker-content .decade:hover:not(.disabled):not(.active) {
+    background-color: #e9ecef; }
+  .datepicker-content .day:hover:not(.disabled), .datepicker-content .month:hover:not(.disabled), .datepicker-content .year:hover:not(.disabled), .datepicker-content .decade:hover:not(.disabled) {
     cursor: pointer; }
   .datepicker-content .day.active, .datepicker-content .month.active, .datepicker-content .year.active, .datepicker-content .decade.active {
     background-color: #007bff;
@@ -131,4 +132,3 @@
       border-radius: 0.25rem;
       text-align: center;
       padding: 1rem 0.3rem; }
-

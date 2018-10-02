@@ -70,7 +70,7 @@ $datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
 			border-radius: 0.25rem;
 			padding: 0.1rem;
 
-			&:hover:not(.disabled) {
+			&:hover:not(.disabled):not(.active) {
 				background: $datetimepicker-btn-hover-bg;
 				cursor: pointer;
 			}
@@ -119,8 +119,11 @@ $datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;
 			color: #6c757d;
 		}
 
-		&:hover:not(.disabled), &:active:not(.disabled) {
+		&:hover:not(.disabled):not(.active) {
 			background-color: $datetimepicker-btn-hover-bg;
+		}
+
+		&:hover:not(.disabled) {
 			cursor: pointer;
 		}
 

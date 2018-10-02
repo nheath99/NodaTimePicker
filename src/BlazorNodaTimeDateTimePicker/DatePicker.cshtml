@@ -15,15 +15,19 @@
 						var dow = FirstDayOfWeek;
 						do
 						{
-							<div class="@DayOfWeekClass(dow)">@dow.ToStringAbbr()</div>
+							<div class="@CssClassGenerator.DayOfWeek(dow, DaysOfWeekDisabled)">@dow.ToStringAbbr()</div>
 							dow = dow.Next();
 						} while (dow != FirstDayOfWeek);
 					}
 				</div>
 				<div class="days">
-					@foreach (var item in Days)
+					@foreach (var date in Days)
 					{
-						<DatePicker_Day Date="item" State="State" />
+						<div class="day-wrapper">
+							<div class="@CssClassGenerator.Day(date, State)" onclick="@(() => DayClicked(date))">
+								@date.Day
+							</div>
+						</div>
 					}
 				</div>
 				@if (ShowToday || ShowClear)
@@ -49,7 +53,20 @@
 					<div class="year" onclick=@SelectYear>@YearText</div>
 					<div class="next" onclick=@NextYear>&gt;</div>
 				</div>
-				<DatePicker_Months State="State" />
+				<div class="months">
+					<div class="@CssClassGenerator.Month(1, disabledMonths[0], State)" onclick="@(() => MonthClicked(1))">Jan</div>
+					<div class="@CssClassGenerator.Month(2, disabledMonths[1], State)" onclick="@(() => MonthClicked(2))">Feb</div>
+					<div class="@CssClassGenerator.Month(3, disabledMonths[2], State)" onclick="@(() => MonthClicked(3))">Mar</div>
+					<div class="@CssClassGenerator.Month(4, disabledMonths[3], State)" onclick="@(() => MonthClicked(4))">Apr</div>
+					<div class="@CssClassGenerator.Month(5, disabledMonths[4], State)" onclick="@(() => MonthClicked(5))">May</div>
+					<div class="@CssClassGenerator.Month(6, disabledMonths[5], State)" onclick="@(() => MonthClicked(6))">Jun</div>
+					<div class="@CssClassGenerator.Month(7, disabledMonths[6], State)" onclick="@(() => MonthClicked(7))">Jul</div>
+					<div class="@CssClassGenerator.Month(8, disabledMonths[7], State)" onclick="@(() => MonthClicked(8))">Aug</div>
+					<div class="@CssClassGenerator.Month(9, disabledMonths[8], State)" onclick="@(() => MonthClicked(9))">Sep</div>
+					<div class="@CssClassGenerator.Month(10, disabledMonths[9], State)" onclick="@(() => MonthClicked(10))">Oct</div>
+					<div class="@CssClassGenerator.Month(11, disabledMonths[10], State)" onclick="@(() => MonthClicked(11))">Nov</div>
+					<div class="@CssClassGenerator.Month(12, disabledMonths[11], State)" onclick="@(() => MonthClicked(12))">Dec</div>
+				</div>
 			</div>
 		}
 		else if (State.ViewMode == ViewMode.Years)
@@ -60,7 +77,15 @@
 					<div class="decade" onclick=@SelectDecade>@DecadeText</div>
 					<div class="next" onclick=@NextDecade>&gt;</div>
 				</div>
-				<DatePicker_Years State="State" />
+				<div class="years">
+					@for (int year = yearStart - 1; year <= yearEnd + 1; year++)
+					{
+						var y = year;
+						<div class="@CssClassGenerator.Year(year, disabledYears[year], State)" onclick=@(() => YearClicked(y))>
+							@year
+						</div>
+					}
+				</div>
 			</div>
 		}
 		else if (State.ViewMode == ViewMode.Decades)
@@ -72,7 +97,15 @@
 					<div class="next" onclick=@NextCentury>&gt;</div>
 				</div>
 			</div>
-			<DatePicker_Decades State="State" />
+			<div class="decades">
+				@for (int decade = decadeStart - 10; decade <= decadeEnd + 10; decade += 10)
+				{
+					var d = decade;
+					<div class="@CssClassGenerator.Decade(decade, disabledDecades[decade], State)" onclick=@(() => DecadeClicked(d))>
+						@decade
+					</div>
+				}
+			</div>
 		}
 	</div>
 </div>
@@ -80,7 +113,6 @@
 @functions {
 	protected DatePickerState State { get; set; } = new DatePickerState();
 
-	// Parameters in use -> move most of these to DatePickerState
 	[Parameter] protected IsoDayOfWeek FirstDayOfWeek
 	{
 		get => State.FirstDayOfWeek;
@@ -96,14 +128,12 @@
 		get => State.MinDate;
 		set => State.MinDate = value;
 	}
-
 	[Parameter]
 	protected LocalDate MaxDate
 	{
 		get => State.MaxDate;
 		set => State.MaxDate = value;
 	}
-
 	[Parameter] protected IEnumerable<LocalDate> DisabledDates
 	{
 		get => State.DisabledDates;
@@ -152,41 +182,81 @@
 	[Parameter] protected Action Enabled { get; set; }
 
 	// Private properties and fields
-	private IEnumerable<LocalDate> Days { get; set; }
+	IEnumerable<LocalDate> Days { get; set; }
 
 	protected override void OnInit()
 	{
+		Console.WriteLine(nameof(OnInit));
+
 		State.OnStateChanged += StateHasChanged;
 
 		State.OnSelectedDateChanged += OnChanged;
 		State.OnSelected += OnSelected;
 		State.OnCleared += OnCleared;
 
-		State.OnMonthToDisplayChanged += DisplayDays;
+		State.OnMonthToDisplayChanged += RenderDays;
+		State.OnYearToDisplayChanged += RenderMonths;
+		State.OnDecadeToDisplayChanged += RenderYears;
+		State.OnCenturyToDisplayChanged += RenderDecades;
+	}
+
+	protected override void OnParametersSet()
+	{
+		Console.WriteLine(nameof(OnParametersSet));
+
+		RenderDays();
 	}
 
 	private void OnChanged(LocalDate? localDate)
 	{
+		Console.WriteLine(nameof(OnChanged));
+
 		Changed?.Invoke(localDate);
 	}
 
 	private void OnSelected(LocalDate localDate)
 	{
+		Console.WriteLine(nameof(OnSelected));
+
 		Selected?.Invoke(localDate);
 	}
 
 	private void OnCleared()
 	{
+		Console.WriteLine(nameof(OnCleared));
+
 		Cleared?.Invoke();
 	}
 
-	protected override void OnParametersSet()
+	#region Days
+
+	void RenderDays()
 	{
-		DisplayDays();
+		Console.WriteLine(nameof(RenderDays));
+
+		var startOfWeekOfMonth = State.MonthToDisplay.StartOfWeek(FirstDayOfWeek);
+
+		var endOfMonth = State.MonthToDisplay.EndOfMonth();
+		var endOfWeekOfMonth = endOfMonth.EndOfWeek(FirstDayOfWeek);
+
+		Days = GetDaysBetween(startOfWeekOfMonth, endOfWeekOfMonth);
 	}
+
+	void DayClicked(LocalDate date)
+	{
+		Console.WriteLine(nameof(DayClicked));
+
+		if (!State.IsDayDisabled(date))
+			State.SetSelectedDate(date);
+	}
+
+	#endregion
 
 	protected static IEnumerable<LocalDate> GetDaysBetween(LocalDate start, LocalDate end)
 	{
+		if (start > end)
+			yield break;
+
 		do
 		{
 			yield return start;
@@ -237,128 +307,213 @@
 
 	protected string CenturyText => State.MonthToDisplay.GetCenturyString();
 
-	void DisplayDays()
+	#region Months
+
+	bool[] disabledMonths;
+
+	void RenderMonths()
 	{
-		Console.WriteLine(nameof(DisplayDays));
+		Console.WriteLine(nameof(RenderMonths));
 
-		var startOfWeekOfMonth = State.MonthToDisplay.StartOfWeek(FirstDayOfWeek);
+		disabledMonths = new bool[12];
 
-		var endOfMonth = State.MonthToDisplay.EndOfMonth();
-		var endOfWeekOfMonth = endOfMonth.EndOfWeek(FirstDayOfWeek);
-
-		Days = GetDaysBetween(startOfWeekOfMonth, endOfWeekOfMonth);
+		for (int i = 0; i < 12; i++)
+		{
+			disabledMonths[i] = State.IsMonthDisabled(i + 1, State.MonthToDisplay.Year);
+		}
 	}
 
-	// Month
+	void MonthClicked(int month)
+	{
+		Console.WriteLine(nameof(MonthClicked));
+
+		if (disabledMonths[month - 1] == false)
+		{
+			State.SetDisplayMonth(month);
+			State.PreviousViewMode();
+		}
+	}
+
 	protected void NextMonth()
 	{
+		Console.WriteLine(nameof(NextMonth));
+
 		State.NextMonth();
-
-		DisplayDays();
-
+		RenderDays();
 		OnUpdated();
 	}
 
 	protected void PreviousMonth()
 	{
+		Console.WriteLine(nameof(PreviousMonth));
+
 		State.PreviousMonth();
-
-		DisplayDays();
-
+		RenderDays();
 		OnUpdated();
 	}
 
 	protected void SelectMonth()
 	{
+		Console.WriteLine(nameof(SelectMonth));
+
+		RenderMonths();
 		State.NextViewMode();
 	}
 
-	// Year
+	#endregion
+
+	#region Years
+
+	int yearStart, yearEnd;
+	Dictionary<int, bool> disabledYears;
+
+	void RenderYears()
+	{
+		Console.WriteLine(nameof(RenderYears));
+
+		(yearStart, yearEnd) = State.MonthToDisplay.GetDecade();
+
+		disabledYears = new Dictionary<int, bool>();
+
+		for (int i = yearStart - 1; i <= yearEnd + 1; i++)
+		{
+			disabledYears.Add(i, State.IsYearDisabled(i));
+		}
+	}
+
+	void YearClicked(int year)
+	{
+		Console.WriteLine(nameof(YearClicked));
+
+		if (disabledYears[year] == false)
+		{
+			State.SetDisplayYear(year);
+			RenderMonths();
+			State.PreviousViewMode();
+		}
+	}
+
 	protected void NextYear()
 	{
-		State.NextYear();
+		Console.WriteLine(nameof(NextYear));
 
+		State.NextYear();
 		OnUpdated();
 	}
 
 	protected void PreviousYear()
 	{
-		State.PreviousYear();
+		Console.WriteLine(nameof(PreviousYear));
 
+		State.PreviousYear();
 		OnUpdated();
 	}
 
 	protected void SelectYear()
 	{
+		Console.WriteLine(nameof(SelectYear));
+
+		RenderYears();
 		State.NextViewMode();
 	}
 
-	// Decade
+	#endregion
+
+	#region Decades
+
+	int decadeStart, decadeEnd;
+	Dictionary<int, bool> disabledDecades;
+
+	void RenderDecades()
+	{
+		Console.WriteLine(nameof(RenderDecades));
+
+		(decadeStart, decadeEnd) = State.MonthToDisplay.GetCentury();
+
+		disabledDecades = new Dictionary<int, bool>();
+
+		for (int i = decadeStart - 10; i <= decadeEnd + 10; i += 10)
+		{
+			disabledDecades.Add(i, State.IsDecadeDisabled(i));
+		}
+	}
+
+	void DecadeClicked(int decade)
+	{
+		Console.WriteLine(nameof(DecadeClicked));
+
+		if (disabledDecades[decade] == false)
+		{
+			State.SetDisplayYear(decade);
+			RenderYears();
+			State.PreviousViewMode();
+		}
+	}
+
 	protected void NextDecade()
 	{
-		State.NextDecade();
+		Console.WriteLine(nameof(NextDecade));
 
+		State.NextDecade();
 		OnUpdated();
 	}
 
 	protected void PreviousDecade()
 	{
-		State.PreviousDecade();
+		Console.WriteLine(nameof(PreviousDecade));
 
+		State.PreviousDecade();
 		OnUpdated();
 	}
 
 	protected void SelectDecade()
 	{
+		Console.WriteLine(nameof(SelectDecade));
+
+		RenderDecades();
 		State.NextViewMode();
 	}
 
-	// Century
+	#endregion
+
+	#region Centuries
+
 	protected void NextCentury()
 	{
-		State.NextCentury();
+		Console.WriteLine(nameof(NextCentury));
 
+		State.NextCentury();
 		OnUpdated();
 	}
 
 	protected void PreviousCentury()
 	{
-		State.PreviousCentury();
+		Console.WriteLine(nameof(PreviousCentury));
 
+		State.PreviousCentury();
 		OnUpdated();
 	}
 
-	protected string DayOfWeekClass(IsoDayOfWeek dayOfWeek)
-	{
-		var strClass = "dow";
-		if (dayOfWeek.IsWeekday())
-			strClass += " weekday";
-		else
-			strClass += " weekend";
-
-		if (DaysOfWeekDisabled != null)
-		{
-			if (DaysOfWeekDisabled.Contains(dayOfWeek))
-				strClass += " disabled";
-		}
-
-		return strClass;
-	}
+	#endregion
 
 	protected void TodayClicked()
 	{
 		Console.WriteLine(nameof(TodayClicked));
+
 		State.SetSelectedDateToday();
 	}
 
 	protected void ClearClicked()
 	{
 		Console.WriteLine(nameof(ClearClicked));
+
 		State.ClearSelectedDate();
 	}
 
 	protected void OnUpdated()
 	{
+		Console.WriteLine(nameof(OnUpdated));
+
 		Updated?.Invoke();
 	}
 }
