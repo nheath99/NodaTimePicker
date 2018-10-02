@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BlazorNodaTimeDateTimePicker
 {
-	public static class NodaTimeExtensionMethods
+	internal static class NodaTimeExtensionMethods
 	{
 		#region IClock
 
@@ -13,7 +13,7 @@ namespace BlazorNodaTimeDateTimePicker
 		/// </summary>
 		/// <param name="source"></param>
 		/// <returns></returns>
-		public static LocalDateTime Now(this IClock source)
+		internal static LocalDateTime Now(this IClock source)
 		{
 			if (source == null)
 				throw new ArgumentNullException(nameof(source));
@@ -26,7 +26,7 @@ namespace BlazorNodaTimeDateTimePicker
 		/// </summary>
 		/// <param name="source"></param>
 		/// <returns></returns>
-		public static LocalDate Today(this IClock source)
+		internal static LocalDate Today(this IClock source)
 		{
 			if (source == null)
 				throw new ArgumentNullException(nameof(source));
@@ -34,17 +34,17 @@ namespace BlazorNodaTimeDateTimePicker
 			return source.GetCurrentInstant().InUtc().LocalDateTime.Date;
 		}
 
-		public static LocalDate StartOfMonth(this LocalDate currentDate)
+		internal static LocalDate StartOfMonth(this LocalDate currentDate)
 		{
 			return currentDate.PlusDays(1 - currentDate.Day);
 		}
 
-		public static LocalDate EndOfMonth(this LocalDate currentDate)
+		internal static LocalDate EndOfMonth(this LocalDate currentDate)
 		{
 			return currentDate.StartOfMonth().PlusMonths(1).PlusDays(-1);
 		}
 
-		public static LocalDate StartOfWeek(this LocalDate currentDate, IsoDayOfWeek startOfWeek)
+		internal static LocalDate StartOfWeek(this LocalDate currentDate, IsoDayOfWeek startOfWeek)
 		{
 			LocalDate local = currentDate;
 			while (local.DayOfWeek != startOfWeek)
@@ -55,7 +55,7 @@ namespace BlazorNodaTimeDateTimePicker
 			return local;
 		}
 
-		public static LocalDate EndOfWeek(this LocalDate currentDate, IsoDayOfWeek startOfWeek)
+		internal static LocalDate EndOfWeek(this LocalDate currentDate, IsoDayOfWeek startOfWeek)
 		{
 			var endOfWeek = startOfWeek.Prev();
 			LocalDate local = currentDate;
@@ -67,7 +67,7 @@ namespace BlazorNodaTimeDateTimePicker
 			return local;
 		}
 
-		public static bool IsWeekend(this IsoDayOfWeek day)
+		internal static bool IsWeekend(this IsoDayOfWeek day)
 		{
 			if (day == IsoDayOfWeek.Saturday ||
 				day == IsoDayOfWeek.Sunday)
@@ -80,7 +80,7 @@ namespace BlazorNodaTimeDateTimePicker
 			}
 		}
 
-		public static bool IsWeekday(this IsoDayOfWeek day)
+		internal static bool IsWeekday(this IsoDayOfWeek day)
 		{
 			if (day == IsoDayOfWeek.Saturday ||
 				day == IsoDayOfWeek.Sunday)
@@ -98,7 +98,7 @@ namespace BlazorNodaTimeDateTimePicker
 		/// </summary>
 		/// <param name="source"></param>
 		/// <returns></returns>
-		public static LocalDateTime StartOfToday(this IClock source)
+		internal static LocalDateTime StartOfToday(this IClock source)
 		{
 			if (source == null)
 				throw new ArgumentNullException(nameof(source));
@@ -106,7 +106,7 @@ namespace BlazorNodaTimeDateTimePicker
 			return source.GetCurrentInstant().InUtc().LocalDateTime.Date.AtMidnight();
 		}
 
-		public static IsoDayOfWeek Prev(this IsoDayOfWeek source)
+		internal static IsoDayOfWeek Prev(this IsoDayOfWeek source)
 		{
 			switch (source)
 			{
@@ -131,7 +131,7 @@ namespace BlazorNodaTimeDateTimePicker
 			}
 		}
 
-		public static IsoDayOfWeek Next(this IsoDayOfWeek source)
+		internal static IsoDayOfWeek Next(this IsoDayOfWeek source)
 		{
 			switch (source)
 			{
@@ -158,7 +158,7 @@ namespace BlazorNodaTimeDateTimePicker
 
 		#endregion
 
-		public static IEnumerable<LocalDate> FullDaysBetween(this LocalDateTime startDateTime, LocalDateTime endDateTime, bool inclusive = false)
+		internal static IEnumerable<LocalDate> FullDaysBetween(this LocalDateTime startDateTime, LocalDateTime endDateTime, bool inclusive = false)
 		{
 			if (endDateTime < startDateTime)
 				throw new ArgumentException($"{nameof(endDateTime)} must be later than {nameof(startDateTime)}.");
@@ -173,7 +173,7 @@ namespace BlazorNodaTimeDateTimePicker
 			}
 		}
 		
-		public static string ToStringAbbr(this IsoDayOfWeek isoDayOfWeek, System.Globalization.CultureInfo culture = null)
+		internal static string ToStringAbbr(this IsoDayOfWeek isoDayOfWeek, System.Globalization.CultureInfo culture = null)
 		{
 			// Todo: #5
 			// Return the Localized version of the week name
@@ -203,7 +203,7 @@ namespace BlazorNodaTimeDateTimePicker
 			}
 		}
 
-		public static (int, int) GetDecade(this LocalDate date)
+		internal static (int, int) GetDecade(this LocalDate date)
 		{
 			var year0 = (date.Year / 10) * 10; // has the effect of rounding down to first year of current decade
 			var year9 = year0 + 9;
@@ -211,7 +211,7 @@ namespace BlazorNodaTimeDateTimePicker
 			return (year0, year9);
 		}
 
-		public static string GetDecadeString(this LocalDate date, string format = "{0}-{1}")
+		internal static string GetDecadeString(this LocalDate date, string format = "{0}-{1}")
 		{
 			// returns the bounding years of the decade of the specified date
 			// e.g. 2018 -> 2010-2019
@@ -222,7 +222,7 @@ namespace BlazorNodaTimeDateTimePicker
 			return string.Format(format, year0, year9);
 		}
 
-		public static (int, int) GetCentury(this LocalDate date)
+		internal static (int, int) GetCentury(this LocalDate date)
 		{
 			var year0 = (date.Year / 100) * 100; // has the effect of rounding down to first year of current decade
 			var year90 = year0 + 90;
@@ -230,7 +230,7 @@ namespace BlazorNodaTimeDateTimePicker
 			return (year0, year90);
 		}
 
-		public static string GetCenturyString(this LocalDate date, string format = "{0}-{1}")
+		internal static string GetCenturyString(this LocalDate date, string format = "{0}-{1}")
 		{
 			// returns the bounding decades of the century of the specified date
 			// e.g. 2018 -> 2000-2090

@@ -1,6 +1,7 @@
 ﻿@using NodaTime
+@using NodaTime.Extensions
 
-<div class="@MainClass" style="@MainStyle">
+<div class="@CssClassGenerator.Main(Inline)" style="@MainStyle">
 	<div class="datepicker-content">
 		@if (State.ViewMode == ViewMode.Days)
 		{
@@ -10,16 +11,19 @@
 					<div class="month" onclick="@SelectMonth">@MonthText</div>
 					<div class="next" onclick="@NextMonth">&gt;</div>
 				</div>
-				<div class="datepicker-days-of-week">
-					@{
-						var dow = FirstDayOfWeek;
-						do
-						{
-							<div class="@CssClassGenerator.DayOfWeek(dow, DaysOfWeekDisabled)">@dow.ToStringAbbr()</div>
-							dow = dow.Next();
-						} while (dow != FirstDayOfWeek);
-					}
-				</div>
+				@if (DisplayDaysOfWeek)
+				{
+					<div class="datepicker-days-of-week">
+						@{
+							var dow = FirstDayOfWeek;
+							do
+							{
+								<div class="@CssClassGenerator.DayOfWeek(dow, DaysOfWeekDisabled)">@DayOfWeekAbbreviation(dow)</div>
+								dow = dow.Next();
+							} while (dow != FirstDayOfWeek);
+						}
+					</div>
+				}
 				<div class="days">
 					@foreach (var date in Days)
 					{
@@ -54,18 +58,11 @@
 					<div class="next" onclick=@NextYear>&gt;</div>
 				</div>
 				<div class="months">
-					<div class="@CssClassGenerator.Month(1, disabledMonths[0], State)" onclick="@(() => MonthClicked(1))">Jan</div>
-					<div class="@CssClassGenerator.Month(2, disabledMonths[1], State)" onclick="@(() => MonthClicked(2))">Feb</div>
-					<div class="@CssClassGenerator.Month(3, disabledMonths[2], State)" onclick="@(() => MonthClicked(3))">Mar</div>
-					<div class="@CssClassGenerator.Month(4, disabledMonths[3], State)" onclick="@(() => MonthClicked(4))">Apr</div>
-					<div class="@CssClassGenerator.Month(5, disabledMonths[4], State)" onclick="@(() => MonthClicked(5))">May</div>
-					<div class="@CssClassGenerator.Month(6, disabledMonths[5], State)" onclick="@(() => MonthClicked(6))">Jun</div>
-					<div class="@CssClassGenerator.Month(7, disabledMonths[6], State)" onclick="@(() => MonthClicked(7))">Jul</div>
-					<div class="@CssClassGenerator.Month(8, disabledMonths[7], State)" onclick="@(() => MonthClicked(8))">Aug</div>
-					<div class="@CssClassGenerator.Month(9, disabledMonths[8], State)" onclick="@(() => MonthClicked(9))">Sep</div>
-					<div class="@CssClassGenerator.Month(10, disabledMonths[9], State)" onclick="@(() => MonthClicked(10))">Oct</div>
-					<div class="@CssClassGenerator.Month(11, disabledMonths[10], State)" onclick="@(() => MonthClicked(11))">Nov</div>
-					<div class="@CssClassGenerator.Month(12, disabledMonths[11], State)" onclick="@(() => MonthClicked(12))">Dec</div>
+					@for (int i = 1; i <= 12; i++)
+					{
+						var month = i;
+						<div class="@CssClassGenerator.Month(month, disabledMonths[month - 1], State)" onclick="@(() => MonthClicked(month))">@MonthName(month)</div>
+					}					
 				</div>
 			</div>
 		}
@@ -113,6 +110,8 @@
 @functions {
 	protected DatePickerState State { get; set; } = new DatePickerState();
 
+	[Parameter] protected System.Globalization.CultureInfo FormatProvider { get; set; } = System.Globalization.CultureInfo.InvariantCulture;
+	[Parameter] protected bool DisplayDaysOfWeek { get; set; } = true;
 	[Parameter] protected IsoDayOfWeek FirstDayOfWeek
 	{
 		get => State.FirstDayOfWeek;
@@ -252,7 +251,7 @@
 
 	#endregion
 
-	protected static IEnumerable<LocalDate> GetDaysBetween(LocalDate start, LocalDate end)
+	static IEnumerable<LocalDate> GetDaysBetween(LocalDate start, LocalDate end)
 	{
 		if (start > end)
 			yield break;
@@ -262,18 +261,6 @@
 			yield return start;
 			start = start.PlusDays(1);
 		} while (start <= end);
-	}
-
-	protected string MainClass
-	{
-		get
-		{
-			var str = "datepicker";
-			if (Inline == false)
-				str += " datepicker-dropdown-menu";
-
-			return str;
-		}
 	}
 
 	protected string MainStyle
@@ -293,19 +280,29 @@
 		}
 	}
 
-	protected string MonthText
+	string DayOfWeekAbbreviation(IsoDayOfWeek isoDayOfWeek)
 	{
-		get { return State.MonthToDisplay.ToString(DayViewHeaderFormat, null); }
+		return FormatProvider.DateTimeFormat.GetShortestDayName(isoDayOfWeek.ToDayOfWeek());
 	}
 
-	protected string YearText
+	string MonthText
 	{
-		get { return State.MonthToDisplay.ToString(MonthViewHeaderFormat, null); }
+		get { return State.MonthToDisplay.ToString(DayViewHeaderFormat, FormatProvider); }
 	}
 
-	protected string DecadeText => State.MonthToDisplay.GetDecadeString();
+	string MonthName(int month)
+	{
+		return FormatProvider.DateTimeFormat.GetAbbreviatedMonthName(month);
+	}
 
-	protected string CenturyText => State.MonthToDisplay.GetCenturyString();
+	string YearText
+	{
+		get { return State.MonthToDisplay.ToString(MonthViewHeaderFormat, FormatProvider); }
+	}
+
+	string DecadeText => State.MonthToDisplay.GetDecadeString();
+
+	string CenturyText => State.MonthToDisplay.GetCenturyString();
 
 	#region Months
 
@@ -334,7 +331,7 @@
 		}
 	}
 
-	protected void NextMonth()
+	void NextMonth()
 	{
 		Console.WriteLine(nameof(NextMonth));
 
@@ -343,7 +340,7 @@
 		OnUpdated();
 	}
 
-	protected void PreviousMonth()
+	void PreviousMonth()
 	{
 		Console.WriteLine(nameof(PreviousMonth));
 
@@ -352,7 +349,7 @@
 		OnUpdated();
 	}
 
-	protected void SelectMonth()
+	void SelectMonth()
 	{
 		Console.WriteLine(nameof(SelectMonth));
 
@@ -393,7 +390,7 @@
 		}
 	}
 
-	protected void NextYear()
+	void NextYear()
 	{
 		Console.WriteLine(nameof(NextYear));
 
@@ -401,7 +398,7 @@
 		OnUpdated();
 	}
 
-	protected void PreviousYear()
+	void PreviousYear()
 	{
 		Console.WriteLine(nameof(PreviousYear));
 
@@ -409,7 +406,7 @@
 		OnUpdated();
 	}
 
-	protected void SelectYear()
+	void SelectYear()
 	{
 		Console.WriteLine(nameof(SelectYear));
 
@@ -450,7 +447,7 @@
 		}
 	}
 
-	protected void NextDecade()
+	void NextDecade()
 	{
 		Console.WriteLine(nameof(NextDecade));
 
@@ -458,7 +455,7 @@
 		OnUpdated();
 	}
 
-	protected void PreviousDecade()
+	void PreviousDecade()
 	{
 		Console.WriteLine(nameof(PreviousDecade));
 
@@ -466,7 +463,7 @@
 		OnUpdated();
 	}
 
-	protected void SelectDecade()
+	void SelectDecade()
 	{
 		Console.WriteLine(nameof(SelectDecade));
 
@@ -478,7 +475,7 @@
 
 	#region Centuries
 
-	protected void NextCentury()
+	void NextCentury()
 	{
 		Console.WriteLine(nameof(NextCentury));
 
@@ -486,7 +483,7 @@
 		OnUpdated();
 	}
 
-	protected void PreviousCentury()
+	void PreviousCentury()
 	{
 		Console.WriteLine(nameof(PreviousCentury));
 
@@ -496,21 +493,21 @@
 
 	#endregion
 
-	protected void TodayClicked()
+	void TodayClicked()
 	{
 		Console.WriteLine(nameof(TodayClicked));
 
 		State.SetSelectedDateToday();
 	}
 
-	protected void ClearClicked()
+	void ClearClicked()
 	{
 		Console.WriteLine(nameof(ClearClicked));
 
 		State.ClearSelectedDate();
 	}
 
-	protected void OnUpdated()
+	void OnUpdated()
 	{
 		Console.WriteLine(nameof(OnUpdated));
 

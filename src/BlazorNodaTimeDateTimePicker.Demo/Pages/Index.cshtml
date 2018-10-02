@@ -14,7 +14,7 @@ Welcome to your new app.
 </p>
 
 <input type="text" onfocus="@focussed" />
-<DatePicker Visible="datePicker2Visible" Selected="selected2" Width="250px" />
+<DatePicker Visible="datePicker2Visible" Selected="selected2" Width="250px" FormatProvider=FormatProvider DisplayDaysOfWeek=false />
 
 <p>This is the text below.</p>
 <p>
@@ -22,6 +22,8 @@ Welcome to your new app.
 </p>
 
 @functions {
+	System.Globalization.CultureInfo FormatProvider = new System.Globalization.CultureInfo("fr-FR");
+
 	LocalDate MinDate = new LocalDate(2018, 9, 29);
 
 	LocalDate? selectedDate1;

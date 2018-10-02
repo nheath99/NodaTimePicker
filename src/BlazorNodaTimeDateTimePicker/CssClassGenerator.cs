@@ -6,6 +6,15 @@ namespace BlazorNodaTimeDateTimePicker
 {
 	internal static class CssClassGenerator
 	{
+		internal static string Main(bool inline)
+		{
+			var str = "datepicker";
+			if (inline == false)
+				str += " datepicker-dropdown-menu";
+
+			return str;
+		}
+
 		internal static string Day(LocalDate Date, DatePickerState State)
 		{
 			bool Disabled = State.IsDayDisabled(Date);
