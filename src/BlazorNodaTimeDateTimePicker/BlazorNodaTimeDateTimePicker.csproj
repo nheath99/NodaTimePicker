@@ -6,6 +6,13 @@
     <IsPackable>true</IsPackable>
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
     <LangVersion>7.3</LangVersion>
+		<PackageId>BlazorNodaTimeDateTimePicker</PackageId>
+		<Version>0.0.2</Version>
+		<Authors>Nick Heath</Authors>
+		<Title>Blazor NodaTime Date Time Picker</Title>
+		<PackageProjectUrl>https://github.com/nheath99/BlazorNodaTimeDateTimePicker</PackageProjectUrl>
+		<PackageTags>blazor;nodatime;datepicker;datepicker;timepicker</PackageTags>
+		<RepositoryUrl>https://github.com/nheath99/BlazorNodaTimeDateTimePicker</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,8 +31,8 @@
 	</ItemGroup>
 	
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.5.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.5.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.6.0" />
     <PackageReference Include="NodaTime" Version="2.4.0" />
   </ItemGroup>
 
