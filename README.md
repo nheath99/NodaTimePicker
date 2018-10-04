@@ -1,9 +1,9 @@
 # BlazorNodaTimeDateTimePicker
 A Date/Time picker for [Blazor](https://github.com/aspnet/Blazor), using [NodaTime](https://github.com/nodatime/nodatime).
 
-This project aims to develop Date/Time picker components in Blazor, using NodaTime as the main dependency for Date and Time calculations.
+This project aims to develop Date/Time picker components in Blazor, using NodaTime as the main dependency for Date and Time calculations, and CSS Grid for layout.
 
-It is inspired by the very successful Javascript Date/Time picker developed by [TempusDominus](https://github.com/tempusdominus/bootstrap-4).
+It is inspired by the very successful Javascript Date/Time picker developed by [TempusDominus](https://github.com/tempusdominus/bootstrap-4), though any dependencies on Bootstrap or jQuery have been removed - it is not simply a port of the code or interop, but a fresh start from a zero base.
 
 ## Help Wanted!
 Get in touch if you want to collaborate!!
