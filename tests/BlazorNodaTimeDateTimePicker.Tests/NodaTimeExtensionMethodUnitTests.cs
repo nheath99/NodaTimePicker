@@ -1,5 +1,6 @@
 using NodaTime;
 using Xunit;
+using BlazorNodaTimeDateTimePicker;
 
 namespace BlazorNodaTimeDateTimePicker.Tests
 {
@@ -150,6 +151,40 @@ namespace BlazorNodaTimeDateTimePicker.Tests
 
 			// Assert
 			Assert.Equal(expected, result);
+		}
+
+		[Theory]
+		[InlineData(2010, 2010, 2019)]
+		[InlineData(2011, 2010, 2019)]
+		[InlineData(2012, 2010, 2019)]
+		[InlineData(2013, 2010, 2019)]
+		[InlineData(2014, 2010, 2019)]
+		[InlineData(2015, 2010, 2019)]
+		[InlineData(2016, 2010, 2019)]
+		[InlineData(2017, 2010, 2019)]
+		[InlineData(2018, 2010, 2019)]
+		[InlineData(2019, 2010, 2019)]
+		[InlineData(2020, 2020, 2029)]
+		[InlineData(2021, 2020, 2029)]
+		[InlineData(2022, 2020, 2029)]
+		[InlineData(2023, 2020, 2029)]
+		[InlineData(2024, 2020, 2029)]
+		[InlineData(2025, 2020, 2029)]
+		[InlineData(2026, 2020, 2029)]
+		[InlineData(2027, 2020, 2029)]
+		[InlineData(2028, 2020, 2029)]
+		[InlineData(2029, 2020, 2029)]
+		[InlineData(2030, 2030, 2039)]
+		[InlineData(2031, 2030, 2039)]
+		public void GetDecade(int year, int year0, int year9)
+		{
+			// Arrange
+			// Act
+			var (result0, result9) = year.GetDecade();
+
+			// Assert
+			Assert.Equal(year0, result0);
+			Assert.Equal(year9, result9);
 		}
 	}
 }

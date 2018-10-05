@@ -203,12 +203,17 @@ namespace BlazorNodaTimeDateTimePicker
 			}
 		}
 
-		internal static (int, int) GetDecade(this LocalDate date)
+		internal static (int, int) GetDecade(this int year)
 		{
-			var year0 = (date.Year / 10) * 10; // has the effect of rounding down to first year of current decade
+			var year0 = (year / 10) * 10; // has the effect of rounding down to first year of current decade
 			var year9 = year0 + 9;
 
 			return (year0, year9);
+		}
+
+		internal static (int, int) GetDecade(this LocalDate date)
+		{
+			return date.Year.GetDecade();
 		}
 
 		internal static string GetDecadeString(this LocalDate date, string format = "{0}-{1}")
@@ -222,12 +227,17 @@ namespace BlazorNodaTimeDateTimePicker
 			return string.Format(format, year0, year9);
 		}
 
-		internal static (int, int) GetCentury(this LocalDate date)
+		internal static (int, int) GetCentury(this int year)
 		{
-			var year0 = (date.Year / 100) * 100; // has the effect of rounding down to first year of current decade
+			var year0 = (year / 100) * 100; // has the effect of rounding down to first year of current decade
 			var year90 = year0 + 90;
 
 			return (year0, year90);
+		}
+
+		internal static (int, int) GetCentury(this LocalDate date)
+		{
+			return date.Year.GetCentury();
 		}
 
 		internal static string GetCenturyString(this LocalDate date, string format = "{0}-{1}")

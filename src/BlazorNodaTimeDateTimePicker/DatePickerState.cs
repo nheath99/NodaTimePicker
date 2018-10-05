@@ -9,12 +9,13 @@ namespace BlazorNodaTimeDateTimePicker
     {
 		public DatePickerState()
 		{
-			Today = SystemClock.Instance.Today();
+			Clock = SystemClock.Instance;
 			MonthToDisplay = Today.StartOfMonth();			
 		}
 
-		public LocalDate Today { get; }
-		
+		internal IClock Clock { get; }
+		internal LocalDate Today => Clock.Today();
+					
 		internal LocalDate? SelectedDate { get; set; }
 		internal LocalDate MonthToDisplay { get; private set; }
 		internal ViewMode ViewMode { get; private set; } = ViewMode.Days;
