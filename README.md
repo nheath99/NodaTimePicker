@@ -25,6 +25,8 @@ To display a simple inline DatePicker, use the following code:
 
     <DatePicker Inline=true>
 
+![DatePicker1](/docs/images/DatePicker1.png)
+
 ## Help Wanted!
 Get in touch if you want to collaborate!!
 
