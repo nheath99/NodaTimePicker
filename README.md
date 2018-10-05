@@ -14,29 +14,44 @@ It is inspired by the very successful Javascript Date/Time picker developed by [
 The easiest way to get started is to look at the Demo project, which has samples for most of the functionality.
 
 The library can be downloaded from NuGet by searching for: BlazorNodaTimeDateTimePicker in NuGet Package Manager, or by executing the following command in the Package Manager Console:
-
-    PM> Install-Package BlazorNodaTimeDateTimePicker -Version 0.0.3
-
+````shell
+PM> Install-Package BlazorNodaTimeDateTimePicker -Version 0.0.3
+````
 Until the issue https://github.com/aspnet/Blazor/issues/1315 is resolved, insert the following line into your *_ViewImports.cshtml* file:
-
-    @addTagHelper *, BlazorNodaTimeDateTimePicker
-
+````C#
+@addTagHelper *, BlazorNodaTimeDateTimePicker
+````
 ### Inline
 
 To display a simple inline DatePicker, use the following code:
-
-    <DatePicker Inline=true>
-
+````C#
+<DatePicker Inline=true>
+````
 ![DatePicker1](/docs/images/DatePicker1.png)
 
 ### Localization
 
 Display day and month names in the specified culture:
-
-    <DatePicker Inline=true FormatProvider="@(new System.Globalization.CultureInfo("fr-FR"))"/>
-
+````C#
+<DatePicker Inline=true FormatProvider="@(new System.Globalization.CultureInfo("fr-FR"))"/>
+````
 ![DatePicker1](/docs/images/DatePicker_Localization.png)
 ![DatePicker1](/docs/images/DatePicker_Localization_Months.png)
+
+### First Day of Week
+
+Specify any weekday as the first day of the week (default is Monday):
+
+````C#
+<DatePicker Inline=true FirstDayOfWeek=IsoDayOfWeek.Thursday>
+````
+![DatePicker1](/docs/images/DatePicker_FirstDayOfWeek.png)
+
+### Disabled Days of Week
+
+Disable specific days of the week:
+
+    <DatePicker Inline=true DaysOfWeekDisabled=@(new IsoDayOfWeek[] { IsoDayOfWeek.Monday, IsoDayOfWeek.Wednesday, IsoDayOfWeek.Friday }) />
 
 ## Help Wanted!
 Get in touch if you want to collaborate!!

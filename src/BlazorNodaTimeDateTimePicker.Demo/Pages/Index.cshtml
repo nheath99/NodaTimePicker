@@ -8,7 +8,7 @@
 
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3">
-		<DatePicker Inline=true Changed=@changed1/>
+		<DatePicker Inline=true Changed=@changed1 />
 	</div>
 	<div>
 		Selected Date: <span>@selectedDate1</span>
@@ -48,7 +48,7 @@
 	<div>
 		<p>
 			Selected Date: <span>@selectedDate3</span><br />
-			First Day of Week: 
+			First Day of Week:
 			<select bind=@firstDOW3>
 				<option value="@IsoDayOfWeek.Monday">Monday</option>
 				<option value="@IsoDayOfWeek.Tuesday">Tuesday</option>
@@ -89,7 +89,7 @@
 
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3">
-		<DatePicker Inline=true FormatProvider=@formatProvider5/>
+		<DatePicker Inline=true FormatProvider=@formatProvider5 />
 	</div>
 	<p>
 		<select bind=@formatProvider5String>
@@ -98,9 +98,6 @@
 		</select>
 	</p>
 </div>
-
-<hr />
-<h3>Selected Date</h3>
 
 <hr />
 <h3>Min. Date</h3>
@@ -116,6 +113,49 @@
 
 <hr />
 <h3>Days of Week Disabled</h3>
+
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3">
+		<DatePicker Inline=true DaysOfWeekDisabled=@DaysOfWeekDisabled10 />
+	</div>
+	<ul class="list-unstyled">
+		<li>
+			<label>
+				<input type="checkbox" bind=monday10 /> Monday
+			</label>
+		</li>
+		<li>
+			<label>
+				<input type="checkbox" bind=tuesday10 /> Tuesday
+			</label>
+		</li>
+		<li>
+			<label>
+				<input type="checkbox" bind=wednesday10 /> Wednesday
+			</label>
+		</li>
+		<li>
+			<label>
+				<input type="checkbox" bind=thursday10 /> Thursday
+			</label>
+		</li>
+		<li>
+			<label>
+				<input type="checkbox" bind=friday10 /> Friday
+			</label>
+		</li>
+		<li>
+			<label>
+				<input type="checkbox" bind=saturday10 /> Saturday
+			</label>
+		</li>
+		<li>
+			<label>
+				<input type="checkbox" bind=sunday10 /> Sunday
+			</label>
+		</li>
+	</ul>
+</div>
 
 <hr />
 <h3>Disabled Date Intervals</h3>
@@ -161,20 +201,20 @@
 	}
 
 	string demo2String = @"<input type=""text"" onfocus=""@focussed"" />
-	<DatePicker Visible=""datePicker2Visible"" Selected=""selected2"" />
+<DatePicker Visible=""datePicker2Visible"" Selected=""selected2"" />
 
-	@functions {
-	  bool datePicker2Visible = false;
-	  void focussed2(UIFocusEventArgs e)
-	  {
-		  datePicker2Visible = true;
-	  }
-	  void selected2(LocalDate localDate)
-	  {
-	    datePicker2Visible = false;
-	    StateHasChanged();
-	  }
-	}";
+@functions {
+bool datePicker2Visible = false;
+void focussed2(UIFocusEventArgs e)
+{
+  datePicker2Visible = true;
+}
+void selected2(LocalDate localDate)
+{
+datePicker2Visible = false;
+StateHasChanged();
+}
+}";
 
 	LocalDate? selectedDate3;
 	void changed3(LocalDate? localDate)
@@ -192,4 +232,32 @@
 		set => formatProvider5 = new System.Globalization.CultureInfo(value);
 	}
 	System.Globalization.CultureInfo formatProvider5 = new System.Globalization.CultureInfo("fr-FR");
+
+	bool monday10 = true;
+	bool tuesday10 = false;
+	bool wednesday10 = true;
+	bool thursday10 = false;
+	bool friday10 = true;
+	bool saturday10 = true;
+	bool sunday10 = true;
+	IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled10
+	{
+		get
+		{
+			if (!monday10)
+				yield return IsoDayOfWeek.Monday;
+			if (!tuesday10)
+				yield return IsoDayOfWeek.Tuesday;
+			if (!wednesday10)
+				yield return IsoDayOfWeek.Wednesday;
+			if (!thursday10)
+				yield return IsoDayOfWeek.Thursday;
+			if (!friday10)
+				yield return IsoDayOfWeek.Friday;
+			if (!saturday10)
+				yield return IsoDayOfWeek.Saturday;
+			if (!sunday10)
+				yield return IsoDayOfWeek.Sunday;
+		}
+	}
 }
