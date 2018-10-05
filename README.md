@@ -35,8 +35,8 @@ Display day and month names in the specified culture:
 ````C#
 <DatePicker Inline=true FormatProvider="@(new System.Globalization.CultureInfo("fr-FR"))"/>
 ````
-![DatePicker1](/docs/images/DatePicker_Localization.png)
-![DatePicker1](/docs/images/DatePicker_Localization_Months.png)
+![DatePicker Localization](/docs/images/DatePicker_Localization.png)
+![DatePicker Localization Months](/docs/images/DatePicker_Localization_Months.png)
 
 ### First Day of Week
 
@@ -45,16 +45,18 @@ Specify any weekday as the first day of the week (default is Monday):
 ````C#
 <DatePicker Inline=true FirstDayOfWeek=IsoDayOfWeek.Thursday>
 ````
-![DatePicker1](/docs/images/DatePicker_FirstDayOfWeek.png)
+![DatePicker First Day of Week](/docs/images/DatePicker_FirstDayOfWeek.png)
 
 ### Disabled Days of Week
 
 Disable specific days of the week:
-
-    <DatePicker Inline=true DaysOfWeekDisabled=@(new IsoDayOfWeek[] { IsoDayOfWeek.Monday, IsoDayOfWeek.Wednesday, IsoDayOfWeek.Friday }) />
+````C#
+<DatePicker Inline=true DaysOfWeekDisabled=@(new IsoDayOfWeek[] { IsoDayOfWeek.Monday, IsoDayOfWeek.Wednesday }) />
+````
+![DatePicker Disabled Days of Week](/docs/images/DatePicker_DaysOfWeekDisabled.png)
 
 ## Help Wanted!
-Get in touch if you want to collaborate!!
+Get in touch if you want to collaborate, there's plenty of features to add and plenty to improve!
 
 ## Future Development
 - Time picker
