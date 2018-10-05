@@ -87,6 +87,18 @@
 <hr />
 <h3>Localisation</h3>
 
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3">
+		<DatePicker Inline=true FormatProvider=@formatProvider5/>
+	</div>
+	<p>
+		<select bind=@formatProvider5String>
+			<option selected value="fr-FR">fr-FR</option>
+			<option value="en-GB">en-GB</option>
+		</select>
+	</p>
+</div>
+
 <hr />
 <h3>Selected Date</h3>
 
@@ -171,6 +183,13 @@
 		StateHasChanged();
 	}
 	IsoDayOfWeek firstDOW3 = IsoDayOfWeek.Tuesday;
-	
-	bool displayDOW4 = false;	
+
+	bool displayDOW4 = false;
+
+	string formatProvider5String
+	{
+		get => formatProvider5.DisplayName;
+		set => formatProvider5 = new System.Globalization.CultureInfo(value);
+	}
+	System.Globalization.CultureInfo formatProvider5 = new System.Globalization.CultureInfo("fr-FR");
 }

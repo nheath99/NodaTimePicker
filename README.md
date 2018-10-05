@@ -21,11 +21,22 @@ Until the issue https://github.com/aspnet/Blazor/issues/1315 is resolved, insert
 
     @addTagHelper *, BlazorNodaTimeDateTimePicker
 
+### Inline
+
 To display a simple inline DatePicker, use the following code:
 
     <DatePicker Inline=true>
 
 ![DatePicker1](/docs/images/DatePicker1.png)
+
+### Localization
+
+Display day and month names in the specified culture:
+
+    <DatePicker Inline=true FormatProvider="@(new System.Globalization.CultureInfo("fr-FR"))"/>
+
+![DatePicker1](/docs/images/DatePicker_Localization.png)
+![DatePicker1](/docs/images/DatePicker_Localization_Months.png)
 
 ## Help Wanted!
 Get in touch if you want to collaborate!!
