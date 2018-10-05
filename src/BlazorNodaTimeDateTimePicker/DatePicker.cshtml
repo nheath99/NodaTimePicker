@@ -1,7 +1,7 @@
 ﻿@using NodaTime
 @using NodaTime.Extensions
 
-<div class="@CssClassGenerator.Main(Inline)" style="@MainStyle">
+<div class="@ClassName" style="@MainStyle">
 	<div class="datepicker-content">
 		@if (State.ViewMode == ViewMode.Days)
 		{
@@ -108,10 +108,22 @@
 </div>
 
 @functions {
-	protected DatePickerState State { get; set; } = new DatePickerState();
+	protected DatePickerState State { get; set; }
 
+	[Parameter] protected string Class { get; set; }
+	[Parameter] protected string Style { get; set; }
+	[Parameter] protected bool Logging { get; set; } = false;
 	[Parameter] protected System.Globalization.CultureInfo FormatProvider { get; set; } = System.Globalization.CultureInfo.InvariantCulture;
 	[Parameter] protected bool DisplayDaysOfWeek { get; set; } = true;
+	[Parameter] protected string DayViewHeaderFormat { get; set; } = "MMMM yyyy";
+	[Parameter] protected string MonthViewHeaderFormat { get; set; } = "yyyy";
+	[Parameter] protected bool Visible { get; set; } = false;
+	[Parameter] protected bool Inline { get; set; } = false;
+	[Parameter] protected string MaxWidth { get; set; }
+	[Parameter] protected string Width { get; set; }
+	[Parameter] protected bool ShowToday { get; set; } = true;
+	[Parameter] protected bool ShowClear { get; set; } = true;
+
 	[Parameter] protected IsoDayOfWeek FirstDayOfWeek
 	{
 		get => State.FirstDayOfWeek;
@@ -154,15 +166,6 @@
 		set => State.DisabledDateIntervals = value;
 	}
 
-	[Parameter] protected string DayViewHeaderFormat { get; set; } = "MMMM yyyy";
-	[Parameter] protected string MonthViewHeaderFormat { get; set; } = "yyyy";
-	[Parameter] protected bool Visible { get; set; } = false;
-	[Parameter] protected bool Inline { get; set; } = false;
-	[Parameter] protected string MaxWidth { get; set; }
-	[Parameter] protected string Width { get; set; }
-	[Parameter] protected bool ShowToday { get; set; } = true;
-	[Parameter] protected bool ShowClear { get; set; } = true;
-
 	// Events in use
 	[Parameter] protected Action<LocalDate?> Changed { get; set; }
 	[Parameter] protected Action<LocalDate> Selected { get; set; }
@@ -185,7 +188,12 @@
 
 	protected override void OnInit()
 	{
-		Console.WriteLine(nameof(OnInit));
+		State = new DatePickerState()
+		{
+			WriteToLog = Logging
+		};
+
+		State.Log(nameof(OnInit));
 
 		State.OnStateChanged += StateHasChanged;
 
@@ -201,28 +209,28 @@
 
 	protected override void OnParametersSet()
 	{
-		Console.WriteLine(nameof(OnParametersSet));
+		State.Log(nameof(OnParametersSet));
 
 		RenderDays();
 	}
 
 	private void OnChanged(LocalDate? localDate)
 	{
-		Console.WriteLine(nameof(OnChanged));
+		State.Log(nameof(OnChanged));
 
 		Changed?.Invoke(localDate);
 	}
 
 	private void OnSelected(LocalDate localDate)
 	{
-		Console.WriteLine(nameof(OnSelected));
+		State.Log(nameof(OnSelected));
 
 		Selected?.Invoke(localDate);
 	}
 
 	private void OnCleared()
 	{
-		Console.WriteLine(nameof(OnCleared));
+		State.Log(nameof(OnCleared));
 
 		Cleared?.Invoke();
 	}
@@ -231,7 +239,7 @@
 
 	void RenderDays()
 	{
-		Console.WriteLine(nameof(RenderDays));
+		State.Log(nameof(RenderDays));
 
 		var startOfWeekOfMonth = State.MonthToDisplay.StartOfWeek(FirstDayOfWeek);
 
@@ -243,7 +251,7 @@
 
 	void DayClicked(LocalDate date)
 	{
-		Console.WriteLine(nameof(DayClicked));
+		State.Log(nameof(DayClicked));
 
 		if (!State.IsDayDisabled(date))
 			State.SetSelectedDate(date);
@@ -263,6 +271,17 @@
 		} while (start <= end);
 	}
 
+	private string ClassName
+	{
+		get
+		{
+			if (!string.IsNullOrEmpty(Class))
+				return $"{CssClassGenerator.Main(Inline)} {Class}";
+			else
+				return CssClassGenerator.Main(Inline);
+		}
+	}
+
 	protected string MainStyle
 	{
 		get
@@ -275,6 +294,8 @@
 				str.Add($"width:{Width};");
 			if (!string.IsNullOrEmpty(MaxWidth))
 				str.Add($"max-width:{MaxWidth};");
+
+			str.Add(Style);
 
 			return string.Join(" ", str);
 		}
@@ -310,7 +331,7 @@
 
 	void RenderMonths()
 	{
-		Console.WriteLine(nameof(RenderMonths));
+		State.Log(nameof(RenderMonths));
 
 		disabledMonths = new bool[12];
 
@@ -322,7 +343,7 @@
 
 	void MonthClicked(int month)
 	{
-		Console.WriteLine(nameof(MonthClicked));
+		State.Log(nameof(MonthClicked));
 
 		if (disabledMonths[month - 1] == false)
 		{
@@ -333,7 +354,7 @@
 
 	void NextMonth()
 	{
-		Console.WriteLine(nameof(NextMonth));
+		State.Log(nameof(NextMonth));
 
 		State.NextMonth();
 		RenderDays();
@@ -342,7 +363,7 @@
 
 	void PreviousMonth()
 	{
-		Console.WriteLine(nameof(PreviousMonth));
+		State.Log(nameof(PreviousMonth));
 
 		State.PreviousMonth();
 		RenderDays();
@@ -351,7 +372,7 @@
 
 	void SelectMonth()
 	{
-		Console.WriteLine(nameof(SelectMonth));
+		State.Log(nameof(SelectMonth));
 
 		RenderMonths();
 		State.NextViewMode();
@@ -366,7 +387,7 @@
 
 	void RenderYears()
 	{
-		Console.WriteLine(nameof(RenderYears));
+		State.Log(nameof(RenderYears));
 
 		(yearStart, yearEnd) = State.MonthToDisplay.GetDecade();
 
@@ -380,7 +401,7 @@
 
 	void YearClicked(int year)
 	{
-		Console.WriteLine(nameof(YearClicked));
+		State.Log(nameof(YearClicked));
 
 		if (disabledYears[year] == false)
 		{
@@ -392,7 +413,7 @@
 
 	void NextYear()
 	{
-		Console.WriteLine(nameof(NextYear));
+		State.Log(nameof(NextYear));
 
 		State.NextYear();
 		OnUpdated();
@@ -400,7 +421,7 @@
 
 	void PreviousYear()
 	{
-		Console.WriteLine(nameof(PreviousYear));
+		State.Log(nameof(PreviousYear));
 
 		State.PreviousYear();
 		OnUpdated();
@@ -408,7 +429,7 @@
 
 	void SelectYear()
 	{
-		Console.WriteLine(nameof(SelectYear));
+		State.Log(nameof(SelectYear));
 
 		RenderYears();
 		State.NextViewMode();
@@ -423,7 +444,7 @@
 
 	void RenderDecades()
 	{
-		Console.WriteLine(nameof(RenderDecades));
+		State.Log(nameof(RenderDecades));
 
 		(decadeStart, decadeEnd) = State.MonthToDisplay.GetCentury();
 
@@ -437,7 +458,7 @@
 
 	void DecadeClicked(int decade)
 	{
-		Console.WriteLine(nameof(DecadeClicked));
+		State.Log(nameof(DecadeClicked));
 
 		if (disabledDecades[decade] == false)
 		{
@@ -449,7 +470,7 @@
 
 	void NextDecade()
 	{
-		Console.WriteLine(nameof(NextDecade));
+		State.Log(nameof(NextDecade));
 
 		State.NextDecade();
 		OnUpdated();
@@ -457,7 +478,7 @@
 
 	void PreviousDecade()
 	{
-		Console.WriteLine(nameof(PreviousDecade));
+		State.Log(nameof(PreviousDecade));
 
 		State.PreviousDecade();
 		OnUpdated();
@@ -465,7 +486,7 @@
 
 	void SelectDecade()
 	{
-		Console.WriteLine(nameof(SelectDecade));
+		State.Log(nameof(SelectDecade));
 
 		RenderDecades();
 		State.NextViewMode();
@@ -477,7 +498,7 @@
 
 	void NextCentury()
 	{
-		Console.WriteLine(nameof(NextCentury));
+		State.Log(nameof(NextCentury));
 
 		State.NextCentury();
 		OnUpdated();
@@ -485,7 +506,7 @@
 
 	void PreviousCentury()
 	{
-		Console.WriteLine(nameof(PreviousCentury));
+		State.Log(nameof(PreviousCentury));
 
 		State.PreviousCentury();
 		OnUpdated();
@@ -495,21 +516,21 @@
 
 	void TodayClicked()
 	{
-		Console.WriteLine(nameof(TodayClicked));
+		State.Log(nameof(TodayClicked));
 
 		State.SetSelectedDateToday();
 	}
 
 	void ClearClicked()
 	{
-		Console.WriteLine(nameof(ClearClicked));
+		State.Log(nameof(ClearClicked));
 
 		State.ClearSelectedDate();
 	}
 
 	void OnUpdated()
 	{
-		Console.WriteLine(nameof(OnUpdated));
+		State.Log(nameof(OnUpdated));
 
 		Updated?.Invoke();
 	}

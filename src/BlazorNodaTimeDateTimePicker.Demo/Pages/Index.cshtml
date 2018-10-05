@@ -80,23 +80,20 @@
 	LocalDate? selectedDate1;
 	void changed1(LocalDate? localDate)
 	{
-		Console.WriteLine("changed1");
 		selectedDate1 = localDate;
 
 		StateHasChanged();
 	}
 
 	void selected1(LocalDate localDate)
-	{
-		Console.WriteLine("selected1");
+	{	
 		selectedDate1 = localDate;
 
 		StateHasChanged();
 	}
 
 	void cleared1()
-	{
-		Console.WriteLine("cleared1");
+	{		
 		selectedDate1 = null;
 		StateHasChanged();
 	}

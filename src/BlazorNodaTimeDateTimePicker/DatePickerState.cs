@@ -10,7 +10,7 @@ namespace BlazorNodaTimeDateTimePicker
 		public DatePickerState()
 		{
 			Today = SystemClock.Instance.Today();
-			MonthToDisplay = Today.StartOfMonth();
+			MonthToDisplay = Today.StartOfMonth();			
 		}
 
 		public LocalDate Today { get; }
@@ -27,7 +27,8 @@ namespace BlazorNodaTimeDateTimePicker
 		internal IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled { get; set; }
 		internal IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals { get; set; }
 		internal Func<LocalDate, bool> DaysEnabledFunction { get; set; }
-
+		internal bool WriteToLog { get; set; }
+		
 		internal event Action<LocalDate> OnSelected; // when a date is selected
 		internal event Action OnCleared; // when the date is set to null
 		internal event Action<LocalDate?> OnSelectedDateChanged; // when the selected date is changed
@@ -43,6 +44,12 @@ namespace BlazorNodaTimeDateTimePicker
 		internal event Action OnYearToDisplayChanged;
 		internal event Action OnDecadeToDisplayChanged;
 		internal event Action OnCenturyToDisplayChanged;
+		
+		internal void Log(string data)
+		{
+			if (WriteToLog)
+				Log(data);
+		}
 
 		void SelectedDateChanged()
 		{
@@ -78,7 +85,7 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal void SetSelectedDate(LocalDate selectedDate)
 		{
-			Console.WriteLine(nameof(SetSelectedDate));
+			Log(nameof(SetSelectedDate));
 
 			if (SelectedDate != selectedDate)
 			{
@@ -94,14 +101,14 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal void SetSelectedDateToday()
 		{
-			Console.WriteLine(nameof(SetSelectedDateToday));
+			Log(nameof(SetSelectedDateToday));
 
 			SetSelectedDate(Today);
 		}
 
 		internal void ClearSelectedDate()
 		{
-			Console.WriteLine(nameof(ClearSelectedDate));
+			Log(nameof(ClearSelectedDate));
 
 			SelectedDate = null;
 
@@ -111,21 +118,21 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal void SetDisplayMonth(int month)
 		{
-			Console.WriteLine(nameof(SetDisplayMonth));
+			Log(nameof(SetDisplayMonth));
 
 			MonthToDisplay = new LocalDate(MonthToDisplay.Year, month, 1);			
 		}
 
 		internal void SetDisplayYear(int year)
 		{
-			Console.WriteLine(nameof(SetDisplayYear));
+			Log(nameof(SetDisplayYear));
 
 			MonthToDisplay = new LocalDate(year, MonthToDisplay.Month, 1);
 		}
 
 		internal void SetViewMode(ViewMode viewMode)
 		{
-			Console.WriteLine(nameof(SetViewMode));
+			Log(nameof(SetViewMode));
 
 			ViewMode = viewMode;
 			MonthToDisplayChanged();
@@ -134,7 +141,7 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal void NextViewMode()
 		{
-			Console.WriteLine(nameof(NextViewMode));
+			Log(nameof(NextViewMode));
 
 			switch (ViewMode)
 			{
@@ -155,7 +162,7 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal void PreviousViewMode()
 		{
-			Console.WriteLine(nameof(PreviousViewMode));
+			Log(nameof(PreviousViewMode));
 
 			switch (ViewMode)
 			{
@@ -176,7 +183,7 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal void NextMonth()
 		{
-			Console.WriteLine(nameof(NextMonth));
+			Log(nameof(NextMonth));
 
 			MonthToDisplay = MonthToDisplay.PlusMonths(1);
 			MonthToDisplayChanged();
@@ -184,7 +191,7 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal void PreviousMonth()
 		{
-			Console.WriteLine(nameof(PreviousMonth));
+			Log(nameof(PreviousMonth));
 
 			MonthToDisplay = MonthToDisplay.PlusMonths(-1);
 			MonthToDisplayChanged();
@@ -192,7 +199,7 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal void NextYear()
 		{
-			Console.WriteLine(nameof(NextYear));
+			Log(nameof(NextYear));
 
 			MonthToDisplay = MonthToDisplay.PlusYears(1);
 			YearToDisplayChanged();
@@ -200,7 +207,7 @@ namespace BlazorNodaTimeDateTimePicker
 		
 		internal void PreviousYear()
 		{
-			Console.WriteLine(nameof(PreviousYear));
+			Log(nameof(PreviousYear));
 
 			MonthToDisplay = MonthToDisplay.PlusYears(-1);
 			YearToDisplayChanged();
@@ -208,7 +215,7 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal void NextDecade()
 		{
-			Console.WriteLine(nameof(NextDecade));
+			Log(nameof(NextDecade));
 
 			MonthToDisplay = MonthToDisplay.PlusYears(10);
 			DecadeToDisplayChanged();
@@ -217,7 +224,7 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal void PreviousDecade()
 		{
-			Console.WriteLine(nameof(PreviousDecade));
+			Log(nameof(PreviousDecade));
 
 			MonthToDisplay = MonthToDisplay.PlusYears(-10);
 			DecadeToDisplayChanged();
@@ -226,7 +233,7 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal void NextCentury()
 		{
-			Console.WriteLine(nameof(NextCentury));
+			Log(nameof(NextCentury));
 
 			MonthToDisplay = MonthToDisplay.PlusYears(100);
 			CentureToDisplayChanged();
@@ -235,7 +242,7 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal void PreviousCentury()
 		{
-			Console.WriteLine(nameof(PreviousCentury));
+			Log(nameof(PreviousCentury));
 
 			MonthToDisplay = MonthToDisplay.PlusYears(-100);
 			CentureToDisplayChanged();
