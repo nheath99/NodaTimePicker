@@ -6,30 +6,83 @@
 <hr />
 <h3>Inline</h3>
 
-<div style="width: 250px;">
-	<DatePicker Inline=true Changed=changed1 />
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3">
+		<DatePicker Inline=true Changed=@changed1/>
+	</div>
+	<div>
+		Selected Date: <span>@selectedDate1</span>
+	</div>
 </div>
 
 <pre>
 <code class="html">
-	@string1
+	@demo1String
 </code>
 </pre>
 <hr />
+
 <h3>Bound to Input</h3>
 
-<input type="text" onfocus="@focussed" value=@selectedDate2 />
-<DatePicker Visible="datePicker2Visible" Selected="selected2" Width="250px" FormatProvider=FormatProvider DisplayDaysOfWeek=false />
-
 <p>
-	@selectedDate2
+	Focus on the Input element to display the DatePicker.<br />
+	Select a Date to close the DatePicker.
 </p>
+
+<input type="text" onfocus="@focussed2" value=@selectedDate2 class="form-control mb-2" />
+<DatePicker Visible="datePicker2Visible" Selected="selected2" />
+
+<pre>
+<code class="html">
+	@demo2String
+</code>
+</pre>
 
 <hr />
 <h3>First Day of Week</h3>
+<p>Specify the first day of the week. Default is Monday.</p>
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3">
+		<DatePicker Inline=true Changed=@changed3 FirstDayOfWeek=@firstDOW3 />
+	</div>
+	<div>
+		<p>
+			Selected Date: <span>@selectedDate3</span><br />
+			First Day of Week: 
+			<select bind=@firstDOW3>
+				<option value="@IsoDayOfWeek.Monday">Monday</option>
+				<option value="@IsoDayOfWeek.Tuesday">Tuesday</option>
+				<option value="@IsoDayOfWeek.Wednesday">Wednesday</option>
+				<option value="@IsoDayOfWeek.Thursday">Thursday</option>
+				<option value="@IsoDayOfWeek.Friday">Friday</option>
+				<option value="@IsoDayOfWeek.Saturday">Saturday</option>
+				<option value="@IsoDayOfWeek.Sunday">Sunday</option>
+			</select>
+		</p>
+	</div>
+</div>
 
 <hr />
 <h3>Display Days of Week</h3>
+<p>
+	Hide the Day of Week row.
+</p>
+
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3">
+		<DatePicker Inline=true DisplayDaysOfWeek=@displayDOW4 />
+	</div>
+	<div>
+		<p>
+			Display Days of Week:
+			<select bind=@displayDOW4>
+				<option value=@false>False</option>
+				<option value=@true>True</option>
+			</select>
+			<span class="text-danger">&lt;- doesn't bind properly</span>
+		</p>
+	</div>
+</div>
 
 <hr />
 <h3>Localisation</h3>
@@ -73,35 +126,17 @@
 @functions {
 	System.Globalization.CultureInfo FormatProvider = new System.Globalization.CultureInfo("fr-FR");
 
-	LocalDate MinDate = new LocalDate(2018, 9, 29);
-
-	string string1 = "<DatePicker Inline=true />";
-
 	LocalDate? selectedDate1;
 	void changed1(LocalDate? localDate)
 	{
 		selectedDate1 = localDate;
-
 		StateHasChanged();
 	}
-
-	void selected1(LocalDate localDate)
-	{	
-		selectedDate1 = localDate;
-
-		StateHasChanged();
-	}
-
-	void cleared1()
-	{		
-		selectedDate1 = null;
-		StateHasChanged();
-	}
-
-	LocalDate? selectedDate2;
+	string demo1String = "<DatePicker Inline=true />";
 
 	bool datePicker2Visible = false;
-	void focussed(UIFocusEventArgs e)
+	LocalDate? selectedDate2;
+	void focussed2(UIFocusEventArgs e)
 	{
 		datePicker2Visible = true;
 	}
@@ -110,7 +145,32 @@
 	{
 		selectedDate2 = localDate;
 		datePicker2Visible = false;
-
 		StateHasChanged();
 	}
+
+	string demo2String = @"<input type=""text"" onfocus=""@focussed"" />
+	<DatePicker Visible=""datePicker2Visible"" Selected=""selected2"" />
+
+	@functions {
+	  bool datePicker2Visible = false;
+	  void focussed2(UIFocusEventArgs e)
+	  {
+		  datePicker2Visible = true;
+	  }
+	  void selected2(LocalDate localDate)
+	  {
+	    datePicker2Visible = false;
+	    StateHasChanged();
+	  }
+	}";
+
+	LocalDate? selectedDate3;
+	void changed3(LocalDate? localDate)
+	{
+		selectedDate3 = localDate;
+		StateHasChanged();
+	}
+	IsoDayOfWeek firstDOW3 = IsoDayOfWeek.Tuesday;
+	
+	bool displayDOW4 = false;	
 }

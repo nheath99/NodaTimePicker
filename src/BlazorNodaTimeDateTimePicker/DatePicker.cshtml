@@ -108,7 +108,7 @@
 </div>
 
 @functions {
-	protected DatePickerState State { get; set; }
+	protected DatePickerState State { get; set; } = new DatePickerState();
 
 	[Parameter] protected string Class { get; set; }
 	[Parameter] protected string Style { get; set; }
@@ -120,7 +120,7 @@
 	[Parameter] protected bool Visible { get; set; } = false;
 	[Parameter] protected bool Inline { get; set; } = false;
 	[Parameter] protected string MaxWidth { get; set; }
-	[Parameter] protected string Width { get; set; }
+	[Parameter] protected string Width { get; set; } = "250px;";
 	[Parameter] protected bool ShowToday { get; set; } = true;
 	[Parameter] protected bool ShowClear { get; set; } = true;
 
@@ -188,10 +188,7 @@
 
 	protected override void OnInit()
 	{
-		State = new DatePickerState()
-		{
-			WriteToLog = Logging
-		};
+		State.WriteToLog = Logging;
 
 		State.Log(nameof(OnInit));
 
