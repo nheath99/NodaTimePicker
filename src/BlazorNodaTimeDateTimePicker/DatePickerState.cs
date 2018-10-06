@@ -23,8 +23,8 @@ namespace BlazorNodaTimeDateTimePicker
 		internal bool Inline { get; set; }
 		internal IsoDayOfWeek FirstDayOfWeek { get; set; } = IsoDayOfWeek.Monday;
 
-		internal LocalDate MinDate { get; set; } = LocalDate.MinIsoValue;
-		internal LocalDate MaxDate { get; set; } = LocalDate.MaxIsoValue;
+		internal LocalDate? MinDate { get; set; }
+		internal LocalDate? MaxDate { get; set; }
 		internal IEnumerable<LocalDate> DisabledDates { get; set; }
 		internal IEnumerable<LocalDate> EnabledDates { get; set; }
 		internal IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled { get; set; }
@@ -311,14 +311,20 @@ namespace BlazorNodaTimeDateTimePicker
 			}
 
 			// If Month/Year is before MinDate, month is disabled
-			if ((MinDate.Year > year) ||
-				(MinDate.Year == year && MinDate.Month > month))
-				return true;
+			if (MinDate.HasValue)
+			{
+				if ((MinDate.Value.Year > year) ||
+					(MinDate.Value.Year == year && MinDate.Value.Month > month))
+					return true;
+			}
 
 			// If Month/Year is after MaxDate, month is disabled
-			if ((MaxDate.Year < year) ||
-				(MaxDate.Year == year && MinDate.Month < month))
-				return true;
+			if (MaxDate.HasValue)
+			{
+				if ((MaxDate.Value.Year < year) ||
+					(MaxDate.Value.Year == year && MinDate.Value.Month < month))
+					return true;
+			}
 
 			// If EnabledDates contains any value falling within Month/Date, month is enabled
 			if (EnabledDates != null && EnabledDates.Any(x => x.Year == year && x.Month == month))
@@ -335,11 +341,11 @@ namespace BlazorNodaTimeDateTimePicker
 				return false;
 
 			// If Year is before MinDate, year is disabled
-			if (MinDate.Year > year)
-			return true;
+			if (MinDate.HasValue && MinDate.Value.Year > year)
+				return true;
 
 			// If Year is after MaxDate, year is disabled
-			if (MaxDate.Year < year)
+			if (MaxDate.HasValue && MaxDate.Value.Year < year)
 				return true;
 
 			return false;
@@ -352,13 +358,13 @@ namespace BlazorNodaTimeDateTimePicker
 			if (DaysEnabledFunction != null)
 				return false;
 
-			var minDateDecade = MinDate.Year.Decade();
-			var maxDateDecade = MaxDate.Year.Decade();
+			var minDateDecade = MinDate?.Year.Decade();
+			var maxDateDecade = MaxDate?.Year.Decade();
 
-			if (minDateDecade > decade)
+			if (minDateDecade.HasValue && minDateDecade > decade)
 				return true;
 
-			if (maxDateDecade < decade)
+			if (maxDateDecade.HasValue && maxDateDecade < decade)
 				return true;
 
 			return false;

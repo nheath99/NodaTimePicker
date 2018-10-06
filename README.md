@@ -29,6 +29,27 @@ To display a simple inline DatePicker, use the following code:
 ````
 ![DatePicker1](/docs/images/DatePicker1.png)
 
+## Bound to Input
+
+To bind a DatePicker to an Input element, use straightforward Blazor event bindings:
+````C#
+<input type="text" onfocus=@focussed />
+<DatePicker Visible=@visible Selected=@selected />
+
+@functions {
+  bool visible = false;
+  void focussed(UIFocusEventArgs e)
+  {
+    visible = true;
+  }
+  void selected(LocalDate localDate)
+  {
+	visible = false;
+	StateHasChanged();
+  }
+}
+````
+
 ### Localization
 
 Display day and month names in the specified culture:

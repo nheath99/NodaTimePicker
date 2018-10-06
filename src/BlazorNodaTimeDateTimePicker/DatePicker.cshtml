@@ -1,6 +1,6 @@
 ﻿@using NodaTime
 @using NodaTime.Extensions
-
+<DayElement potato="hello"></DayElement>
 <div class="@ClassName" style="@MainStyle">
 	<div class="datepicker-content">
 		@if (State.ViewMode == ViewMode.Days)
@@ -28,7 +28,7 @@
 					@foreach (var date in Days)
 					{
 						<div class="day-wrapper">
-							<div class="@CssClassGenerator.Day(date, State)" onclick="@(() => DayClicked(date))">
+							<div class="@CssClassGenerator.Day(date, State)" onclick="@(e => DayClicked(e, date))">
 								@date.Day
 							</div>
 						</div>
@@ -65,7 +65,7 @@
 					@for (int i = 1; i <= 12; i++)
 					{
 						var month = i;
-						<div class="@CssClassGenerator.Month(month, disabledMonths[month - 1], State)" onclick="@(() => MonthClicked(month))">@MonthName(month)</div>
+						<div class="@CssClassGenerator.Month(month, disabledMonths[month - 1], State)" onclick="@(e => MonthClicked(e, month))">@MonthName(month)</div>
 					}					
 				</div>
 			</div>
@@ -82,7 +82,7 @@
 					@for (int year = yearStart - 1; year <= yearEnd + 1; year++)
 					{
 						var y = year;
-						<div class="@CssClassGenerator.Year(year, disabledYears[year], State)" onclick=@(() => YearClicked(y))>
+						<div class="@CssClassGenerator.Year(year, disabledYears[year], State)" onclick=@(e => YearClicked(e, y))>
 							@year
 						</div>
 					}
@@ -102,7 +102,7 @@
 				@for (int decade = decadeStart - 10; decade <= decadeEnd + 10; decade += 10)
 				{
 					var d = decade;
-					<div class="@CssClassGenerator.Decade(decade, disabledDecades[decade], State)" onclick=@(() => DecadeClicked(d))>
+					<div class="@CssClassGenerator.Decade(decade, disabledDecades[decade], State)" onclick=@(e => DecadeClicked(e, d))>
 						@decade
 					</div>
 				}
@@ -151,13 +151,12 @@
 		get => State.SelectedDate;
 		set => State.SelectedDate = value;
 	}
-	[Parameter] protected LocalDate MinDate
+	[Parameter] protected LocalDate? MinDate
 	{
 		get => State.MinDate;
 		set => State.MinDate = value;
 	}
-	[Parameter]
-	protected LocalDate MaxDate
+	[Parameter] protected LocalDate? MaxDate
 	{
 		get => State.MaxDate;
 		set => State.MaxDate = value;
@@ -280,7 +279,7 @@
 		Days = GetDaysBetween(startOfWeekOfMonth, endOfWeekOfMonth);
 	}
 
-	void DayClicked(LocalDate date)
+	void DayClicked(UIMouseEventArgs eventArgs, LocalDate date)
 	{
 		State.Log(nameof(DayClicked));
 
@@ -372,10 +371,10 @@
 		}
 	}
 
-	void MonthClicked(int month)
+	void MonthClicked(UIMouseEventArgs eventArgs, int month)
 	{
 		State.Log(nameof(MonthClicked));
-
+		
 		if (disabledMonths[month - 1] == false)
 		{
 			State.SetDisplayMonth(month);
@@ -383,7 +382,7 @@
 		}
 	}
 
-	void NextMonth()
+	void NextMonth(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(NextMonth));
 
@@ -392,7 +391,7 @@
 		OnUpdated();
 	}
 
-	void PreviousMonth()
+	void PreviousMonth(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(PreviousMonth));
 
@@ -401,7 +400,7 @@
 		OnUpdated();
 	}
 
-	void SelectMonth()
+	void SelectMonth(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(SelectMonth));
 
@@ -430,7 +429,7 @@
 		}
 	}
 
-	void YearClicked(int year)
+	void YearClicked(UIMouseEventArgs eventArgs, int year)
 	{
 		State.Log(nameof(YearClicked));
 
@@ -442,7 +441,7 @@
 		}
 	}
 
-	void NextYear()
+	void NextYear(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(NextYear));
 
@@ -450,7 +449,7 @@
 		OnUpdated();
 	}
 
-	void PreviousYear()
+	void PreviousYear(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(PreviousYear));
 
@@ -458,7 +457,7 @@
 		OnUpdated();
 	}
 
-	void SelectYear()
+	void SelectYear(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(SelectYear));
 
@@ -487,7 +486,7 @@
 		}
 	}
 
-	void DecadeClicked(int decade)
+	void DecadeClicked(UIMouseEventArgs eventArgs, int decade)
 	{
 		State.Log(nameof(DecadeClicked));
 
@@ -499,7 +498,7 @@
 		}
 	}
 
-	void NextDecade()
+	void NextDecade(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(NextDecade));
 
@@ -507,7 +506,7 @@
 		OnUpdated();
 	}
 
-	void PreviousDecade()
+	void PreviousDecade(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(PreviousDecade));
 
@@ -515,7 +514,7 @@
 		OnUpdated();
 	}
 
-	void SelectDecade()
+	void SelectDecade(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(SelectDecade));
 
@@ -527,7 +526,7 @@
 
 	#region Centuries
 
-	void NextCentury()
+	void NextCentury(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(NextCentury));
 
@@ -535,7 +534,7 @@
 		OnUpdated();
 	}
 
-	void PreviousCentury()
+	void PreviousCentury(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(PreviousCentury));
 
@@ -545,21 +544,21 @@
 
 	#endregion
 
-	void TodayClicked()
+	void TodayClicked(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(TodayClicked));
 
 		State.SetSelectedDateToday();
 	}
 
-	void ClearClicked()
+	void ClearClicked(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(ClearClicked));
 
 		State.ClearSelectedDate();
 	}
 
-	void CloseClicked()
+	void CloseClicked(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(CloseClicked));
 
