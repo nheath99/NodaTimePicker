@@ -31,7 +31,7 @@ To display a simple inline DatePicker, use the following code:
 
 ## Bound to Input
 
-To bind a DatePicker to an Input element, use straightforward Blazor event bindings:
+To bind a DatePicker to an Input element, use Blazor event bindings:
 ````C#
 <input type="text" onfocus=@focussed />
 <DatePicker Visible=@visible Selected=@selected />
@@ -49,6 +49,7 @@ To bind a DatePicker to an Input element, use straightforward Blazor event bindi
   }
 }
 ````
+![DatePicker1](/docs/images/DatePicker_BoundToInput.png)
 
 ### Localization
 
