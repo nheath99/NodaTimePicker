@@ -30,7 +30,7 @@
 </p>
 
 <input type="text" onfocus="@focussed2" value=@selectedDate2 class="form-control mb-2" />
-<DatePicker Visible="datePicker2Visible" Selected="selected2" />
+<DatePicker Visible="datePicker2Visible" Selected="selected2" ShowClose=@true />
 
 <pre>
 <code class="html">
@@ -73,14 +73,10 @@
 		<DatePicker Inline=true DisplayDaysOfWeek=@displayDOW4 />
 	</div>
 	<div>
-		<p>
+		<label>
+			<input type="checkbox" bind=@displayDOW4 />
 			Display Days of Week:
-			<select bind=@displayDOW4>
-				<option value=@false>False</option>
-				<option value=@true>True</option>
-			</select>
-			<span class="text-danger">&lt;- doesn't bind properly</span>
-		</p>
+		</label>
 	</div>
 </div>
 
@@ -102,11 +98,42 @@
 <hr />
 <h3>Min. Date</h3>
 
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3">
+		<DatePicker Inline=true MinDate=@minDate6 />
+	</div>
+	<p>
+		Min. date: @minDate6
+	</p>
+</div>
+
 <hr />
 <h3>Max. Date</h3>
 
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3">
+		<DatePicker Inline=true MaxDate=@maxDate7 />
+	</div>
+	<p>
+		Max. date: @maxDate7
+	</p>
+</div>
+
 <hr />
 <h3>Disabled Dates</h3>
+
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3">
+		<DatePicker Inline=true DisabledDates=@disabledDates8 />
+	</div>
+	<ul>
+		@foreach (var date in disabledDates8)
+		{
+			<li>@date</li>
+		}
+		<li class="text-danger">Not working - issue #14</li>
+	</ul>
+</div>
 
 <hr />
 <h3>Enabled Dates</h3>
@@ -158,25 +185,82 @@
 </div>
 
 <hr />
+<h3>Set Selected Date</h3>
+
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3">
+		<DatePicker Inline=true SelectedDate=@selectedDate11 />
+	</div>
+	<p>
+		<button type="button" class="btn btn-outline-primary mb-2" onclick="@(() => selectedDate11 = setSelectedDate11_1)">Set date to @setSelectedDate11_1</button><br />
+		<button type="button" class="btn btn-outline-primary mb-2" onclick="@(() => selectedDate11 = setSelectedDate11_2)">Set date to @setSelectedDate11_2</button><br />
+		<button type="button" class="btn btn-outline-primary" onclick="@(() => selectedDate11 = setSelectedDate11_3)">Set date to @setSelectedDate11_3</button>
+	</p>
+</div>
+
+<hr />
 <h3>Disabled Date Intervals</h3>
 
 <hr />
 <h3>Day View Header Format</h3>
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3">
+		<DatePicker Inline=true DayViewHeaderFormat="MM yy" />
+	</div>
+	<p>
+		DayViewHeaderFormat: <strong>MM yy</strong>
+	</p>
+</div>
 
 <hr />
 <h3>Month View Header Format</h3>
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3">
+		<DatePicker Inline=true MonthViewHeaderFormat="yy" />
+	</div>
+	<p>
+		MonthViewHeaderFormat: <strong>yy</strong>
+	</p>
+	<p>
+		TODO: set the InitalViewMode to ViewMode.Months
+	</p>
+</div>
 
 <hr />
-<h3>Show Today</h3>
-
-<hr />
-<h3>Show Clear</h3>
+<h3>Show Today/Clear</h3>
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3">
+		<DatePicker Inline=true ShowToday=@showToday ShowClear=@showClear />
+	</div>
+	<div>
+		<label>
+			<input type="checkbox" bind=@showToday />
+			Show Today
+		</label>
+		<label>
+			<input type="checkbox" bind=@showClear />
+			Show Clear
+		</label>
+	</div>
+</div>
 
 <hr />
 <h3>Events</h3>
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3">
+		<DatePicker Inline=true Changed=@changed Selected=@selected Cleared=@cleared />
+	</div>
+	<ul>
+		@foreach (var e in eventsList)
+		{
+			<li>@e</li>
+		}
+	</ul>
+</div>
 
 @functions {
 	System.Globalization.CultureInfo FormatProvider = new System.Globalization.CultureInfo("fr-FR");
+	static LocalDate Today = SystemClock.Instance.GetCurrentInstant().InUtc().LocalDateTime.Date;
 
 	LocalDate? selectedDate1;
 	void changed1(LocalDate? localDate)
@@ -207,7 +291,7 @@
 bool datePicker2Visible = false;
 void focussed2(UIFocusEventArgs e)
 {
-  datePicker2Visible = true;
+datePicker2Visible = true;
 }
 void selected2(LocalDate localDate)
 {
@@ -232,6 +316,21 @@ StateHasChanged();
 		set => formatProvider5 = new System.Globalization.CultureInfo(value);
 	}
 	System.Globalization.CultureInfo formatProvider5 = new System.Globalization.CultureInfo("fr-FR");
+
+	LocalDate minDate6 = Today;
+	LocalDate maxDate7 = Today;
+
+	IEnumerable<LocalDate> disabledDates8
+	{
+		get
+		{
+			yield return Today.PlusDays(-1);
+			yield return Today.PlusDays(1);
+			yield return Today.PlusDays(5);
+			yield return Today.PlusDays(7);
+			yield return Today.PlusDays(8);
+		}
+	}
 
 	bool monday10 = true;
 	bool tuesday10 = false;
@@ -259,5 +358,37 @@ StateHasChanged();
 			if (!sunday10)
 				yield return IsoDayOfWeek.Sunday;
 		}
+	}
+
+	// Default to Today
+	LocalDate selectedDate11 = Today;
+	LocalDate setSelectedDate11_1 = Today.PlusDays(2);
+	LocalDate setSelectedDate11_2 = Today.PlusWeeks(1);
+	LocalDate setSelectedDate11_3 = Today.PlusMonths(1);
+
+	bool showToday = true;
+	bool showClear = true;
+
+	List<string> eventsList = new List<string>()
+	{
+		"Events will appear here..."
+	};
+
+	void changed(LocalDate? d)
+	{
+		eventsList.Add($"Changed. Value: {d}");
+		StateHasChanged();
+	}
+
+	void selected(LocalDate d)
+	{
+		eventsList.Add($"Selected. Value: {d}");
+		StateHasChanged();
+	}
+
+	void cleared()
+	{
+		eventsList.Add("Cleared");
+		StateHasChanged();
 	}
 }

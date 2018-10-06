@@ -39,11 +39,15 @@
 					<div class="datepicker-footer">
 						@if (ShowToday)
 						{
-							<button onclick=@TodayClicked>Today</button>
+							<button onclick=@TodayClicked>@TodayText</button>
 						}
 						@if (ShowClear)
 						{
-							<button onclick="@ClearClicked">Clear</button>
+							<button onclick="@ClearClicked">@ClearText</button>
+						}
+						@if (ShowClose && !Inline)
+						{
+							<button onclick="@CloseClicked">@CloseText</button>
 						}
 					</div>
 				}
@@ -123,6 +127,10 @@
 	[Parameter] protected string Width { get; set; } = "250px;";
 	[Parameter] protected bool ShowToday { get; set; } = true;
 	[Parameter] protected bool ShowClear { get; set; } = true;
+	[Parameter] protected bool ShowClose { get; set; } = false;
+	[Parameter] protected string TodayText { get; set; } = "Today";
+	[Parameter] protected string ClearText { get; set; } = "Clear";
+	[Parameter] protected string CloseText { get; set; } = "Close";
 
 	[Parameter] protected IsoDayOfWeek FirstDayOfWeek
 	{
@@ -174,7 +182,6 @@
 	[Parameter] protected Action Updated { get; set; }
 
 	// Parameters not yet in use
-	[Parameter] protected bool ShowClose { get; set; } = false;
 	[Parameter] protected bool CloseOnSelect { get; set; } = true;
 
 	// Events not yet in use
@@ -523,6 +530,14 @@
 		State.Log(nameof(ClearClicked));
 
 		State.ClearSelectedDate();
+	}
+
+	void CloseClicked()
+	{
+		State.Log(nameof(CloseClicked));
+
+		if (!Inline)
+			Visible = false;
 	}
 
 	void OnUpdated()

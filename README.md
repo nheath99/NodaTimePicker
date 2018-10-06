@@ -25,7 +25,7 @@ Until the issue https://github.com/aspnet/Blazor/issues/1315 is resolved, insert
 
 To display a simple inline DatePicker, use the following code:
 ````C#
-<DatePicker Inline=true>
+<DatePicker Inline=true />
 ````
 ![DatePicker1](/docs/images/DatePicker1.png)
 
@@ -33,7 +33,7 @@ To display a simple inline DatePicker, use the following code:
 
 Display day and month names in the specified culture:
 ````C#
-<DatePicker Inline=true FormatProvider="@(new System.Globalization.CultureInfo("fr-FR"))"/>
+<DatePicker Inline=true FormatProvider="@(new System.Globalization.CultureInfo("fr-FR"))" />
 ````
 ![DatePicker Localization](/docs/images/DatePicker_Localization.png)
 ![DatePicker Localization Months](/docs/images/DatePicker_Localization_Months.png)
@@ -43,7 +43,7 @@ Display day and month names in the specified culture:
 Specify any weekday as the first day of the week (default is Monday):
 
 ````C#
-<DatePicker Inline=true FirstDayOfWeek=IsoDayOfWeek.Thursday>
+<DatePicker Inline=true FirstDayOfWeek=IsoDayOfWeek.Thursday />
 ````
 ![DatePicker First Day of Week](/docs/images/DatePicker_FirstDayOfWeek.png)
 
