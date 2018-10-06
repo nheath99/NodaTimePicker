@@ -121,8 +121,6 @@
 	[Parameter] protected bool DisplayDaysOfWeek { get; set; } = true;
 	[Parameter] protected string DayViewHeaderFormat { get; set; } = "MMMM yyyy";
 	[Parameter] protected string MonthViewHeaderFormat { get; set; } = "yyyy";
-	[Parameter] protected bool Visible { get; set; } = false;
-	[Parameter] protected bool Inline { get; set; } = false;
 	[Parameter] protected string MaxWidth { get; set; }
 	[Parameter] protected string Width { get; set; } = "250px;";
 	[Parameter] protected bool ShowToday { get; set; } = true;
@@ -132,6 +130,16 @@
 	[Parameter] protected string ClearText { get; set; } = "Clear";
 	[Parameter] protected string CloseText { get; set; } = "Close";
 
+	[Parameter] protected bool Visible
+	{
+		get => State.Visible;
+		set => State.Visible = value;
+	}
+	[Parameter] protected bool Inline
+	{
+		get => State.Inline;
+		set => State.Inline = value;
+	}
 	[Parameter] protected IsoDayOfWeek FirstDayOfWeek
 	{
 		get => State.FirstDayOfWeek;
@@ -537,7 +545,7 @@
 		State.Log(nameof(CloseClicked));
 
 		if (!Inline)
-			Visible = false;
+			State.Close();
 	}
 
 	void OnUpdated()

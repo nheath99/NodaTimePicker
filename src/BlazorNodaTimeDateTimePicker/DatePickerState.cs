@@ -19,6 +19,8 @@ namespace BlazorNodaTimeDateTimePicker
 		internal LocalDate? SelectedDate { get; set; }
 		internal LocalDate MonthToDisplay { get; private set; }
 		internal ViewMode ViewMode { get; private set; } = ViewMode.Days;
+		internal bool Visible { get; set; }
+		internal bool Inline { get; set; }
 		internal IsoDayOfWeek FirstDayOfWeek { get; set; } = IsoDayOfWeek.Monday;
 
 		internal LocalDate MinDate { get; set; } = LocalDate.MinIsoValue;
@@ -64,6 +66,7 @@ namespace BlazorNodaTimeDateTimePicker
 		
 		void Updated() => OnUpdated?.Invoke();
 		void Opened() => OnOpened?.Invoke();
+		void Closed() => OnClosed?.Invoke();
 		void TodaySelected() => OnToday?.Invoke();
 		void StateChanged() => OnStateChanged?.Invoke();
 		void MonthToDisplayChanged() => OnMonthToDisplayChanged?.Invoke();
@@ -267,7 +270,7 @@ namespace BlazorNodaTimeDateTimePicker
 				if (DisabledDates != null)
 				{
 					if (DisabledDates.Contains(date))
-						return false;
+						return true;					
 				}
 
 				if (date < MinDate)
@@ -359,6 +362,24 @@ namespace BlazorNodaTimeDateTimePicker
 				return true;
 
 			return false;
+		}
+
+		internal void Open()
+		{
+			if (!Inline)
+			{
+				Visible = true;
+				Opened();
+			}
+		}
+
+		internal void Close()
+		{
+			if (!Inline)
+			{
+				Visible = false;
+				Closed();
+			}
 		}
 	}
 }

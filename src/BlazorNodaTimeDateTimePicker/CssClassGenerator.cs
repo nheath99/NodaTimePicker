@@ -17,10 +17,10 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal static string Day(LocalDate Date, DatePickerState State)
 		{
-			bool Disabled = State.IsDayDisabled(Date);
-			bool IsToday = Date == State.Today;
-			bool IsOld = Date.Month < State.MonthToDisplay.Month;
-			bool IsNew = Date.Month > State.MonthToDisplay.Month;
+			bool disabled = State.IsDayDisabled(Date);
+			bool isToday = Date == State.Today;
+			bool isOld = Date.Month < State.MonthToDisplay.Month;
+			bool isNew = Date.Month > State.MonthToDisplay.Month;
 
 			var sb = new List<string>
 			{
@@ -28,15 +28,15 @@ namespace BlazorNodaTimeDateTimePicker
 				Date.DayOfWeek.IsWeekday() ? "weekday" : "weekend"
 			};
 
-			if (IsOld)
+			if (isOld)
 				sb.Add("old");
-			if (IsNew)
+			if (isNew)
 				sb.Add("new");
-			if (IsToday)
+			if (isToday)
 				sb.Add("today");
 			if (State.SelectedDate == Date)
 				sb.Add("active");
-			if (Disabled)
+			if (disabled)
 				sb.Add("disabled");
 
 			return string.Join(" ", sb);
