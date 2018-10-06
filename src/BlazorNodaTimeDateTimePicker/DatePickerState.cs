@@ -18,7 +18,7 @@ namespace BlazorNodaTimeDateTimePicker
 					
 		internal LocalDate? SelectedDate { get; set; }
 		internal LocalDate MonthToDisplay { get; private set; }
-		internal ViewMode ViewMode { get; private set; } = ViewMode.Days;
+		internal ViewMode ViewMode { get; set; } = ViewMode.Days;
 		internal bool Visible { get; set; }
 		internal bool Inline { get; set; }
 		internal IsoDayOfWeek FirstDayOfWeek { get; set; } = IsoDayOfWeek.Monday;
@@ -140,7 +140,7 @@ namespace BlazorNodaTimeDateTimePicker
 
 			ViewMode = viewMode;
 			MonthToDisplayChanged();
-			OnStateChanged();
+			StateChanged();
 		}
 
 		internal void NextViewMode()

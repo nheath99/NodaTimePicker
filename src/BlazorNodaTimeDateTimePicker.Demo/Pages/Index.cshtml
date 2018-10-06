@@ -7,10 +7,10 @@
 <h3>Inline</h3>
 
 <div class="d-flex flex-sm-row flex-column">
-	<div class="mr-3">
+	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true Changed=@changed1 />
 	</div>
-	<div>
+	<div class="order-0 order-sm-1">
 		Selected Date: <span>@selectedDate1</span>
 	</div>
 </div>
@@ -42,14 +42,13 @@
 <h3>First Day of Week</h3>
 <p>Specify the first day of the week. Default is Monday.</p>
 <div class="d-flex flex-sm-row flex-column">
-	<div class="mr-3">
-		<DatePicker Inline=true Changed=@changed3 FirstDayOfWeek=@firstDOW3 />
+	<div class="mr-3 order-1 order-sm-0">
+		<DatePicker Inline=true FirstDayOfWeek=@firstDOW3 />
 	</div>
-	<div>
+	<div class="order-0 order-sm-1">
 		<p>
-			Selected Date: <span>@selectedDate3</span><br />
 			First Day of Week:
-			<select bind=@firstDOW3>
+			<select bind=@firstDOW3 class="custom-select">
 				<option value="@IsoDayOfWeek.Monday">Monday</option>
 				<option value="@IsoDayOfWeek.Tuesday">Tuesday</option>
 				<option value="@IsoDayOfWeek.Wednesday">Wednesday</option>
@@ -69,10 +68,10 @@
 </p>
 
 <div class="d-flex flex-sm-row flex-column">
-	<div class="mr-3">
+	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true DisplayDaysOfWeek=@displayDOW4 />
 	</div>
-	<div>
+	<div class="order-0 order-sm-1">
 		<label>
 			<input type="checkbox" bind=@displayDOW4 />
 			Display Days of Week:
@@ -84,10 +83,10 @@
 <h3>Localisation</h3>
 
 <div class="d-flex flex-sm-row flex-column">
-	<div class="mr-3">
+	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true FormatProvider=@formatProvider5 />
 	</div>
-	<p>
+	<p class="order-0 order-sm-1">
 		<select bind=@formatProvider5String>
 			<option selected value="fr-FR">fr-FR</option>
 			<option value="en-GB">en-GB</option>
@@ -99,10 +98,10 @@
 <h3>Min. Date</h3>
 
 <div class="d-flex flex-sm-row flex-column">
-	<div class="mr-3">
+	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true MinDate=@minDate6 />
 	</div>
-	<p>
+	<p class="order-0 order-sm-1">
 		Min. date: @minDate6
 	</p>
 </div>
@@ -111,10 +110,10 @@
 <h3>Max. Date</h3>
 
 <div class="d-flex flex-sm-row flex-column">
-	<div class="mr-3">
+	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true MaxDate=@maxDate7 />
 	</div>
-	<p>
+	<p class="order-0 order-sm-1">
 		Max. date: @maxDate7
 	</p>
 </div>
@@ -123,29 +122,29 @@
 <h3>Disabled Dates</h3>
 
 <div class="d-flex flex-sm-row flex-column">
-	<div class="mr-3">
+	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true DisabledDates=@disabledDates8 />
 	</div>
-	<ul>
+	<ul class="order-0 order-sm-1">
 		@foreach (var date in disabledDates8)
 		{
 			<li>@date</li>
 		}
-		<li class="text-danger">Not working - issue #14</li>
 	</ul>
 </div>
 
 <hr />
 <h3>Enabled Dates</h3>
+<i>Todo</i>
 
 <hr />
 <h3>Days of Week Disabled</h3>
 
 <div class="d-flex flex-sm-row flex-column">
-	<div class="mr-3">
+	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true DaysOfWeekDisabled=@DaysOfWeekDisabled10 />
 	</div>
-	<ul class="list-unstyled">
+	<ul class="list-unstyled order-0 order-sm-1">
 		<li>
 			<label>
 				<input type="checkbox" bind=monday10 /> Monday
@@ -188,10 +187,10 @@
 <h3>Set Selected Date</h3>
 
 <div class="d-flex flex-sm-row flex-column">
-	<div class="mr-3">
+	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true SelectedDate=@selectedDate11 />
 	</div>
-	<p>
+	<p class="order-0 order-sm-1">
 		<button type="button" class="btn btn-outline-primary mb-2" onclick="@(() => selectedDate11 = setSelectedDate11_1)">Set date to @setSelectedDate11_1</button><br />
 		<button type="button" class="btn btn-outline-primary mb-2" onclick="@(() => selectedDate11 = setSelectedDate11_2)">Set date to @setSelectedDate11_2</button><br />
 		<button type="button" class="btn btn-outline-primary" onclick="@(() => selectedDate11 = setSelectedDate11_3)">Set date to @setSelectedDate11_3</button>
@@ -200,14 +199,15 @@
 
 <hr />
 <h3>Disabled Date Intervals</h3>
+<i>Todo</i>
 
 <hr />
 <h3>Day View Header Format</h3>
 <div class="d-flex flex-sm-row flex-column">
-	<div class="mr-3">
+	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true DayViewHeaderFormat="MM yy" />
 	</div>
-	<p>
+	<p class="order-0 order-sm-1">
 		DayViewHeaderFormat: <strong>MM yy</strong>
 	</p>
 </div>
@@ -215,32 +215,41 @@
 <hr />
 <h3>Month View Header Format</h3>
 <div class="d-flex flex-sm-row flex-column">
-	<div class="mr-3">
-		<DatePicker Inline=true MonthViewHeaderFormat="yy" />
+	<div class="mr-3 order-1 order-sm-0">
+		<DatePicker Inline=true MonthViewHeaderFormat="yy" InitialViewMode=@ViewMode.Months />
 	</div>
-	<p>
-		MonthViewHeaderFormat: <strong>yy</strong>
-	</p>
-	<p>
-		TODO: set the InitalViewMode to ViewMode.Months
+	<p class="order-0 order-sm-1">
+		MonthViewHeaderFormat: <strong>yy</strong><br />
+		InitialViewMode: <strong>ViewMode.Months</strong>
 	</p>
 </div>
 
 <hr />
 <h3>Show Today/Clear</h3>
 <div class="d-flex flex-sm-row flex-column">
-	<div class="mr-3">
+	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true ShowToday=@showToday ShowClear=@showClear />
 	</div>
-	<div>
+	<div class="order-0 order-sm-1">
 		<label>
 			<input type="checkbox" bind=@showToday />
 			Show Today
-		</label>
+		</label><br />
 		<label>
 			<input type="checkbox" bind=@showClear />
 			Show Clear
 		</label>
+	</div>
+</div>
+
+<hr />
+<h3>Initial View Mode</h3>
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3 order-1 order-sm-0">
+		<DatePicker Inline=true InitialViewMode=@ViewMode.Years />
+	</div>
+	<div class="order-0 order-sm-1">
+		InitialViewMode: <strong>ViewMode.Years</strong>
 	</div>
 </div>
 
@@ -285,27 +294,21 @@
 	}
 
 	string demo2String = @"<input type=""text"" onfocus=""@focussed"" />
-<DatePicker Visible=""datePicker2Visible"" Selected=""selected2"" />
+	<DatePicker Visible=""datePicker2Visible"" Selected=""selected2"" />
 
-@functions {
-bool datePicker2Visible = false;
-void focussed2(UIFocusEventArgs e)
-{
-datePicker2Visible = true;
-}
-void selected2(LocalDate localDate)
-{
-datePicker2Visible = false;
-StateHasChanged();
-}
-}";
+	@functions {
+	  bool datePicker2Visible = false;
+	  void focussed2(UIFocusEventArgs e)
+	  {
+	    datePicker2Visible = true;
+	  }
+	  void selected2(LocalDate localDate)
+	  {
+	    datePicker2Visible = false;
+	    StateHasChanged();
+	  }
+	}";
 
-	LocalDate? selectedDate3;
-	void changed3(LocalDate? localDate)
-	{
-		selectedDate3 = localDate;
-		StateHasChanged();
-	}
 	IsoDayOfWeek firstDOW3 = IsoDayOfWeek.Tuesday;
 
 	bool displayDOW4 = false;
@@ -370,9 +373,9 @@ StateHasChanged();
 	bool showClear = true;
 
 	List<string> eventsList = new List<string>()
-	{
-		"Events will appear here..."
-	};
+{
+"Events will appear here..."
+};
 
 	void changed(LocalDate? d)
 	{

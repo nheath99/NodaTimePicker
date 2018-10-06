@@ -129,6 +129,7 @@
 	[Parameter] protected string TodayText { get; set; } = "Today";
 	[Parameter] protected string ClearText { get; set; } = "Clear";
 	[Parameter] protected string CloseText { get; set; } = "Close";
+	[Parameter] protected ViewMode InitialViewMode { get; set; } = ViewMode.Days;
 
 	[Parameter] protected bool Visible
 	{
@@ -223,7 +224,25 @@
 	{
 		State.Log(nameof(OnParametersSet));
 
-		RenderDays();
+		State.ViewMode = InitialViewMode;
+
+		switch (State.ViewMode)
+		{
+			case ViewMode.Days:
+				RenderDays();
+				break;
+			case ViewMode.Months:
+				RenderMonths();
+				break;
+			case ViewMode.Years:
+				RenderYears();
+				break;
+			case ViewMode.Decades:
+				RenderDecades();
+				break;
+			default:
+				break;
+		}
 	}
 
 	private void OnChanged(LocalDate? localDate)
