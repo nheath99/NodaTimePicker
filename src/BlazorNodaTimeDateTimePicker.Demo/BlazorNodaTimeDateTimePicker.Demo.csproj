@@ -24,6 +24,9 @@
     <Content Update="Pages\date-range-picker.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Pages\time-picker.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Pages\date-time-picker.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

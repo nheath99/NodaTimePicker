@@ -7,9 +7,9 @@
 		{
 			<div class="datepicker-days">
 				<div class="datepicker-header">
-					<div class="prev" onclick="@PreviousMonth">&lt;</div>
+					<div class="prev" onclick="@PreviousMonth">@PrevContent</div>
 					<div class="month" onclick="@SelectMonth">@MonthText</div>
-					<div class="next" onclick="@NextMonth">&gt;</div>
+					<div class="next" onclick="@NextMonth">@NextContent</div>
 				</div>
 				@if (DisplayDaysOfWeek)
 				{
@@ -57,16 +57,16 @@
 		{
 			<div class="datepicker-months">
 				<div class="datepicker-header">
-					<div class="prev" onclick=@PreviousYear>&lt;</div>
+					<div class="prev" onclick=@PreviousYear>@PrevContent</div>
 					<div class="year" onclick=@SelectYear>@YearText</div>
-					<div class="next" onclick=@NextYear>&gt;</div>
+					<div class="next" onclick=@NextYear>@NextContent</div>
 				</div>
 				<div class="months">
 					@for (int i = 1; i <= 12; i++)
 					{
 						var month = i;
 						<div class="@CssClassGenerator.Month(month, disabledMonths[month - 1], State)" onclick="@(e => MonthClicked(e, month))">@MonthName(month)</div>
-					}					
+					}
 				</div>
 			</div>
 		}
@@ -74,9 +74,9 @@
 		{
 			<div class="datepicker-years">
 				<div class="datepicker-header">
-					<div class="prev" onclick=@PreviousDecade>&lt;</div>
+					<div class="prev" onclick=@PreviousDecade>@PrevContent</div>
 					<div class="decade" onclick=@SelectDecade>@DecadeText</div>
-					<div class="next" onclick=@NextDecade>&gt;</div>
+					<div class="next" onclick=@NextDecade>@NextContent</div>
 				</div>
 				<div class="years">
 					@for (int year = yearStart - 1; year <= yearEnd + 1; year++)
@@ -93,9 +93,9 @@
 		{
 			<div class="datepicker-decades">
 				<div class="datepicker-header">
-					<div class="prev" onclick=@PreviousCentury>&lt;</div>
+					<div class="prev" onclick=@PreviousCentury>@PrevContent</div>
 					<div class="century">@CenturyText</div>
-					<div class="next" onclick=@NextCentury>&gt;</div>
+					<div class="next" onclick=@NextCentury>@NextContent</div>
 				</div>
 			</div>
 			<div class="decades">
@@ -131,52 +131,65 @@
 	[Parameter] protected string CloseText { get; set; } = "Close";
 	[Parameter] protected ViewMode InitialViewMode { get; set; } = ViewMode.Days;
 
-	[Parameter] protected bool Visible
+	[Parameter] protected RenderFragment PrevContent { get; set; }
+	[Parameter] protected RenderFragment NextContent { get; set; }
+
+	[Parameter]
+	protected bool Visible
 	{
 		get => State.Visible;
 		set => State.Visible = value;
 	}
-	[Parameter] protected bool Inline
+	[Parameter]
+	protected bool Inline
 	{
 		get => State.Inline;
 		set => State.Inline = value;
 	}
-	[Parameter] protected IsoDayOfWeek FirstDayOfWeek
+	[Parameter]
+	protected IsoDayOfWeek FirstDayOfWeek
 	{
 		get => State.FirstDayOfWeek;
 		set => State.FirstDayOfWeek = value;
 	}
-	[Parameter] protected LocalDate? SelectedDate
+	[Parameter]
+	protected LocalDate? SelectedDate
 	{
 		get => State.SelectedDate;
 		set => State.SelectedDate = value;
 	}
-	[Parameter] protected LocalDate? MinDate
+	[Parameter]
+	protected LocalDate? MinDate
 	{
 		get => State.MinDate;
 		set => State.MinDate = value;
 	}
-	[Parameter] protected LocalDate? MaxDate
+	[Parameter]
+	protected LocalDate? MaxDate
 	{
 		get => State.MaxDate;
 		set => State.MaxDate = value;
 	}
-	[Parameter] protected IEnumerable<LocalDate> DisabledDates
+	[Parameter]
+	protected IEnumerable<LocalDate> DisabledDates
 	{
 		get => State.DisabledDates;
 		set => State.DisabledDates = value;
 	}
-	[Parameter] protected IEnumerable<LocalDate> EnabledDates
+	[Parameter]
+	protected IEnumerable<LocalDate> EnabledDates
 	{
 		get => State.EnabledDates;
 		set => State.EnabledDates = value;
 	}
-	[Parameter] protected IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled
+	[Parameter]
+	protected IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled
 	{
 		get => State.DaysOfWeekDisabled;
 		set => State.DaysOfWeekDisabled = value;
 	}
-	[Parameter] protected IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals
+	[Parameter]
+	protected IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals
 	{
 		get => State.DisabledDateIntervals;
 		set => State.DisabledDateIntervals = value;
@@ -241,6 +254,15 @@
 				break;
 			default:
 				break;
+		}
+
+		if (PrevContent == null)
+		{
+			PrevContent = builder => builder.AddContent(1, new MarkupString("&lt;"));
+		}
+		if (NextContent == null)
+		{
+			NextContent = builder => builder.AddContent(1, new MarkupString("&gt;"));
 		}
 	}
 
@@ -374,7 +396,7 @@
 	void MonthClicked(UIMouseEventArgs eventArgs, int month)
 	{
 		State.Log(nameof(MonthClicked));
-		
+
 		if (disabledMonths[month - 1] == false)
 		{
 			State.SetDisplayMonth(month);
