@@ -85,7 +85,7 @@ namespace BlazorNodaTimeDateTimePicker
 
 			if (state.SelectedYear.HasValue && year == state.SelectedYear.Value)
 				strClass += " active";
-
+			
 			if (year < start)
 				strClass += " old";
 			else if (year > end)

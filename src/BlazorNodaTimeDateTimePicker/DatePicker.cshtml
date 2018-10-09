@@ -114,24 +114,40 @@
 @functions {
 	protected DatePickerState State { get; set; } = new DatePickerState();
 
+	/// <summary>Any CSS classes to be applied to the wrapper element.</summary>
 	[Parameter] protected string Class { get; set; }
+	/// <summary>Any CSS styles to be applied to the wrapper element.</summary>
 	[Parameter] protected string Style { get; set; }
+	/// <summary>If true, detailed information will be logged to the Console.</summary>
 	[Parameter] protected bool Logging { get; set; } = false;
 	[Parameter] protected System.Globalization.CultureInfo FormatProvider { get; set; } = System.Globalization.CultureInfo.InvariantCulture;
+	/// <summary>If true, a row will be displayed with the day-of-week names. If false, it will not.</summary>
 	[Parameter] protected bool DisplayDaysOfWeek { get; set; } = true;
+	/// <summary>In <see cref="ViewMode.Days"/>, the format of the month and year in the header. Defaults to MMMM yyyy, i.e. October 2018.</summary>
 	[Parameter] protected string DayViewHeaderFormat { get; set; } = "MMMM yyyy";
+	/// <summary>In <see cref="ViewMode.Months"/>, the format of the year in the header. Defaults to yyyy, i.e. 2018.</summary>
 	[Parameter] protected string MonthViewHeaderFormat { get; set; } = "yyyy";
+	/// <summary>The maximum width of the wrapper element. Must be a valid CSS width value.</summary>
 	[Parameter] protected string MaxWidth { get; set; }
+	/// <summary>The width of the wrapper element. Must be a valid CSS width value.</summary>
 	[Parameter] protected string Width { get; set; } = "250px;";
+	/// <summary>If true, the Today button will be displayed. If false, it will be hidden.</summary>
 	[Parameter] protected bool ShowToday { get; set; } = true;
+	/// <summary>If true, the Clear button will be displayed. If false, it will be hidden.</summary>
 	[Parameter] protected bool ShowClear { get; set; } = true;
+	/// <summary>If true and <see cref="Inline"/> is true, the Clear button will be displayed. If false, or <see cref="Inline"/> is false, it will be hidden.</summary>
 	[Parameter] protected bool ShowClose { get; set; } = false;
+	/// <summary>The text to display on the Today button.</summary>
 	[Parameter] protected string TodayText { get; set; } = "Today";
+	/// <summary>The text to display on the Clear button.</summary>
 	[Parameter] protected string ClearText { get; set; } = "Clear";
+	/// <summary>The text to display on the Close button.</summary>
 	[Parameter] protected string CloseText { get; set; } = "Close";
+	/// <summary>The <see cref="ViewMode"/> to display on initialization. Defaults to <see cref="ViewMode.Days"/>.</summary>
 	[Parameter] protected ViewMode InitialViewMode { get; set; } = ViewMode.Days;
-
+	/// <summary>The content to display in the Previous button. Defaults to the Less Than character (&lt;)</summary>
 	[Parameter] protected RenderFragment PrevContent { get; set; }
+	/// <summary>The content to display in the Previous button. Defaults to the Greater Than character (&gt;)</summary>
 	[Parameter] protected RenderFragment NextContent { get; set; }
 
 	[Parameter]

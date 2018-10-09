@@ -9,7 +9,7 @@ namespace BlazorNodaTimeDateTimePicker
 		#region IClock
 
 		/// <summary>
-		/// Returns a representation of the Current Instant as a LocalDateTime type in UTC.
+		/// Returns a representation of the current <see cref="Instant"/> as a <see cref="LocalDateTime"/> type in UTC.
 		/// </summary>
 		/// <param name="source"></param>
 		/// <returns></returns>
@@ -22,7 +22,7 @@ namespace BlazorNodaTimeDateTimePicker
 		}
 
 		/// <summary>
-		/// Returns the Date of the Current Instant as a LocalDate type in UTC.
+		/// Returns the date of the current <see cref="Instant"/> as a <see cref="LocalDate"/> type in UTC.
 		/// </summary>
 		/// <param name="source"></param>
 		/// <returns></returns>
@@ -34,16 +34,32 @@ namespace BlazorNodaTimeDateTimePicker
 			return source.GetCurrentInstant().InUtc().LocalDateTime.Date;
 		}
 
+		/// <summary>
+		/// Returns the first day of the month of the specified <see cref="LocalDate"/>.
+		/// </summary>
+		/// <param name="currentDate"></param>
+		/// <returns></returns>
 		internal static LocalDate StartOfMonth(this LocalDate currentDate)
 		{
 			return currentDate.PlusDays(1 - currentDate.Day);
 		}
 
+		/// <summary>
+		/// Returns the last day of the month of the specified <see cref="LocalDate"/>.
+		/// </summary>
+		/// <param name="currentDate"></param>
+		/// <returns></returns>
 		internal static LocalDate EndOfMonth(this LocalDate currentDate)
 		{
 			return currentDate.StartOfMonth().PlusMonths(1).PlusDays(-1);
 		}
 
+		/// <summary>
+		/// Returns the first day before of the specified <see cref="LocalDate"/> that has the same <see cref="LocalDate.DayOfWeek"/> as <paramref name="startOfWeek"/>.
+		/// </summary>
+		/// <param name="currentDate"></param>
+		/// <param name="startOfWeek"></param>
+		/// <returns></returns>
 		internal static LocalDate StartOfWeek(this LocalDate currentDate, IsoDayOfWeek startOfWeek)
 		{
 			LocalDate local = currentDate;
@@ -55,6 +71,12 @@ namespace BlazorNodaTimeDateTimePicker
 			return local;
 		}
 
+		/// <summary>
+		/// Returns the last day of the week containing the specified <see cref="LocalDate"/>, where the week begins on <paramref name="startOfWeek"/>.
+		/// </summary>
+		/// <param name="currentDate"></param>
+		/// <param name="startOfWeek"></param>
+		/// <returns></returns>
 		internal static LocalDate EndOfWeek(this LocalDate currentDate, IsoDayOfWeek startOfWeek)
 		{
 			var endOfWeek = startOfWeek.Prev();
@@ -67,6 +89,11 @@ namespace BlazorNodaTimeDateTimePicker
 			return local;
 		}
 
+		/// <summary>
+		/// Returns true if the day is <see cref="IsoDayOfWeek.Saturday"/> or <see cref="IsoDayOfWeek.Sunday"/>, false otherwise.
+		/// </summary>
+		/// <param name="day"></param>
+		/// <returns></returns>
 		internal static bool IsWeekend(this IsoDayOfWeek day)
 		{
 			if (day == IsoDayOfWeek.Saturday ||
@@ -80,6 +107,11 @@ namespace BlazorNodaTimeDateTimePicker
 			}
 		}
 
+		/// <summary>
+		/// Returns true if the day is <see cref="IsoDayOfWeek.Monday"/>, <see cref="IsoDayOfWeek.Tuesday"/>, <see cref="IsoDayOfWeek.Wednesday"/>, <see cref="IsoDayOfWeek.Thursday"/> or <see cref="IsoDayOfWeek.Friday"/>, false otherwise.
+		/// </summary>
+		/// <param name="day"></param>
+		/// <returns></returns>
 		internal static bool IsWeekday(this IsoDayOfWeek day)
 		{
 			if (day == IsoDayOfWeek.Saturday ||
@@ -94,7 +126,7 @@ namespace BlazorNodaTimeDateTimePicker
 		}
 
 		/// <summary>
-		/// Returns Midnight of the Date of the Current Instant as a LocalDateTime type in UTC.
+		/// Returns Midnight of the Date of the current <see cref="Instant"/> as a <see cref="LocalDateTime"/> type in UTC.
 		/// </summary>
 		/// <param name="source"></param>
 		/// <returns></returns>
@@ -106,6 +138,11 @@ namespace BlazorNodaTimeDateTimePicker
 			return source.GetCurrentInstant().InUtc().LocalDateTime.Date.AtMidnight();
 		}
 
+		/// <summary>
+		/// Returns the preceding <see cref="IsoDayOfWeek"/>.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <returns></returns>
 		internal static IsoDayOfWeek Prev(this IsoDayOfWeek source)
 		{
 			switch (source)
@@ -131,6 +168,11 @@ namespace BlazorNodaTimeDateTimePicker
 			}
 		}
 
+		/// <summary>
+		/// Returns the next <see cref="IsoDayOfWeek"/>
+		/// </summary>
+		/// <param name="source"></param>
+		/// <returns></returns>
 		internal static IsoDayOfWeek Next(this IsoDayOfWeek source)
 		{
 			switch (source)
@@ -157,7 +199,14 @@ namespace BlazorNodaTimeDateTimePicker
 		}
 
 		#endregion
-
+		
+		/// <summary>
+		/// Returns every <see cref="LocalDate"/> in-between <paramref name="startDateTime"/> and <paramref name="endDateTime"/>.
+		/// </summary>
+		/// <param name="startDateTime"></param>
+		/// <param name="endDateTime"></param>
+		/// <param name="inclusive">Include <paramref name="startDateTime"/> and <paramref name="endDateTime"/> in the return sequence.</param>
+		/// <returns></returns>
 		internal static IEnumerable<LocalDate> FullDaysBetween(this LocalDateTime startDateTime, LocalDateTime endDateTime, bool inclusive = false)
 		{
 			if (endDateTime < startDateTime)
@@ -203,6 +252,11 @@ namespace BlazorNodaTimeDateTimePicker
 			}
 		}
 
+		/// <summary>
+		/// Returns the first and last years of the decade that contains <paramref name="year"/>.
+		/// </summary>
+		/// <param name="year"></param>
+		/// <returns></returns>
 		internal static (int, int) GetDecade(this int year)
 		{
 			var year0 = (year / 10) * 10; // has the effect of rounding down to first year of current decade
@@ -211,6 +265,11 @@ namespace BlazorNodaTimeDateTimePicker
 			return (year0, year9);
 		}
 
+		/// <summary>
+		/// Returns the first and last years of the decade that contains <paramref name="date"/>.
+		/// </summary>
+		/// <param name="date"></param>
+		/// <returns></returns>
 		internal static (int, int) GetDecade(this LocalDate date)
 		{
 			return date.Year.GetDecade();
@@ -227,6 +286,11 @@ namespace BlazorNodaTimeDateTimePicker
 			return string.Format(format, year0, year9);
 		}
 
+		/// <summary>
+		/// Returns the first and last decades of the century that contains <paramref name="year"/>.
+		/// </summary>
+		/// <param name="year"></param>
+		/// <returns></returns>
 		internal static (int, int) GetCentury(this int year)
 		{
 			var year0 = (year / 100) * 100; // has the effect of rounding down to first year of current decade
@@ -234,7 +298,11 @@ namespace BlazorNodaTimeDateTimePicker
 
 			return (year0, year90);
 		}
-
+		/// <summary>
+		/// Returns the first and last decades of the century that contains <paramref name="date"/>.
+		/// </summary>
+		/// <param name="date"></param>
+		/// <returns></returns>
 		internal static (int, int) GetCentury(this LocalDate date)
 		{
 			return date.Year.GetCentury();
