@@ -112,7 +112,7 @@
 </div>
 
 @functions {
-	protected DatePickerState State { get; set; } = new DatePickerState();
+	DatePickerState State { get; set; } = new DatePickerState();
 
 	/// <summary>Any CSS classes to be applied to the wrapper element.</summary>
 	[Parameter] protected string Class { get; set; }
@@ -150,72 +150,73 @@
 	/// <summary>The content to display in the Previous button. Defaults to the Greater Than character (&gt;)</summary>
 	[Parameter] protected RenderFragment NextContent { get; set; }
 
-	[Parameter]
-	protected bool Visible
+	/// <summary>Whether the DatePicker should be visible or hidden.</summary>
+	[Parameter] protected bool Visible
 	{
 		get => State.Visible;
 		set => State.Visible = value;
 	}
-	[Parameter]
-	protected bool Inline
+	/// <summary>Whether the DatePicker should display Inline or not.</summary>
+	[Parameter] protected bool Inline
 	{
 		get => State.Inline;
 		set => State.Inline = value;
 	}
-	[Parameter]
-	protected IsoDayOfWeek FirstDayOfWeek
+	/// <summary>The day of the week to start from, when in <see cref="ViewMode.Days"/>.</summary>
+	[Parameter] protected IsoDayOfWeek FirstDayOfWeek
 	{
 		get => State.FirstDayOfWeek;
 		set => State.FirstDayOfWeek = value;
 	}
-	[Parameter]
-	protected LocalDate? SelectedDate
+	[Parameter] protected LocalDate? SelectedDate
 	{
 		get => State.SelectedDate;
 		set => State.SelectedDate = value;
 	}
-	[Parameter]
-	protected LocalDate? MinDate
+	/// <summary>The earliest date that can be selected, inclusive. A value of null indicates that there is no minimum date.</summary>
+	[Parameter] protected LocalDate? MinDate
 	{
 		get => State.MinDate;
 		set => State.MinDate = value;
 	}
-	[Parameter]
-	protected LocalDate? MaxDate
+	/// <summary>The latest date that can be selected, inclusive. A value of null indicates that there is no maximum date.</summary>
+	[Parameter] protected LocalDate? MaxDate
 	{
 		get => State.MaxDate;
 		set => State.MaxDate = value;
 	}
-	[Parameter]
-	protected IEnumerable<LocalDate> DisabledDates
+	/// <summary>Specific dates that cannot be selected.</summary>
+	[Parameter] protected IEnumerable<LocalDate> DisabledDates
 	{
 		get => State.DisabledDates;
 		set => State.DisabledDates = value;
 	}
-	[Parameter]
-	protected IEnumerable<LocalDate> EnabledDates
+	/// <summary>Specific dates that can be selected. Note this overrides any disabled state.</summary>
+	[Parameter] protected IEnumerable<LocalDate> EnabledDates
 	{
 		get => State.EnabledDates;
 		set => State.EnabledDates = value;
 	}
-	[Parameter]
-	protected IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled
+	/// <summary>Days of the week that cannot be selected.</summary>
+	[Parameter] protected IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled
 	{
 		get => State.DaysOfWeekDisabled;
 		set => State.DaysOfWeekDisabled = value;
 	}
-	[Parameter]
-	protected IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals
+	/// <summary>Inclusive date intervals that cannot be selected.</summary>
+	[Parameter] protected IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals
 	{
 		get => State.DisabledDateIntervals;
 		set => State.DisabledDateIntervals = value;
 	}
 
-	// Events in use
+	/// <summary>An event that is invoked whenever the <see cref="SelectedDate"/> value is changed.</summary>
 	[Parameter] protected Action<LocalDate?> Changed { get; set; }
+	/// <summary>An event that is invoked when the a day is selected.</summary>
 	[Parameter] protected Action<LocalDate> Selected { get; set; }
+	/// <summary>An event that is invoked when the selected day is cleared.</summary>
 	[Parameter] protected Action Cleared { get; set; }
-
+	/// <summary>An event that is invoked when the UI is updated.</summary>
 	[Parameter] protected Action Updated { get; set; }
 
 	// Parameters not yet in use
@@ -282,21 +283,21 @@
 		}
 	}
 
-	private void OnChanged(LocalDate? localDate)
+	void OnChanged(LocalDate? localDate)
 	{
 		State.Log(nameof(OnChanged));
 
 		Changed?.Invoke(localDate);
 	}
 
-	private void OnSelected(LocalDate localDate)
+	void OnSelected(LocalDate localDate)
 	{
 		State.Log(nameof(OnSelected));
 
 		Selected?.Invoke(localDate);
 	}
 
-	private void OnCleared()
+	void OnCleared()
 	{
 		State.Log(nameof(OnCleared));
 
@@ -339,7 +340,7 @@
 		} while (start <= end);
 	}
 
-	private string ClassName
+	string ClassName
 	{
 		get
 		{

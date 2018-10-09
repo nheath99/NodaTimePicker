@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace BlazorNodaTimeDateTimePicker
 {
-    public class DatePickerState
+    internal class DatePickerState
     {
-		public DatePickerState()
+		internal DatePickerState()
 		{
 			Clock = SystemClock.Instance;
 			MonthToDisplay = Today.StartOfMonth();			
@@ -47,11 +47,12 @@ namespace BlazorNodaTimeDateTimePicker
 		internal event Action OnYearToDisplayChanged;
 		internal event Action OnDecadeToDisplayChanged;
 		internal event Action OnCenturyToDisplayChanged;
-		
+
+		internal Action<string> LogFunction = d => Console.WriteLine(d);
 		internal void Log(string data)
 		{
 			if (WriteToLog)
-				Log(data);
+				LogFunction?.Invoke(data);
 		}
 
 		void SelectedDateChanged()
@@ -76,16 +77,7 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal int? SelectedMonth => SelectedDate?.Month;
 		internal int? SelectedYear => SelectedDate?.Year;
-		internal int? SelectedDecade
-		{
-			get
-			{
-				if (SelectedDate.HasValue)
-					return (SelectedDate.Value.Year / 10) * 10;
-				else
-					return null;
-			}
-		}
+		internal int? SelectedDecade => SelectedDate?.Year.Decade();
 
 		internal void SetSelectedDate(LocalDate selectedDate)
 		{

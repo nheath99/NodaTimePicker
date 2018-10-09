@@ -6,6 +6,9 @@ namespace BlazorNodaTimeDateTimePicker
 {
 	internal static class CssClassGenerator
 	{
+		/// <summary>The value of the class attribute for the root html element of the DatePicker.</summary>
+		/// <param name="inline">Whether the DatePicker is being displayed inline or not.</param>
+		/// <returns></returns>
 		internal static string Main(bool inline)
 		{
 			var str = "datepicker";
@@ -15,6 +18,10 @@ namespace BlazorNodaTimeDateTimePicker
 			return str;
 		}
 
+		/// <summary>The value of the class attribute for the Day element.</summary>
+		/// <param name="Date">The day to render.</param>
+		/// <param name="State"></param>
+		/// <returns></returns>
 		internal static string Day(LocalDate Date, DatePickerState State)
 		{
 			bool disabled = State.IsDayDisabled(Date);
