@@ -1,6 +1,6 @@
 ﻿@using NodaTime
 @using NodaTime.Extensions
-<DayElement potato="hello"></DayElement>
+
 <div class="@ClassName" style="@MainStyle">
 	<div class="datepicker-content">
 		@if (State.ViewMode == ViewMode.Days)
@@ -345,9 +345,9 @@
 		get
 		{
 			if (!string.IsNullOrEmpty(Class))
-				return $"{CssClassGenerator.Main(Inline)} {Class}";
+				return $"{CssClassGenerator.DatePickerMain(Inline)} {Class}";
 			else
-				return CssClassGenerator.Main(Inline);
+				return CssClassGenerator.DatePickerMain(Inline);
 		}
 	}
 

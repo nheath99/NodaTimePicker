@@ -9,7 +9,7 @@ namespace BlazorNodaTimeDateTimePicker
 		/// <summary>The value of the class attribute for the root html element of the DatePicker.</summary>
 		/// <param name="inline">Whether the DatePicker is being displayed inline or not.</param>
 		/// <returns></returns>
-		internal static string Main(bool inline)
+		internal static string DatePickerMain(bool inline)
 		{
 			var str = "datepicker";
 			if (inline == false)
@@ -118,6 +118,15 @@ namespace BlazorNodaTimeDateTimePicker
 				strClass += " new";
 
 			return strClass;
+		}
+
+		internal static string TimePickerMain(bool inline)
+		{
+			var str = "timepicker";
+			if (inline == false)
+				str += " timepicker-dropdown-menu";
+
+			return str;
 		}
 	}
 }

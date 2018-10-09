@@ -31,10 +31,29 @@
 		<EmbeddedResource Include="content\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 	
+	<ItemGroup>
+	  <None Remove="content\datepicker.min.css" />
+	  <None Remove="content\timepicker.css" />
+	  <None Remove="content\timepicker.min.css" />
+	  <None Remove="content\timepicker.scss" />
+	</ItemGroup>
+	
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.6.0" />
     <PackageReference Include="NodaTime" Version="2.4.0" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Content Update="TimePicker.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+	
+  <ItemGroup>
+    <EmbeddedResource Update="content\timepicker.scss">
+      <LogicalName>blazor:file:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

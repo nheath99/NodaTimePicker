@@ -1,0 +1,64 @@
+﻿@import "variables.scss";
+
+.timepicker {
+	.timepicker-content {
+		display: grid;
+		grid-template-areas: "hour-up divider minute-up meridiem" "hour divider minute meridiem" "hour-down divider minute-down meridiem";
+		grid-template-columns: 1fr auto 1fr 1fr;
+		grid-gap: 10px;
+		justify-items: center;
+		align-items: center;
+		text-align: center;
+		font-weight: bold;
+		font-size: 1.2em;
+
+		> * {
+			display: grid;
+			align-items: center;
+		}
+
+		.timepicker-hour-up {
+			grid-area: hour-up;
+		}
+
+		.timepicker-hour {
+			grid-area: hour;
+		}
+
+		.timepicker-hour-down {
+			grid-area: hour-down;
+		}
+
+		.timepicker-divider {
+			grid-area: divider;
+		}
+
+		.timepicker-minute-up {
+			grid-area: minute-up;
+		}
+
+		.timepicker-minute {
+			grid-area: minute;
+		}
+
+		.timepicker-minute-down {
+			grid-area: minute-down;
+		}
+
+		.timepicker-meridiem {
+			grid-area: meridiem;
+		}
+	}
+
+	.timepicker-button {
+		background-color: #fff;
+		width: 54px;
+		height: 54px;
+		border-radius: 0.25rem;
+
+		&:hover {
+			background-color: $datetimepicker-btn-hover-bg;
+			cursor: pointer;
+		}
+	}
+}

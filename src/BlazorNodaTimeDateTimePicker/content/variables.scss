@@ -29,3 +29,15 @@ $grid-breakpoint-sm: 576px;
 $grid-breakpoint-md: 768px;
 $grid-breakpoint-lg: 992px;
 $grid-breakpoint-xl: 1200px;
+
+$datetimepicker-timepicker-font-size: 1.2em !default;
+$datetimepicker-active-bg: $blue !default;
+$datetimepicker-active-color: $white !default;
+$datetimepicker-border-radius: $border-radius !default;
+$datetimepicker-btn-hover-bg: $gray-200 !default;
+$datetimepicker-disabled-color: $gray-600 !default;
+$datetimepicker-alternate-color: $gray-600 !default;
+$datetimepicker-secondary-border-color: #ccc !default;
+$datetimepicker-secondary-border-color-rgba: rgba(0, 0, 0, 0.2) !default;
+$datetimepicker-primary-border-color: white !default;
+$datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !default;

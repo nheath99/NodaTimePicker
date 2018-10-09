@@ -1,6 +1,10 @@
 ﻿[
   {
-    "outputFile": "content/datetimepicker.css",
-    "inputFile": "content/datetimepicker.scss"
+    "outputFile": "content/datepicker.css",
+    "inputFile": "content/datepicker.scss"
+  },
+  {
+    "outputFile": "content/timepicker.css",
+    "inputFile": "content/timepicker.scss"
   }
 ]
