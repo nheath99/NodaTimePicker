@@ -2,4 +2,18 @@
 @using NodaTime;
 
 <h1>Blazor NodaTime Time Picker</h1>
-<TimePicker Inline=true></TimePicker>
+<TimePicker Inline=true Is24Hour=false Changed=changed></TimePicker>
+<div>
+	@selectedTime
+</div>
+
+@functions {
+	LocalTime selectedTime;
+
+	void changed(LocalTime localTime)
+	{
+		Console.WriteLine("changed");
+		selectedTime = localTime;
+		StateHasChanged();
+	}
+}

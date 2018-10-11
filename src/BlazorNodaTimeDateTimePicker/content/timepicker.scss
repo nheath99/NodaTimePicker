@@ -1,7 +1,7 @@
 ﻿@import "variables.scss";
 
 .timepicker {
-	.timepicker-content {
+	.timepicker-clock {
 		display: grid;
 		grid-template-areas: "hour-up divider minute-up meridiem" "hour divider minute meridiem" "hour-down divider minute-down meridiem";
 		grid-template-columns: 1fr auto 1fr 1fr;
@@ -60,5 +60,34 @@
 			background-color: $datetimepicker-btn-hover-bg;
 			cursor: pointer;
 		}
+
+		&.active {
+			background-color: $datetimepicker-active-bg;
+			color: $datetimepicker-active-color;
+		}
+	}
+
+	.timepicker-hour-grid, .timepicker-minute-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		justify-items: center;
+		align-items: center;
+	}
+
+	.timepicker-hour-grid {
+		margin-bottom: 15px;
+	}
+
+	.timepicker-button {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+	}
+
+	.timepicker-hour-meridiems {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-column-gap: 15px;
+		justify-items: center;
 	}
 }
