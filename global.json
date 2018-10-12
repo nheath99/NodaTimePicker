@@ -1,4 +1,5 @@
 {
+	"projects": [ "src/BlazorNodaTimeDateTimePicker", "tests" ],
 	"sdk": {
 		"version": "2.1.406"
 	}
