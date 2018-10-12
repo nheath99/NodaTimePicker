@@ -44,11 +44,11 @@
     align-items: center;
     font-weight: bold;
     border-top: 1px solid #dee2e6; }
-    .datepicker-content .datepicker-header > * {
+    .datepicker-content .datepicker-header > .next, .datepicker-content .datepicker-header > .prev, .datepicker-content .datepicker-header > .header-text {
       text-align: center;
       border-radius: 0.25rem;
       padding: 0.1rem; }
-      .datepicker-content .datepicker-header > *:hover:not(.disabled):not(.active) {
+      .datepicker-content .datepicker-header > .next:hover:not(.disabled):not(.active):not(.header-text-no-action), .datepicker-content .datepicker-header > .prev:hover:not(.disabled):not(.active):not(.header-text-no-action), .datepicker-content .datepicker-header > .header-text:hover:not(.disabled):not(.active):not(.header-text-no-action) {
         background: #e9ecef;
         cursor: pointer; }
     .datepicker-content .datepicker-header .prev {
@@ -117,16 +117,16 @@
     margin-top: 2px;
     display: flex;
     justify-content: space-around; }
-    .datepicker-content .datepicker-footer > * {
+    .datepicker-content .datepicker-footer > button {
       flex-grow: 1;
       text-align: center;
       border: 1px solid rgba(0, 0, 0, 0.15);
       border-radius: 5px;
       padding: 0.22rem;
       background-color: white; }
-      .datepicker-content .datepicker-footer > *:not(:last-of-type) {
+      .datepicker-content .datepicker-footer > button:not(:last-of-type) {
         margin-right: 10px; }
-      .datepicker-content .datepicker-footer > *:hover:not(.disabled) {
+      .datepicker-content .datepicker-footer > button:hover:not(.disabled) {
         background-color: #e9ecef;
         cursor: pointer; }
   .datepicker-content .months, .datepicker-content .years, .datepicker-content .decades {

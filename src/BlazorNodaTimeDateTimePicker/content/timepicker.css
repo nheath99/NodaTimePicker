@@ -33,6 +33,9 @@
     grid-area: meridiem; }
 
 .timepicker .timepicker-button {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   background-color: #fff;
   width: 54px;
   height: 54px;
@@ -52,11 +55,6 @@
 
 .timepicker .timepicker-hour-grid {
   margin-bottom: 15px; }
-
-.timepicker .timepicker-button {
-  display: flex;
-  justify-content: space-around;
-  align-items: center; }
 
 .timepicker .timepicker-hour-meridiems {
   display: grid;

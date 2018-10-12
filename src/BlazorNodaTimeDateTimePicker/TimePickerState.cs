@@ -1,15 +1,9 @@
 ﻿using NodaTime;
-using System;
 
 namespace BlazorNodaTimeDateTimePicker
 {
 	internal class TimePickerState
-	{
-		internal TimePickerState()
-		{
-
-		}
-
+	{		
 		internal LocalTime SelectedTime { get; set; }
 		internal bool Visible { get; set; }
 		internal bool Inline { get; set; }
