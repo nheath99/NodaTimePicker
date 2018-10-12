@@ -5,4 +5,4 @@ branches:
     - master
 
 before_build:
-  - dontnet restore src
+  - dotnet restore src
