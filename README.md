@@ -7,7 +7,7 @@ It is inspired by the very successful Javascript Date/Time picker developed by [
 
 ## Installation
 
-[![NuGet Pre Release](https://img.shields.io/badge/nuget-v0.0.4-orange.svg)](https://www.nuget.org/packages/BlazorNodaTimeDateTimePicker/)
+[![NuGet Pre Release](https://img.shields.io/badge/nuget-v0.0.5-orange.svg)](https://www.nuget.org/packages/BlazorNodaTimeDateTimePicker/)
 
 ## Getting Started
 
@@ -15,7 +15,7 @@ The easiest way to get started is to look at the Demo project, which has samples
 
 The library can be downloaded from NuGet by searching for: BlazorNodaTimeDateTimePicker in NuGet Package Manager, or by executing the following command in the Package Manager Console:
 ````shell
-PM> Install-Package BlazorNodaTimeDateTimePicker -Version 0.0.4
+PM> Install-Package BlazorNodaTimeDateTimePicker -Version 0.0.5
 ````
 Until the issue https://github.com/aspnet/Blazor/issues/1315 is resolved, insert the following line into your *_ViewImports.cshtml* file:
 ````C#
