@@ -314,7 +314,7 @@ namespace BlazorNodaTimeDateTimePicker
 			if (MaxDate.HasValue)
 			{
 				if ((MaxDate.Value.Year < year) ||
-					(MaxDate.Value.Year == year && MinDate.Value.Month < month))
+					(MaxDate.Value.Year == year && MaxDate.Value.Month < month))
 					return true;
 			}
 
