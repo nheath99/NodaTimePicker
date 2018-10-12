@@ -53,12 +53,12 @@
 		font-weight: bold;
 		border-top: 1px solid rgb(222, 226, 230);
 
-		> * {
+		> .next, > .prev, > .header-text {
 			text-align: center;
 			border-radius: 0.25rem;
 			padding: 0.1rem;
 
-			&:hover:not(.disabled):not(.active) {
+			&:hover:not(.disabled):not(.active):not(.header-text-no-action) {
 				background: $datetimepicker-btn-hover-bg;
 				cursor: pointer;
 			}
@@ -97,12 +97,6 @@
 
 		.dow {
 			text-align: center;
-
-			&.weekend {
-			}
-
-			&.weekday {
-			}
 		}
 	}
 
@@ -176,7 +170,7 @@
 		display: flex;
 		justify-content: space-around;
 
-		> * {
+		> button {
 			flex-grow: 1;
 			text-align: center;
 			border: 1px solid rgba(0,0,0,.15);
