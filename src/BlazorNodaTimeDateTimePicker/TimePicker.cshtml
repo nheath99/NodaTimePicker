@@ -76,6 +76,7 @@
 	[Parameter] protected string MaxWidth { get; set; }
 	/// <summary>The width of the wrapper element. Must be a valid CSS width value.</summary>
 	[Parameter] protected string Width { get; set; } = "250px;";
+	/// <summary>Whether to use 24-hour time. Default is 12-hour time.</summary>
 	[Parameter] protected bool Is24Hour { get; set; } = false;
 	/// <summary>The number of minutes to increment or decrement by.</summary>
 	[Parameter]
@@ -84,14 +85,14 @@
 		get => State.MinuteStep;
 		set => State.MinuteStep = value;
 	}
-	/// <summary>Whether the DatePicker should display Inline or not.</summary>
+	/// <summary>Whether the <see cref="TimePicker"/> should display Inline or not.</summary>
 	[Parameter]
 	protected bool Inline
 	{
 		get => State.Inline;
 		set => State.Inline = value;
 	}
-	/// <summary>Whether the DatePicker should be visible or hidden.</summary>
+	/// <summary>Whether the <see cref="TimePicker"/> should be visible or hidden.</summary>
 	[Parameter]
 	protected bool Visible
 	{
@@ -99,6 +100,7 @@
 		set => State.Visible = value;
 	}
 
+	/// <summary>Gets or sets the time displayed on the <see cref="TimePicker"/>.</summary>
 	[Parameter] protected LocalTime SelectedTime
 	{
 		get => State.SelectedTime;

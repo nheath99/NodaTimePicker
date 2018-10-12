@@ -7,10 +7,9 @@ namespace BlazorNodaTimeDateTimePicker
 	{
 		internal TimePickerState()
 		{
-			Clock = SystemClock.Instance;
+
 		}
 
-		internal IClock Clock { get; }
 		internal LocalTime SelectedTime { get; set; }
 		internal bool Visible { get; set; }
 		internal bool Inline { get; set; }
