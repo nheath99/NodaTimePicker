@@ -52,7 +52,7 @@
 			{
 				<div class="timepicker-minutes">
 					<div class="timepicker-minute-grid">
-						@for (int i = 0; i < 60; i += 5)
+						@for (int i = 0; i < 60; i += MinuteStep)
 						{
 							var minute = i;
 							<div class="timepicker-button minute @(State.SelectedTime.Minute == minute ? "active" : "")" onclick=@(() => MinuteSelected(minute))>
@@ -76,7 +76,7 @@
 	[Parameter] protected string MaxWidth { get; set; }
 	/// <summary>The width of the wrapper element. Must be a valid CSS width value.</summary>
 	[Parameter] protected string Width { get; set; } = "250px;";
-	[Parameter] protected bool Is24Hour { get; set; } = true;
+	[Parameter] protected bool Is24Hour { get; set; } = false;
 	/// <summary>The number of minutes to increment or decrement by.</summary>
 	[Parameter]
 	protected int MinuteStep

@@ -1,19 +1,89 @@
 ﻿@page "/time-picker"
 @using NodaTime;
 
-<h1>Blazor NodaTime Time Picker</h1>
-<TimePicker Inline=true Is24Hour=false Changed=changed></TimePicker>
-<div>
-	@selectedTime
+<h3>Blazor NodaTime Time Picker</h3>
+
+<hr />
+<h3>Inline</h3>
+
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3 order-1 order-sm-0">
+		<TimePicker Inline=true Changed=changed1 />
+	</div>
+	<div class="order-0 order-sm-1">
+		Selected Time: <span>@selectedTime1</span>
+	</div>
 </div>
 
-@functions {
-	LocalTime selectedTime;
+<pre>
+<code class="html">
+	@demoString1
+</code>
+</pre>
+<hr />
 
-	void changed(LocalTime localTime)
+<h3>24-hour</h3>
+<p>The default mode is 12 hour. Changing to 24-hour disables the AM/PM toggle.</p>
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3 order-1 order-sm-0">
+		<TimePicker Inline=true Is24Hour=true Changed=changed2 />
+	</div>
+	<div class="order-0 order-sm-1">
+		Selected Time: <span>@selectedTime2</span>
+	</div>
+</div>
+
+<pre>
+<code class="html">
+	@demoString2
+</code>
+</pre>
+<hr />
+
+<h3>Minute Step</h3>
+<p>The default minute increment step is 5 miniutes.</p>
+
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3 order-1 order-sm-0">
+		<TimePicker Inline=true MinuteStep=15 Changed=changed3 />
+	</div>
+	<div class="order-0 order-sm-1">
+		Selected Time: <span>@selectedTime3</span>
+	</div>
+</div>
+
+<pre>
+<code class="html">
+	@demoString3
+</code>
+</pre>
+<hr />
+
+@functions {
+	LocalTime selectedTime1;
+	string demoString1 = "<TimePicker Inline=true />";
+
+	void changed1(LocalTime localTime)
 	{
-		Console.WriteLine("changed");
-		selectedTime = localTime;
+		selectedTime1 = localTime;
+		StateHasChanged();
+	}
+
+	LocalTime selectedTime2;
+	string demoString2 = "<TimePicker Inline=true Is24Hour=true />";
+
+	void changed2(LocalTime localTime)
+	{
+		selectedTime2 = localTime;
+		StateHasChanged();
+	}
+
+	LocalTime selectedTime3;
+	string demoString3 = "<TimePicker Inline=true MinuteStep=15 />";
+
+	void changed3(LocalTime localTime)
+	{
+		selectedTime3 = localTime;
 		StateHasChanged();
 	}
 }
