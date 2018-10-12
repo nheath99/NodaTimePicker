@@ -79,6 +79,10 @@
 		.prev, .next {
 			user-select: none;
 		}
+
+		.header-text {
+			font-weight: bold;
+		}
 	}
 
 	.datepicker-days-of-week {
@@ -137,6 +141,7 @@
 			border-radius: 0.25rem;
 			text-align: center;
 			padding: 0.3rem;
+			width: 100%;
 
 			&.today {
 				position: relative;

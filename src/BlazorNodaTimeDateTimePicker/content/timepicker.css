@@ -1,4 +1,8 @@
-﻿.timepicker .timepicker-clock {
+﻿button {
+  border: none;
+  background-color: transparent; }
+
+.timepicker .timepicker-clock {
   display: grid;
   grid-template-areas: "hour-up divider minute-up meridiem" "hour divider minute meridiem" "hour-down divider minute-down meridiem";
   grid-template-columns: 1fr auto 1fr 1fr;

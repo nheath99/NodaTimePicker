@@ -6,25 +6,25 @@
 		case TimeViewMode.Clock:
 		{
 			<div class="timepicker-clock">
-				<div class="timepicker-hour-up timepicker-button" onclick=@IncrementHour>&uarr;</div>
-				<div class="timepicker-hour timepicker-button" onclick=@DisplayHours>
+				<button role="button" class="timepicker-hour-up timepicker-button" onclick=@IncrementHour>&uarr;</button>
+				<button role="button" class="timepicker-hour timepicker-button" onclick=@DisplayHours>
 					@HourDisplay
-				</div>
-				<div class="timepicker-hour-down timepicker-button" onclick=@DecrementHour>&darr;</div>
+				</button>
+				<button role="button" class="timepicker-hour-down timepicker-button" onclick=@DecrementHour>&darr;</button>
 
 				<div class="timepicker-divider"><span>:</span></div>
 
-				<div class="timepicker-minute-up timepicker-button" onclick=@IncrementMinute>&uarr;</div>
-				<div class="timepicker-minute timepicker-button" onclick=@DisplayMinutes>
+				<button role="button" class="timepicker-minute-up timepicker-button" onclick=@IncrementMinute>&uarr;</button>
+				<button role="button" class="timepicker-minute timepicker-button" onclick=@DisplayMinutes>
 					@MinuteDisplay
-				</div>
-				<div class="timepicker-minute-down timepicker-button" onclick=@DecrementMinute>&darr;</div>
+				</button>
+				<button role="button" class="timepicker-minute-down timepicker-button" onclick=@DecrementMinute>&darr;</button>
 
 				@if (Is24Hour == false)
 				{
-					<div class="timepicker-meridiem timepicker-button" onclick=@ToggleMeridiem>
+					<button role="button" class="timepicker-meridiem timepicker-button" onclick=@ToggleMeridiem>
 						@(State.IsAM ? "AM" : "PM")
-					</div>
+					</button>
 				}
 			</div>
 			}
@@ -36,14 +36,14 @@
 						@for (int i = 0; i < 12; i++)
 						{
 							var hour = ViewModeHours_IsAM ? i : i + 12;
-							<div class="timepicker-button hour @(State.SelectedTime.Hour == hour ? "active" : "")" onclick=@(() => HourSelected(hour))>
+							<button class="timepicker-button hour @(State.SelectedTime.Hour == hour ? "active" : "")" onclick=@(() => HourSelected(hour))>
 								@($"{(Is24Hour ? hour : i):00}")
-							</div>
+							</button>
 						}
 					</div>					
 					<div class="timepicker-hour-meridiems">
-						<div class="timepicker-button @(ViewModeHours_IsAM ? "active" : "")" onclick=@(() => ViewModeHours_IsAM = true)>AM</div>
-						<div class="timepicker-button @(ViewModeHours_IsAM ? "" : "active")" onclick=@(() => ViewModeHours_IsAM = false)>PM</div>
+						<button role="button" class="timepicker-button @(ViewModeHours_IsAM ? "active" : "")" onclick=@(() => ViewModeHours_IsAM = true)>AM</button>
+						<button role="button" class="timepicker-button @(ViewModeHours_IsAM ? "" : "active")" onclick=@(() => ViewModeHours_IsAM = false)>PM</button>
 					</div>
 				</div>
 			}
@@ -55,9 +55,9 @@
 						@for (int i = 0; i < 60; i += MinuteStep)
 						{
 							var minute = i;
-							<div class="timepicker-button minute @(State.SelectedTime.Minute == minute ? "active" : "")" onclick=@(() => MinuteSelected(minute))>
+							<button role="button" class="timepicker-button minute @(State.SelectedTime.Minute == minute ? "active" : "")" onclick=@(() => MinuteSelected(minute))>
 								@($"{i:00}")
-							</div>
+							</button>
 						}
 					</div>
 				</div>

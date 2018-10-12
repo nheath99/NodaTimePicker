@@ -7,9 +7,9 @@
 		{
 			<div class="datepicker-days">
 				<div class="datepicker-header">
-					<div class="prev" onclick="@PreviousMonth">@PrevContent</div>
-					<div class="month" onclick="@SelectMonth">@MonthText</div>
-					<div class="next" onclick="@NextMonth">@NextContent</div>
+					<button role="button" class="prev" onclick="@PreviousMonth">@PrevContent</button>
+					<button role="button" class="header-text" onclick="@SelectMonth">@MonthText</button>
+					<button role="button" class="next" onclick="@NextMonth">@NextContent</button>
 				</div>
 				@if (DisplayDaysOfWeek)
 				{
@@ -28,9 +28,9 @@
 					@foreach (var date in Days)
 					{
 						<div class="day-wrapper">
-							<div class="@CssClassGenerator.Day(date, State)" onclick="@(e => DayClicked(e, date))">
+							<button role="button" class="@CssClassGenerator.Day(date, State)" onclick="@(e => DayClicked(e, date))">
 								@date.Day
-							</div>
+							</button>
 						</div>
 					}
 				</div>
@@ -39,15 +39,15 @@
 					<div class="datepicker-footer">
 						@if (ShowToday)
 						{
-							<button onclick=@TodayClicked>@TodayText</button>
+							<button role="button" onclick=@TodayClicked>@TodayText</button>
 						}
 						@if (ShowClear)
 						{
-							<button onclick="@ClearClicked">@ClearText</button>
+							<button role="button" onclick="@ClearClicked">@ClearText</button>
 						}
 						@if (ShowClose && !Inline)
 						{
-							<button onclick="@CloseClicked">@CloseText</button>
+							<button role="button" onclick="@CloseClicked">@CloseText</button>
 						}
 					</div>
 				}
@@ -57,15 +57,15 @@
 		{
 			<div class="datepicker-months">
 				<div class="datepicker-header">
-					<div class="prev" onclick=@PreviousYear>@PrevContent</div>
-					<div class="year" onclick=@SelectYear>@YearText</div>
-					<div class="next" onclick=@NextYear>@NextContent</div>
+					<button role="button" class="prev" onclick=@PreviousYear>@PrevContent</button>
+					<button role="button" class="header-text" onclick=@SelectYear>@YearText</button>
+					<button role="button" class="next" onclick=@NextYear>@NextContent</button>
 				</div>
 				<div class="months">
 					@for (int i = 1; i <= 12; i++)
 					{
 						var month = i;
-						<div class="@CssClassGenerator.Month(month, disabledMonths[month - 1], State)" onclick="@(e => MonthClicked(e, month))">@MonthName(month)</div>
+						<button role="button" class="@CssClassGenerator.Month(month, disabledMonths[month - 1], State)" onclick="@(e => MonthClicked(e, month))">@MonthName(month)</button>
 					}
 				</div>
 			</div>
@@ -74,17 +74,17 @@
 		{
 			<div class="datepicker-years">
 				<div class="datepicker-header">
-					<div class="prev" onclick=@PreviousDecade>@PrevContent</div>
-					<div class="decade" onclick=@SelectDecade>@DecadeText</div>
-					<div class="next" onclick=@NextDecade>@NextContent</div>
+					<button role="button" class="prev" onclick=@PreviousDecade>@PrevContent</button>
+					<button role="button" class="header-text" onclick=@SelectDecade>@DecadeText</button>
+					<button role="button" class="next" onclick=@NextDecade>@NextContent</button>
 				</div>
 				<div class="years">
 					@for (int year = yearStart - 1; year <= yearEnd + 1; year++)
 					{
 						var y = year;
-						<div class="@CssClassGenerator.Year(year, disabledYears[year], State)" onclick=@(e => YearClicked(e, y))>
+						<button role="button" class="@CssClassGenerator.Year(year, disabledYears[year], State)" onclick=@(e => YearClicked(e, y))>
 							@year
-						</div>
+						</button>
 					}
 				</div>
 			</div>
@@ -93,18 +93,18 @@
 		{
 			<div class="datepicker-decades">
 				<div class="datepicker-header">
-					<div class="prev" onclick=@PreviousCentury>@PrevContent</div>
-					<div class="century">@CenturyText</div>
-					<div class="next" onclick=@NextCentury>@NextContent</div>
+					<button role="button" class="prev" onclick=@PreviousCentury>@PrevContent</button>
+					<div class="header-text">@CenturyText</div>
+					<button role="button" class="next" onclick=@NextCentury>@NextContent</button>
 				</div>
 			</div>
 			<div class="decades">
 				@for (int decade = decadeStart - 10; decade <= decadeEnd + 10; decade += 10)
 				{
 					var d = decade;
-					<div class="@CssClassGenerator.Decade(decade, disabledDecades[decade], State)" onclick=@(e => DecadeClicked(e, d))>
+					<button role="button" class="@CssClassGenerator.Decade(decade, disabledDecades[decade], State)" onclick=@(e => DecadeClicked(e, d))>
 						@decade
-					</div>
+					</button>
 				}
 			</div>
 		}

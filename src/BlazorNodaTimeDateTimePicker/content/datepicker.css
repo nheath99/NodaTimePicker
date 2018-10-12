@@ -1,4 +1,8 @@
-﻿.datepicker {
+﻿button {
+  border: none;
+  background-color: transparent; }
+
+.datepicker {
   margin-bottom: 10px; }
   .datepicker.datepicker-dropdown-menu {
     position: absolute;
@@ -55,6 +59,8 @@
       grid-area: next; }
     .datepicker-content .datepicker-header .prev, .datepicker-content .datepicker-header .next {
       user-select: none; }
+    .datepicker-content .datepicker-header .header-text {
+      font-weight: bold; }
   .datepicker-content .datepicker-days-of-week {
     grid-area: days-of-week;
     display: grid;
@@ -87,7 +93,8 @@
     .datepicker-content .days .day {
       border-radius: 0.25rem;
       text-align: center;
-      padding: 0.3rem; }
+      padding: 0.3rem;
+      width: 100%; }
       .datepicker-content .days .day.today {
         position: relative; }
         .datepicker-content .days .day.today:before {
