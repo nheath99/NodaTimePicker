@@ -1,0 +1,6 @@
+image: Visual Studio 2017
+
+branches: master
+
+before_build:
+  - dontnet restore src
