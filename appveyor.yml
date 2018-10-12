@@ -7,7 +7,3 @@ branches:
 before_build:
   - cd src/BlazorNodaTimeDateTimePicker
   - dotnet restore
-
-build_script:
-  - cd ../..
-  - dotnet build ./src -c Release
