@@ -1,4 +1,8 @@
 # BlazorNodaTimeDateTimePicker
+
+[![NuGet Pre Release](https://img.shields.io/badge/nuget-v0.0.5-orange.svg)](https://www.nuget.org/packages/BlazorNodaTimeDateTimePicker/)
+[![Build status](https://ci.appveyor.com/api/projects/status/hhwnir90iqjyeh5p/branch/master?svg=true)](https://ci.appveyor.com/project/nheath99/blazornodatimedatetimepicker/branch/master)
+
 A Date/Time picker for [Blazor](https://github.com/aspnet/Blazor), using [NodaTime](https://github.com/nodatime/nodatime).
 
 View the [Demo](https://nodatimepicker.azurewebsites.net/)
@@ -6,10 +10,6 @@ View the [Demo](https://nodatimepicker.azurewebsites.net/)
 The aim of this project is to develop Date/Time picker components for Blazor applications, using NodaTime as the only dependency for Date and Time calculations, and CSS Grid for layout.
 
 It is inspired by the very successful Javascript Date/Time picker developed by [TempusDominus](https://github.com/tempusdominus/bootstrap-4), though any dependencies on Bootstrap or jQuery have been removed - it is not simply a port of the code or interop, but a fresh start from a zero base.
-
-## Installation
-
-[![NuGet Pre Release](https://img.shields.io/badge/nuget-v0.0.5-orange.svg)](https://www.nuget.org/packages/BlazorNodaTimeDateTimePicker/)
 
 ## Getting Started
 
