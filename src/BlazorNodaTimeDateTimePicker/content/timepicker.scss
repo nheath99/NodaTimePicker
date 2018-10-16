@@ -12,11 +12,6 @@
 		font-weight: bold;
 		font-size: 1.2em;
 
-		> * {
-			display: grid;
-			align-items: center;
-		}
-
 		.timepicker-hour-up {
 			grid-area: hour-up;
 		}
