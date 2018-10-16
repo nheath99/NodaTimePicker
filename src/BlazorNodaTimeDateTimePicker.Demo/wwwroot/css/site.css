@@ -66,7 +66,7 @@ app {
 		line-height: 3rem;
 	}
 
-		.nav-item a.active {
+		.nav-item .active {
 			background-color: rgba(255,255,255,0.25);
 			color: white;
 		}
@@ -105,11 +105,6 @@ app {
 	.main .top-row {
 		position: sticky;
 		top: 0;
-	}
-
-	.main > div {
-		padding-left: 2rem !important;
-		padding-right: 1.5rem !important;
 	}
 
 	.navbar-toggler {
