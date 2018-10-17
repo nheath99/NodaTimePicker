@@ -22,6 +22,23 @@
 </pre>
 <hr />
 
+<h3>Bound to Input</h3>
+
+<p>
+	Focus on the Input element to display the DatePicker.<br />
+	Select a Date to close the DatePicker.
+</p>
+
+<input type="text" onfocus=@focussed4 value=@selectedTime4 class="form-control mb-2" />
+<TimePicker Visible=visible4 Changed=@changed4 ShowClose=true CloseOnSelect=true />
+
+<pre>
+<code class="html">
+	@demoString4
+</code>
+</pre>
+
+<hr />
 <h3>24-hour</h3>
 <p>The default mode is 12 hour. Changing to 24-hour disables the AM/PM toggle.</p>
 <div class="d-flex flex-sm-row flex-column">
@@ -86,4 +103,33 @@
 		selectedTime3 = localTime;
 		StateHasChanged();
 	}
+
+	bool visible4 = false;
+	LocalTime selectedTime4 = new LocalTime();
+	void focussed4()
+	{
+		visible4 = true;
+	}
+
+	void changed4(LocalTime localTime)
+	{
+		selectedTime4 = localTime;
+		StateHasChanged();
+	}
+	string demoString4 = @"<input type=""text"" onfocus=@focussed4 value=@selectedTime4 />
+	<TimePicker Visible=visible4 Changed=@changed4 ShowClose=true CloseOnSelect=true />
+
+	@functions {
+	  bool visible4 = false;
+	  LocalTime selectedTime4;
+	  void focussed4()
+	  {
+		visible4 = true;
+	  }
+	  void changed4(LocalTime time)
+	  {
+		selectedTime4 = time;
+		StateHasChanged();
+	  }
+	}";
 }

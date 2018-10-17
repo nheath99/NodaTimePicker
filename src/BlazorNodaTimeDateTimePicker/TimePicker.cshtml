@@ -64,10 +64,18 @@
 			}
 			break;
 	}
+	@if (ShowClose)
+	{
+		<div class="timepicker-footer">
+			<button class="timepicker-button-close" role="button" onclick=@close>
+				Close
+			</button>
+		</div>		
+	}
 </div>
 
 @functions {
-	TimePickerState State = new TimePickerState();
+		TimePickerState State = new TimePickerState();
 	/// <summary>Any CSS classes to be applied to the wrapper element.</summary>
 	[Parameter] protected string Class { get; set; }
 	/// <summary>Any CSS styles to be applied to the wrapper element.</summary>
@@ -78,6 +86,9 @@
 	[Parameter] protected string Width { get; set; } = "250px;";
 	/// <summary>Whether to use 24-hour time. Default is 12-hour time.</summary>
 	[Parameter] protected bool Is24Hour { get; set; } = false;
+	/// <summary>Whether to show the close button or not.</summary>
+	[Parameter] protected bool ShowClose { get; set; }
+	[Parameter] protected bool CloseOnSelect { get; set; }
 	/// <summary>The number of minutes to increment or decrement by.</summary>
 	[Parameter]
 	protected int MinuteStep
@@ -111,8 +122,11 @@
 
 	void OnChanged()
 	{
-		StateHasChanged();
 		Changed?.Invoke(State.SelectedTime);
+		if (Inline == false && CloseOnSelect)
+			close();
+
+		StateHasChanged();
 	}
 
 	TimeViewMode ViewMode = TimeViewMode.Clock;
@@ -224,4 +238,10 @@
 	}
 
 	bool ViewModeHours_IsAM { get; set; }
+
+	void close()
+	{
+		if (Inline == false)
+			Visible = false;		
+	}
 }
