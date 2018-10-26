@@ -8,7 +8,7 @@
 
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
-		<DatePicker Inline=true Changed=changed1 />
+		<DatePicker Inline=true SelectedDateChanged=changed1 />
 	</div>
 	<div class="order-0 order-sm-1">
 		Selected Date: <span>@selectedDate1</span>
@@ -257,7 +257,7 @@
 <h3>Events</h3>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3">
-		<DatePicker Inline=true Changed=@changed Selected=@selected Cleared=@cleared />
+		<DatePicker Inline=true SelectedDateChanged=@changed Selected=@selected Cleared=@cleared />
 	</div>
 	<ul>
 		@foreach (var e in eventsList)
@@ -277,7 +277,7 @@
 		selectedDate1 = localDate;
 		StateHasChanged();
 	}
-	string demo1String = "<DatePicker Inline=true />";
+	string demo1String = "<DatePicker Inline=true  SelectedDateChanged=changed1 />";
 	
 	bool datePicker2Visible = false;
 	LocalDate? selectedDate2;
