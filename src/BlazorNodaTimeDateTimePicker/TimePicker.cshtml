@@ -122,7 +122,7 @@
 
 	void OnSelectedTimeChanged()
 	{
-		Changed?.Invoke(State.SelectedTime);
+		SelectedTimeChanged?.Invoke(State.SelectedTime);
 		if (Inline == false && CloseOnSelect)
 			close();
 
