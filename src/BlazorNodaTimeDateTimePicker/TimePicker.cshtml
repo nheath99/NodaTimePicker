@@ -107,12 +107,12 @@
 		set => State.SelectedTime = value;
 	}
 
-	[Parameter] protected Action<LocalTime> Changed { get; set; }
+	[Parameter] protected Action<LocalTime> SelectedTimeChanged { get; set; }
 
-	void OnChanged()
+	void OnSelectedTimeChanged()
 	{
 		StateHasChanged();
-		Changed?.Invoke(State.SelectedTime);
+		SelectedTimeChanged?.Invoke(State.SelectedTime);
 	}
 
 	TimeViewMode ViewMode = TimeViewMode.Clock;
@@ -182,45 +182,45 @@
 	void IncrementHour()
 	{
 		State.IncrementHour();
-		OnChanged();
+		OnSelectedTimeChanged();
 	}
 
 	void DecrementHour()
 	{
 		State.DecrementHour();
-		OnChanged();
+		OnSelectedTimeChanged();
 	}
 
 	void IncrementMinute()
 	{
 		State.IncrementMinute();
-		OnChanged();
+		OnSelectedTimeChanged();
 	}
 
 	void DecrementMinute()
 	{
 		State.DecrementMinute();
-		OnChanged();
+		OnSelectedTimeChanged();
 	}
 
 	void ToggleMeridiem()
 	{
 		State.ToggleMeridiem();
-		OnChanged();
+		OnSelectedTimeChanged();
 	}
 
 	void HourSelected(int hour)
 	{
 		State.SetHour(hour);
 		ViewMode = TimeViewMode.Clock;
-		OnChanged();
+		OnSelectedTimeChanged();
 	}
 
 	void MinuteSelected(int minute)
 	{
 		State.SetMinute(minute);
 		ViewMode = TimeViewMode.Clock;
-		OnChanged();
+		OnSelectedTimeChanged();
 	}
 
 	bool ViewModeHours_IsAM { get; set; }
