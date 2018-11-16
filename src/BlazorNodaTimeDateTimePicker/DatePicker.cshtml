@@ -211,7 +211,7 @@
 	}
 
 	/// <summary>An event that is invoked whenever the <see cref="SelectedDate"/> value is changed.</summary>
-	[Parameter] protected Action<LocalDate?> Changed { get; set; }
+	[Parameter] protected Action<LocalDate?> SelectedDateChanged { get; set; }
 	/// <summary>An event that is invoked when the a day is selected.</summary>
 	[Parameter] protected Action<LocalDate> Selected { get; set; }
 	/// <summary>An event that is invoked when the selected day is cleared.</summary>
@@ -239,7 +239,7 @@
 
 		State.OnStateChanged += StateHasChanged;
 
-		State.OnSelectedDateChanged += OnChanged;
+		State.OnSelectedDateChanged += OnSelectedDateChanged;
 		State.OnSelected += OnSelected;
 		State.OnCleared += OnCleared;
 
@@ -283,11 +283,12 @@
 		}
 	}
 
-	void OnChanged(LocalDate? localDate)
+	void OnSelectedDateChanged(LocalDate? localDate)
 	{
-		State.Log(nameof(OnChanged));
+		State.Log(nameof(OnSelectedDateChanged));
 
-		Changed?.Invoke(localDate);
+		SelectedDateChanged?.Invoke(localDate);
+		OnUpdated();
 	}
 
 	void OnSelected(LocalDate localDate)
