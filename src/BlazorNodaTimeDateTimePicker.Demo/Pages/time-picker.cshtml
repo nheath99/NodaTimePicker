@@ -30,7 +30,7 @@
 </p>
 
 <input type="text" onfocus=@focussed4 value=@selectedTime4 class="form-control mb-2" />
-<TimePicker Visible=visible4 Changed=@changed4 ShowClose=true CloseOnSelect=true />
+<TimePicker Visible=visible4 SelectedTimeChanged=@changed4 ShowClose=true CloseOnSelect=true />
 
 <pre>
 <code class="html">
@@ -117,7 +117,7 @@
 		StateHasChanged();
 	}
 	string demoString4 = @"<input type=""text"" onfocus=@focussed4 value=@selectedTime4 />
-	<TimePicker Visible=visible4 Changed=@changed4 ShowClose=true CloseOnSelect=true />
+	<TimePicker Visible=visible4 SelectedTimeChanged=@changed4 ShowClose=true CloseOnSelect=true />
 
 	@functions {
 	  bool visible4 = false;
