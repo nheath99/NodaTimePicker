@@ -1,8 +1,8 @@
 ﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">BlazorNodaTimeDateTimePicker</a>
-    <button class="navbar-toggler" onclick=@ToggleNavMenu>
-        <span class="navbar-toggler-icon"></span>
-    </button>
+	<a class="navbar-brand" href="">BlazorNodaTimeDateTimePicker</a>
+	<button class="navbar-toggler" onclick=@ToggleNavMenu>
+		<span class="navbar-toggler-icon"></span>
+	</button>
 </div>
 
 <div class=@(collapseNavMenu ? "collapse" : null) onclick=@ToggleNavMenu>
@@ -31,10 +31,10 @@
 </div>
 
 @functions {
-    bool collapseNavMenu = true;
+	bool collapseNavMenu = true;
 
-    void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
+	void ToggleNavMenu()
+	{
+		collapseNavMenu = !collapseNavMenu;
+	}
 }

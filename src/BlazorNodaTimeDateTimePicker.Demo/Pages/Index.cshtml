@@ -2,8 +2,36 @@
 @using NodaTime;
 
 <h3>Blazor NodaTime Date Picker</h3>
-
 <hr />
+
+<p>
+	A Date/Time picker for <a href="http://blazor.net">Blazor</a> using <a href="https://github.com/nodatime/nodatime">NodaTime</a>.
+</p>
+<p>
+	The aim of this project is to develop Date/Time picker components for Blazor applications, using NodaTime as the only dependency for Date and Time calculations, and CSS Grid for layout.<br />
+</p>
+<p>
+	It is inspired by the very successful Javascript Date/Time picker developed by TempusDominus, though any dependencies on Bootstrap or jQuery have been removed - it is not simply a port of the code or interop, but a fresh start from a zero base.<br />
+</p>
+
+<h3>Getting Started</h3>
+<hr />
+<p>
+	The library can be downloaded from NuGet by searching for: BlazorNodaTimeDateTimePicker in NuGet Package Manager, or by executing the following command in the Package Manager Console:	
+</p>
+<p>
+	<code>PM> Install-Package BlazorNodaTimeDateTimePicker -Version 0.0.5</code>
+</p>
+<p>
+	Until the issue <a href="https://github.com/aspnet/Blazor/issues/1315">https://github.com/aspnet/Blazor/issues/1315</a> is resolved, insert the following line into your _ViewImports.cshtml file:
+</p>
+<p>
+	<code>@@addTagHelper *, BlazorNodaTimeDateTimePicker</code>
+</p>
+
+<h3>Examples</h3>
+<hr />
+
 <h3>Inline</h3>
 
 <div class="d-flex flex-sm-row flex-column">
