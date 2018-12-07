@@ -8,7 +8,7 @@
 
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
-		<TimePicker Inline=true Changed=changed1 />
+		<TimePicker Inline=true SelectedTimeChanged=changed1 />
 	</div>
 	<div class="order-0 order-sm-1">
 		Selected Time: <span>@selectedTime1.ToString("hh:mm:ss tt", null)</span>
@@ -43,7 +43,7 @@
 <p>The default mode is 12 hour. Changing to 24-hour disables the AM/PM toggle.</p>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
-		<TimePicker Inline=true Is24Hour=true Changed=changed2 />
+		<TimePicker Inline=true Is24Hour=true SelectedTimeChanged=changed2 />
 	</div>
 	<div class="order-0 order-sm-1">
 		Selected Time: <span>@selectedTime2</span>
@@ -62,7 +62,7 @@
 
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
-		<TimePicker Inline=true MinuteStep=15 Changed=changed3 />
+		<TimePicker Inline=true MinuteStep=15 SelectedTimeChanged=changed3 />
 	</div>
 	<div class="order-0 order-sm-1">
 		Selected Time: <span>@selectedTime3.ToString("hh:mm:ss tt", null)</span>
