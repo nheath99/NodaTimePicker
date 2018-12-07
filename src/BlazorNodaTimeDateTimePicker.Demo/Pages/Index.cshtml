@@ -2,10 +2,40 @@
 @using NodaTime;
 
 <h3>Blazor NodaTime Date Picker</h3>
-
 <hr />
-<h3>Inline</h3>
 
+<p>
+	A Date/Time picker for <a href="http://blazor.net">Blazor</a> using <a href="https://github.com/nodatime/nodatime">NodaTime</a>.
+</p>
+<p>
+	The aim of this project is to develop Date/Time picker components for Blazor applications, using NodaTime as the only dependency for Date and Time calculations, and CSS Grid for layout.<br />
+</p>
+<p>
+	It is inspired by the very successful Javascript Date/Time picker developed by TempusDominus, though any dependencies on Bootstrap or jQuery have been removed - it is not simply a port of the code or interop, but a fresh start from a zero base.<br />
+</p>
+
+<h3>Getting Started</h3>
+<hr />
+<p>
+	The library can be downloaded from NuGet by searching for: BlazorNodaTimeDateTimePicker in NuGet Package Manager, or by executing the following command in the Package Manager Console:	
+</p>
+<p>
+	<code>PM> Install-Package BlazorNodaTimeDateTimePicker -Version 0.0.5</code>
+</p>
+<p>
+	Until the issue <a href="https://github.com/aspnet/Blazor/issues/1315">https://github.com/aspnet/Blazor/issues/1315</a> is resolved, insert the following line into your _ViewImports.cshtml file:
+</p>
+<p>
+	<code>@@addTagHelper *, BlazorNodaTimeDateTimePicker</code>
+</p>
+
+<h3>Examples</h3>
+<hr />
+
+<h3>Inline</h3>
+<p>
+	Displays an inline DatePicker that is visible by default.
+</p>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true SelectedDateChanged=changed1 />
@@ -74,21 +104,25 @@
 	<div class="order-0 order-sm-1">
 		<label>
 			<input type="checkbox" bind=@displayDOW4 />
-			Display Days of Week:
+			Display Days of Week
 		</label>
 	</div>
 </div>
 
 <hr />
 <h3>Localisation</h3>
+<p>
+	Specify any valid FormatProvider.
+</p>
 
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true FormatProvider=@formatProvider5 />
 	</div>
 	<p class="order-0 order-sm-1">
-		<select bind=@formatProvider5String>
+		<select bind=@formatProvider5String class="custom-select">
 			<option selected value="fr-FR">fr-FR</option>
+			<option value="pl-PL">pl-PL</option>
 			<option value="en-GB">en-GB</option>
 		</select>
 	</p>
@@ -96,7 +130,9 @@
 
 <hr />
 <h3>Min. Date</h3>
-
+<p>
+	Set a specific date as the minimum date that can be selected.
+</p>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true MinDate=@minDate6 />
@@ -108,7 +144,9 @@
 
 <hr />
 <h3>Max. Date</h3>
-
+<p>
+	Set a specific date as the maximum date that can be selected.
+</p>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true MaxDate=@maxDate7 />
@@ -120,7 +158,9 @@
 
 <hr />
 <h3>Disabled Dates</h3>
-
+<p>
+	Specify a sequence of dates that cannot be selected.
+</p>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true DisabledDates=@disabledDates8 />
@@ -135,57 +175,46 @@
 
 <hr />
 <h3>Enabled Dates</h3>
-<i>Todo</i>
+<p>
+	Specify a sequence of dates that can be selected. Any dates that do not appear in this sequence will always be disabled.
+</p>
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3 order-1 order-sm-0">
+		<DatePicker Inline=true EnabledDates=@enabledDates9 />
+	</div>
+	<ul class="order-0 order-sm-1">
+		@foreach (var date in enabledDates9)
+		{
+			<li>@date</li>
+		}
+	</ul>
+</div>
 
 <hr />
 <h3>Days of Week Disabled</h3>
-
+<p>
+	Specify which days of the week are disabled.
+</p>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true DaysOfWeekDisabled=@DaysOfWeekDisabled10 />
 	</div>
 	<ul class="list-unstyled order-0 order-sm-1">
-		<li>
-			<label>
-				<input type="checkbox" bind=monday10 /> Monday
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="checkbox" bind=tuesday10 /> Tuesday
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="checkbox" bind=wednesday10 /> Wednesday
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="checkbox" bind=thursday10 /> Thursday
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="checkbox" bind=friday10 /> Friday
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="checkbox" bind=saturday10 /> Saturday
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="checkbox" bind=sunday10 /> Sunday
-			</label>
-		</li>
+		<li><label><input type="checkbox" bind=monday10 /> Monday</label></li>
+		<li><label><input type="checkbox" bind=tuesday10 /> Tuesday</label></li>
+		<li><label><input type="checkbox" bind=wednesday10 /> Wednesday</label></li>
+		<li><label><input type="checkbox" bind=thursday10 /> Thursday</label></li>
+		<li><label><input type="checkbox" bind=friday10 /> Friday</label></li>
+		<li><label><input type="checkbox" bind=saturday10 /> Saturday</label></li>
+		<li><label><input type="checkbox" bind=sunday10 /> Sunday</label></li>
 	</ul>
 </div>
 
 <hr />
 <h3>Set Selected Date</h3>
-
+<p>
+	Programatically change the SelectedDate on the control.
+</p>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true SelectedDate=@selectedDate11 />
@@ -203,6 +232,9 @@
 
 <hr />
 <h3>Day View Header Format</h3>
+<p>
+	Set the format for the header when in Day View.
+</p>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true DayViewHeaderFormat="MM yy" />
@@ -214,6 +246,9 @@
 
 <hr />
 <h3>Month View Header Format</h3>
+<p>
+	Set the format for the header when in the Month View.
+</p>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true MonthViewHeaderFormat="yy" InitialViewMode=@ViewMode.Months />
@@ -226,6 +261,9 @@
 
 <hr />
 <h3>Show Today/Clear</h3>
+<p>
+	Specify whether to show the <strong>Today</strong> and <strong>Clear</strong> buttons. Default is to display both.
+</p>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true ShowToday=@showToday ShowClear=@showClear />
@@ -244,6 +282,9 @@
 
 <hr />
 <h3>Initial View Mode</h3>
+<p>
+	Set the initial <strong>ViewMode</strong> of the control.
+</p>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true InitialViewMode=@ViewMode.Years />
@@ -255,6 +296,9 @@
 
 <hr />
 <h3>Events</h3>
+<p>
+	Subscribe to events raised by the control.
+</p>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3">
 		<DatePicker Inline=true SelectedDateChanged=@changed Selected=@selected Cleared=@cleared />
@@ -278,7 +322,7 @@
 		StateHasChanged();
 	}
 	string demo1String = "<DatePicker Inline=true  SelectedDateChanged=changed1 />";
-	
+
 	bool datePicker2Visible = false;
 	LocalDate? selectedDate2;
 	void focussed2(UIFocusEventArgs e)
@@ -328,6 +372,19 @@
 		get
 		{
 			yield return Today.PlusDays(-1);
+			yield return Today.PlusDays(1);
+			yield return Today.PlusDays(5);
+			yield return Today.PlusDays(7);
+			yield return Today.PlusDays(8);
+		}
+	}
+
+	IEnumerable<LocalDate> enabledDates9
+	{
+		get
+		{
+			yield return Today.PlusDays(-1);
+			yield return Today;
 			yield return Today.PlusDays(1);
 			yield return Today.PlusDays(5);
 			yield return Today.PlusDays(7);

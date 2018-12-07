@@ -5,17 +5,17 @@ using System.Linq;
 
 namespace BlazorNodaTimeDateTimePicker
 {
-    internal class DatePickerState
-    {
+	internal class DatePickerState
+	{
 		internal DatePickerState()
 		{
 			Clock = SystemClock.Instance;
-			MonthToDisplay = Today.StartOfMonth();			
+			MonthToDisplay = Today.StartOfMonth();
 		}
 
 		internal IClock Clock { get; }
 		internal LocalDate Today => Clock.Today();
-					
+
 		internal LocalDate? SelectedDate { get; set; }
 		internal LocalDate MonthToDisplay { get; private set; }
 		internal ViewMode ViewMode { get; set; } = ViewMode.Days;
@@ -31,7 +31,7 @@ namespace BlazorNodaTimeDateTimePicker
 		internal IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals { get; set; }
 		internal Func<LocalDate, bool> DaysEnabledFunction { get; set; }
 		internal bool WriteToLog { get; set; }
-		
+
 		internal event Action<LocalDate> OnSelected; // when a date is selected
 		internal event Action OnCleared; // when the date is set to null
 		internal event Action<LocalDate?> OnSelectedDateChanged; // when the selected date is changed
@@ -39,7 +39,7 @@ namespace BlazorNodaTimeDateTimePicker
 		internal event Action OnUpdated;
 		internal event Action OnOpened; // when the datepicker is opened
 		internal event Action OnClosed; // when the datepicker is closed
-		
+
 		internal event Action OnToday; // the Today button has been clicked
 		internal event Action OnStateChanged;
 
@@ -64,7 +64,7 @@ namespace BlazorNodaTimeDateTimePicker
 			else
 				OnCleared?.Invoke();
 		}
-		
+
 		void Updated() => OnUpdated?.Invoke();
 		void Opened() => OnOpened?.Invoke();
 		void Closed() => OnClosed?.Invoke();
@@ -86,7 +86,7 @@ namespace BlazorNodaTimeDateTimePicker
 			if (SelectedDate != selectedDate)
 			{
 				SelectedDate = selectedDate;
-				
+
 				StateChanged();
 				SelectedDateChanged();
 			}
@@ -116,7 +116,7 @@ namespace BlazorNodaTimeDateTimePicker
 		{
 			Log(nameof(SetDisplayMonth));
 
-			MonthToDisplay = new LocalDate(MonthToDisplay.Year, month, 1);			
+			MonthToDisplay = new LocalDate(MonthToDisplay.Year, month, 1);
 		}
 
 		internal void SetDisplayYear(int year)
@@ -170,7 +170,7 @@ namespace BlazorNodaTimeDateTimePicker
 					break;
 				case ViewMode.Decades:
 					SetViewMode(ViewMode.Years);
-					break;			
+					break;
 				case ViewMode.Days:
 				default:
 					break;
@@ -200,7 +200,7 @@ namespace BlazorNodaTimeDateTimePicker
 			MonthToDisplay = MonthToDisplay.PlusYears(1);
 			YearToDisplayChanged();
 		}
-		
+
 		internal void PreviousYear()
 		{
 			Log(nameof(PreviousYear));
@@ -256,13 +256,15 @@ namespace BlazorNodaTimeDateTimePicker
 				if (EnabledDates != null)
 				{
 					if (EnabledDates.Contains(date) == false)
-						return false;
+					{						
+						return true;
+					}
 				}
 
 				if (DisabledDates != null)
 				{
 					if (DisabledDates.Contains(date))
-						return true;					
+						return true;
 				}
 
 				if (date < MinDate)
