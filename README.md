@@ -43,7 +43,7 @@ To bind a DatePicker to an Input element, use Blazor event bindings:
   bool visible = false;
   void focussed(UIFocusEventArgs e)
   {
-    visible = true;
+	visible = true;
   }
   void selected(LocalDate localDate)
   {
@@ -54,15 +54,6 @@ To bind a DatePicker to an Input element, use Blazor event bindings:
 ````
 ![DatePicker1](/docs/images/DatePicker_BoundToInput.png)
 
-### Localization
-
-Display day and month names in the specified culture:
-````C#
-<DatePicker Inline=true FormatProvider="@(new System.Globalization.CultureInfo("fr-FR"))" />
-````
-![DatePicker Localization](/docs/images/DatePicker_Localization.png)
-![DatePicker Localization Months](/docs/images/DatePicker_Localization_Months.png)
-
 ### First Day of Week
 
 Specify any weekday as the first day of the week (default is Monday):
@@ -72,6 +63,15 @@ Specify any weekday as the first day of the week (default is Monday):
 ````
 ![DatePicker First Day of Week](/docs/images/DatePicker_FirstDayOfWeek.png)
 
+### Localization
+
+Display day and month names in the specified culture:
+````C#
+<DatePicker Inline=true FormatProvider="@(new System.Globalization.CultureInfo("fr-FR"))" />
+````
+![DatePicker Localization](/docs/images/DatePicker_Localization.png)
+![DatePicker Localization Months](/docs/images/DatePicker_Localization_Months.png)
+
 ### Disabled Days of Week
 
 Disable specific days of the week:
@@ -80,8 +80,12 @@ Disable specific days of the week:
 ````
 ![DatePicker Disabled Days of Week](/docs/images/DatePicker_DaysOfWeekDisabled.png)
 
-## Help Wanted!
-Get in touch if you want to collaborate, there's plenty of features to add and plenty to improve!
+### Additional Features
+- Min/Max selectable date
+- Specifit disabled dates
+- Disable specified date intervals
+- Custom header formats
+- Show/Hide action buttons
 
 ## Future Development
 - Time picker
