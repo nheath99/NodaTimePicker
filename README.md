@@ -16,7 +16,7 @@ It is inspired by the very successful Javascript Date/Time picker developed by [
 
 ### Requirements
 
-- Visual Studio 2019 Preview 2.0
+- https://blazor.net/docs/get-started.html
 
 The easiest way to get started is to look at the Demo project, which has samples for most of the functionality.
 
