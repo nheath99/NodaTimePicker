@@ -14,6 +14,10 @@ It is inspired by the very successful Javascript Date/Time picker developed by [
 
 ## Getting Started
 
+### Requirements
+
+- Visual Studio 2019 Preview 2.0
+
 The easiest way to get started is to look at the Demo project, which has samples for most of the functionality.
 
 The library can be downloaded from NuGet by searching for: BlazorNodaTimeDateTimePicker in NuGet Package Manager, or by executing the following command in the Package Manager Console:
