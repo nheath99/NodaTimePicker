@@ -22,6 +22,7 @@ namespace BlazorNodaTimeDateTimePicker
 		internal bool Visible { get; set; }
 		internal bool Inline { get; set; }
 		internal IsoDayOfWeek FirstDayOfWeek { get; set; } = IsoDayOfWeek.Monday;
+		internal bool DisplayWeekYearSelectionMode { get; set; } = false;
 
 		internal LocalDate? MinDate { get; set; }
 		internal LocalDate? MaxDate { get; set; }
@@ -237,7 +238,7 @@ namespace BlazorNodaTimeDateTimePicker
 		}
 
 		internal void PreviousCentury()
-		{
+		{			
 			Log(nameof(PreviousCentury));
 
 			MonthToDisplay = MonthToDisplay.PlusYears(-100);

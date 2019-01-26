@@ -41,7 +41,7 @@
 
 .datepicker-content {
 	display: grid;
-	grid-template-areas: "header" "days-of-week" "days";
+	grid-template-areas: "header" "days-of-week" "days" "footer";
 
 	.datepicker-header {
 		grid-area: header;
@@ -166,6 +166,7 @@
 	}
 
 	.datepicker-footer {
+		grid-area : footer;
 		margin-top: 2px;
 		display: flex;
 		justify-content: space-around;
@@ -200,6 +201,31 @@
 			border-radius: 0.25rem;
 			text-align: center;
 			padding: 1rem 0.3rem;
+		}
+	}
+}
+
+.datepicker-content-show-week-numbers {
+	.datepicker-days {
+		display: grid;
+		grid-template-areas: ". header" "days-of-week days-of-week" "week-numbers days" ". footer";
+		grid-template-columns: 1fr 7fr;
+	}
+
+	.datepicker-days-of-week {
+		grid-template-columns: repeat(8, 1fr);
+	}
+
+	.week-numbers {
+		grid-area: week-numbers;
+
+		.week-number {
+			color: red;
+			border-radius: 0.25rem;
+			text-align: center;
+			padding: 0.3rem;
+			width: 100%;
+			border-top: 1px solid rgb(222, 226, 230);
 		}
 	}
 }

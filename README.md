@@ -96,6 +96,7 @@ Disable specific days of the week:
 - Date+Time picker
 - Date range picker
 - Date+Time range picker
+- Week picker
 - Month picker
 - Year picker
 - Support for different calendars

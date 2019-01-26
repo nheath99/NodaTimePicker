@@ -2,7 +2,7 @@
 @using NodaTime.Extensions
 
 <div class="@ClassName" style="@MainStyle">
-	<div class="datepicker-content">
+	<div class="@ContentClassName">
 		@if (State.ViewMode == ViewMode.Days)
 		{
 			<div class="datepicker-days">
@@ -14,6 +14,10 @@
 				@if (DisplayDaysOfWeek)
 				{
 					<div class="datepicker-days-of-week">
+						@if (DisplayWeekNumber)
+						{
+							<div class="dow">@WeekAbbreviation</div>
+						}
 						@{
 							var dow = FirstDayOfWeek;
 							do
@@ -21,6 +25,15 @@
 								<div class="@CssClassGenerator.DayOfWeek(dow, DaysOfWeekDisabled)">@DayOfWeekAbbreviation(dow)</div>
 								dow = dow.Next();
 							} while (dow != FirstDayOfWeek);
+						}
+					</div>
+				}
+				@if (DisplayWeekNumber)
+				{
+					<div class="week-numbers">
+						@foreach (var week in GetWeeks)
+						{
+							<div class="week-number">@week</div>
 						}
 					</div>
 				}
@@ -130,7 +143,7 @@
 	/// <summary>The maximum width of the wrapper element. Must be a valid CSS width value.</summary>
 	[Parameter] protected string MaxWidth { get; set; }
 	/// <summary>The width of the wrapper element. Must be a valid CSS width value.</summary>
-	[Parameter] protected string Width { get; set; } = "250px;";
+	[Parameter] protected string Width { get; set; } = "250px";
 	/// <summary>If true, the Today button will be displayed. If false, it will be hidden.</summary>
 	[Parameter] protected bool ShowToday { get; set; } = true;
 	/// <summary>If true, the Clear button will be displayed. If false, it will be hidden.</summary>
@@ -145,66 +158,79 @@
 	[Parameter] protected string CloseText { get; set; } = "Close";
 	/// <summary>The <see cref="ViewMode"/> to display on initialization. Defaults to <see cref="ViewMode.Days"/>.</summary>
 	[Parameter] protected ViewMode InitialViewMode { get; set; } = ViewMode.Days;
+	/// <summary>Whether to show the week number in <see cref="ViewMode"/> = <see cref="ViewMode.Days"/>. Default is <see cref="false"/></summary>
+	[Parameter] protected bool DisplayWeekNumber { get; set; } = false;
+	[Parameter] protected string WeekAbbreviation { get; set; } = "Wk";
 	/// <summary>The content to display in the Previous button. Defaults to the Less Than character (&lt;)</summary>
 	[Parameter] protected RenderFragment PrevContent { get; set; }
 	/// <summary>The content to display in the Previous button. Defaults to the Greater Than character (&gt;)</summary>
 	[Parameter] protected RenderFragment NextContent { get; set; }
 
 	/// <summary>Whether the DatePicker should be visible or hidden.</summary>
-	[Parameter] protected bool Visible
+	[Parameter]
+	protected bool Visible
 	{
 		get => State.Visible;
 		set => State.Visible = value;
 	}
 	/// <summary>Whether the DatePicker should display Inline or not.</summary>
-	[Parameter] protected bool Inline
+	[Parameter]
+	protected bool Inline
 	{
 		get => State.Inline;
 		set => State.Inline = value;
 	}
 	/// <summary>The day of the week to start from, when in <see cref="ViewMode.Days"/>.</summary>
-	[Parameter] protected IsoDayOfWeek FirstDayOfWeek
+	[Parameter]
+	protected IsoDayOfWeek FirstDayOfWeek
 	{
 		get => State.FirstDayOfWeek;
 		set => State.FirstDayOfWeek = value;
 	}
-	[Parameter] protected LocalDate? SelectedDate
+	[Parameter]
+	protected LocalDate? SelectedDate
 	{
 		get => State.SelectedDate;
 		set => State.SelectedDate = value;
 	}
 	/// <summary>The earliest date that can be selected, inclusive. A value of null indicates that there is no minimum date.</summary>
-	[Parameter] protected LocalDate? MinDate
+	[Parameter]
+	protected LocalDate? MinDate
 	{
 		get => State.MinDate;
 		set => State.MinDate = value;
 	}
 	/// <summary>The latest date that can be selected, inclusive. A value of null indicates that there is no maximum date.</summary>
-	[Parameter] protected LocalDate? MaxDate
+	[Parameter]
+	protected LocalDate? MaxDate
 	{
 		get => State.MaxDate;
 		set => State.MaxDate = value;
 	}
 	/// <summary>Specific dates that cannot be selected.</summary>
-	[Parameter] protected IEnumerable<LocalDate> DisabledDates
+	[Parameter]
+	protected IEnumerable<LocalDate> DisabledDates
 	{
 		get => State.DisabledDates;
 		set => State.DisabledDates = value;
 	}
 	/// <summary>Specific dates that can be selected. Note this overrides any disabled state.</summary>
-	[Parameter] protected IEnumerable<LocalDate> EnabledDates
+	[Parameter]
+	protected IEnumerable<LocalDate> EnabledDates
 	{
 		get => State.EnabledDates;
 		set => State.EnabledDates = value;
 	}
 	/// <summary>Days of the week that cannot be selected.</summary>
-	[Parameter] protected IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled
+	[Parameter]
+	protected IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled
 	{
 		get => State.DaysOfWeekDisabled;
 		set => State.DaysOfWeekDisabled = value;
 	}
 	/// <summary>Inclusive date intervals that cannot be selected.</summary>
-	[Parameter] protected IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals
+	[Parameter]
+	protected IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals
 	{
 		get => State.DisabledDateIntervals;
 		set => State.DisabledDateIntervals = value;
@@ -230,6 +256,28 @@
 
 	// Private properties and fields
 	IEnumerable<LocalDate> Days { get; set; }
+
+	internal IEnumerable<int> GetWeeks
+	{
+		get
+		{
+			if (Days != null && Days.Count() > 0)
+			{
+				int i = 0;
+				foreach (var day in Days)
+				{
+					if (i % 7 == 0)
+						yield return NodaTime.Calendars.WeekYearRules.Iso.GetWeekOfWeekYear(day);
+
+					i++;
+				}
+			}
+			else
+			{
+				yield break;
+			}
+		}
+	}
 
 	protected override void OnInit()
 	{
@@ -351,6 +399,8 @@
 				return CssClassGenerator.DatePickerMain(Inline);
 		}
 	}
+
+	string ContentClassName => CssClassGenerator.DatePickerContent(DisplayWeekNumber);
 
 	protected string MainStyle
 	{

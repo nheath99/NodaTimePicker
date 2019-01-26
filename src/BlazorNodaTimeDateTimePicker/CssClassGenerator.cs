@@ -14,6 +14,15 @@ namespace BlazorNodaTimeDateTimePicker
 			var str = "datepicker";
 			if (inline == false)
 				str += " datepicker-dropdown-menu";
+			
+			return str;
+		}
+
+		internal static string DatePickerContent(bool displayWeekNumbers)
+		{
+			var str = "datepicker-content";
+			if (displayWeekNumbers == true)
+				str += " datepicker-content-show-week-numbers";
 
 			return str;
 		}
