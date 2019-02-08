@@ -158,8 +158,11 @@
 	[Parameter] protected string CloseText { get; set; } = "Close";
 	/// <summary>The <see cref="ViewMode"/> to display on initialization. Defaults to <see cref="ViewMode.Days"/>.</summary>
 	[Parameter] protected ViewMode InitialViewMode { get; set; } = ViewMode.Days;
+	/// <summary>The granularity of date selection. Defaults to <see cref="ViewMode.Days"/>.</summary>
+	[Parameter] protected ViewMode MinimumSelectionMode { get; set; } = ViewMode.Days;
 	/// <summary>Whether to show the week number in <see cref="ViewMode"/> = <see cref="ViewMode.Days"/>. Default is <see cref="false"/></summary>
 	[Parameter] protected bool DisplayWeekNumber { get; set; } = false;
+	/// <summary>The text to display on the Week number heading, if <see cref="DisplayWeekNumber"/> is set to true</summary>
 	[Parameter] protected string WeekAbbreviation { get; set; } = "Wk";
 	/// <summary>The content to display in the Previous button. Defaults to the Less Than character (&lt;)</summary>
 	[Parameter] protected RenderFragment PrevContent { get; set; }
@@ -301,7 +304,7 @@
 	{
 		State.Log(nameof(OnParametersSet));
 
-		State.ViewMode = InitialViewMode;
+		State.ViewMode = InitialViewMode < MinimumSelectionMode ? MinimumSelectionMode : InitialViewMode;
 
 		switch (State.ViewMode)
 		{
@@ -352,30 +355,6 @@
 
 		Cleared?.Invoke();
 	}
-
-	#region Days
-
-	void RenderDays()
-	{
-		State.Log(nameof(RenderDays));
-
-		var startOfWeekOfMonth = State.MonthToDisplay.StartOfWeek(FirstDayOfWeek);
-
-		var endOfMonth = State.MonthToDisplay.EndOfMonth();
-		var endOfWeekOfMonth = endOfMonth.EndOfWeek(FirstDayOfWeek);
-
-		Days = GetDaysBetween(startOfWeekOfMonth, endOfWeekOfMonth);
-	}
-
-	void DayClicked(UIMouseEventArgs eventArgs, LocalDate date)
-	{
-		State.Log(nameof(DayClicked));
-
-		if (!State.IsDayDisabled(date))
-			State.SetSelectedDate(date);
-	}
-
-	#endregion
 
 	static IEnumerable<LocalDate> GetDaysBetween(LocalDate start, LocalDate end)
 	{
@@ -445,6 +424,30 @@
 
 	string CenturyText => State.MonthToDisplay.GetCenturyString();
 
+	#region Days
+
+	void RenderDays()
+	{
+		State.Log(nameof(RenderDays));
+
+		var startOfWeekOfMonth = State.MonthToDisplay.StartOfWeek(FirstDayOfWeek);
+
+		var endOfMonth = State.MonthToDisplay.EndOfMonth();
+		var endOfWeekOfMonth = endOfMonth.EndOfWeek(FirstDayOfWeek);
+
+		Days = GetDaysBetween(startOfWeekOfMonth, endOfWeekOfMonth);
+	}
+
+	void DayClicked(UIMouseEventArgs eventArgs, LocalDate date)
+	{
+		State.Log(nameof(DayClicked));
+
+		if (!State.IsDayDisabled(date))
+			State.SetSelectedDate(date);
+	}
+
+	#endregion
+
 	#region Months
 
 	bool[] disabledMonths;
@@ -461,6 +464,9 @@
 		}
 	}
 
+	/// <summary>Callback for when a Month has been selected.</summary>
+	/// <param name="eventArgs"></param>
+	/// <param name="month"></param>
 	void MonthClicked(UIMouseEventArgs eventArgs, int month)
 	{
 		State.Log(nameof(MonthClicked));
@@ -468,10 +474,19 @@
 		if (disabledMonths[month - 1] == false)
 		{
 			State.SetDisplayMonth(month);
-			State.PreviousViewMode();
+			if (MinimumSelectionMode == ViewMode.Months)
+			{
+				State.SetSelectedMonth(month);
+			}
+			else
+			{
+				State.PreviousViewMode();
+			}
 		}
 	}
 
+	/// <summary>Increments the MonthToDisplay value by one month.</summary>
+	/// <param name="eventArgs"></param>
 	void NextMonth(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(NextMonth));
@@ -481,6 +496,8 @@
 		OnUpdated();
 	}
 
+	/// <summary>Decrements the MonthToDisplay value by one month.</summary>
+	/// <param name="eventArgs"></param>
 	void PreviousMonth(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(PreviousMonth));
@@ -490,6 +507,8 @@
 		OnUpdated();
 	}
 
+	/// <summary>Displays the Month selection mode, i.e. a list of months of the year.</summary>
+	/// <param name="eventArgs"></param>
 	void SelectMonth(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(SelectMonth));
@@ -526,8 +545,15 @@
 		if (disabledYears[year] == false)
 		{
 			State.SetDisplayYear(year);
-			RenderMonths();
-			State.PreviousViewMode();
+			if (MinimumSelectionMode == ViewMode.Years)
+			{
+				State.SetSelectedYear(year);
+			}
+			else
+			{
+				RenderMonths();
+				State.PreviousViewMode();
+			}
 		}
 	}
 
@@ -583,8 +609,15 @@
 		if (disabledDecades[decade] == false)
 		{
 			State.SetDisplayYear(decade);
-			RenderYears();
-			State.PreviousViewMode();
+			if (MinimumSelectionMode == ViewMode.Decades)
+			{
+				State.SetSelectedYear(decade);
+			}
+			else
+			{
+				RenderYears();
+				State.PreviousViewMode();
+			}
 		}
 	}
 

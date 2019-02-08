@@ -28,6 +28,10 @@ Until the issue https://github.com/aspnet/Blazor/issues/1315 is resolved, insert
 ````C#
 @addTagHelper *, BlazorNodaTimeDateTimePicker
 ````
+When using the component, you must add a using statement for NodaTime:
+````
+@using NodaTime
+````
 ### Inline
 
 To display a simple inline DatePicker, use the following code:

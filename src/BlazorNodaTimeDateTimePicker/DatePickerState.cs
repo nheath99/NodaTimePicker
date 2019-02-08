@@ -96,6 +96,32 @@ namespace BlazorNodaTimeDateTimePicker
 			MonthToDisplayChanged();
 		}
 
+		internal void SetSelectedMonth(int month)
+		{
+			Log(nameof(SetSelectedMonth));
+
+			var selectedDate = new LocalDate(MonthToDisplay.Year, month, 1);
+
+			SelectedDate = selectedDate;
+			MonthToDisplay = selectedDate;
+
+			StateChanged();
+			SelectedDateChanged();
+		}
+
+		internal void SetSelectedYear(int year)
+		{
+			Log(nameof(SetSelectedMonth));
+
+			var selectedDate = new LocalDate(year, 1, 1);
+
+			SelectedDate = selectedDate;
+			MonthToDisplay = selectedDate;
+
+			StateChanged();
+			SelectedDateChanged();
+		}
+
 		internal void SetSelectedDateToday()
 		{
 			Log(nameof(SetSelectedDateToday));
@@ -238,7 +264,7 @@ namespace BlazorNodaTimeDateTimePicker
 		}
 
 		internal void PreviousCentury()
-		{			
+		{
 			Log(nameof(PreviousCentury));
 
 			MonthToDisplay = MonthToDisplay.PlusYears(-100);
@@ -257,7 +283,7 @@ namespace BlazorNodaTimeDateTimePicker
 				if (EnabledDates != null)
 				{
 					if (EnabledDates.Contains(date) == false)
-					{						
+					{
 						return true;
 					}
 				}
