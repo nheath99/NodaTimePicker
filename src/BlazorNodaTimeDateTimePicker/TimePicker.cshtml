@@ -7,19 +7,19 @@
 		case TimeViewMode.Clock:
 			{
 				<div class="timepicker-clock">
-					<button type="button" role="button" class="timepicker-hour-up timepicker-button" onclick=@IncrementHour>&uarr;</button>
+					<button type="button" role="button" class="timepicker-hour-up timepicker-button" onclick=@IncrementHour>@UpArrowIcon</button>
 					<button type="button" role="button" class="timepicker-hour timepicker-button" onclick=@DisplayHours>
 						@HourDisplay
 					</button>
-					<button type="button" role="button" class="timepicker-hour-down timepicker-button" onclick=@DecrementHour>&darr;</button>
+					<button type="button" role="button" class="timepicker-hour-down timepicker-button" onclick=@DecrementHour>@DownArrowIcon</button>
 
 					<div class="timepicker-divider"><span>:</span></div>
 
-					<button type="button" role="button" class="timepicker-minute-up timepicker-button" onclick=@IncrementMinute>&uarr;</button>
+					<button type="button" role="button" class="timepicker-minute-up timepicker-button" onclick=@IncrementMinute>@UpArrowIcon</button>
 					<button type="button" role="button" class="timepicker-minute timepicker-button" onclick=@DisplayMinutes>
 						@MinuteDisplay
 					</button>
-					<button type="button" role="button" class="timepicker-minute-down timepicker-button" onclick=@DecrementMinute>&darr;</button>
+					<button type="button" role="button" class="timepicker-minute-down timepicker-button" onclick=@DecrementMinute>@DownArrowIcon</button>
 
 					@if (Is24Hour == false)
 					{
@@ -96,6 +96,21 @@
 	}
 
 	[Parameter] protected Action<LocalTime> SelectedTimeChanged { get; set; }
+
+	[Parameter] protected RenderFragment UpArrowIcon { get; set; }
+	[Parameter] protected RenderFragment DownArrowIcon { get; set; }
+
+	protected override void OnParametersSet()
+	{
+		if (UpArrowIcon == null)
+		{
+			UpArrowIcon = builder => builder.AddContent(1, new MarkupString("&uarr;"));
+		}
+		if (DownArrowIcon == null)
+		{
+			DownArrowIcon = builder => builder.AddContent(1, new MarkupString("&darr;"));
+		}
+	}
 
 	void OnSelectedTimeChanged()
 	{

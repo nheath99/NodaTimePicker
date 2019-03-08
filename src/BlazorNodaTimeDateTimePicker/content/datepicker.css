@@ -1,9 +1,8 @@
-﻿button.date-picker {
-  border: none;
-  background-color: transparent; }
-
-.datepicker {
+﻿.datepicker {
   margin-bottom: 10px; }
+  .datepicker button {
+    border: none;
+    background-color: transparent; }
   .datepicker.datepicker-dropdown-menu {
     position: absolute;
     z-index: 1000;

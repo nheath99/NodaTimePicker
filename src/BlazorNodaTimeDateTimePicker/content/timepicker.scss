@@ -1,6 +1,11 @@
 ﻿@import "variables.scss";
 
 .timepicker {
+	button {
+		border: none;
+		background-color: transparent;
+	}
+
 	&.timepicker-dropdown-menu {
 		position: absolute;
 		z-index: 1000;

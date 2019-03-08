@@ -3,6 +3,11 @@
 .datepicker {
 	margin-bottom: 10px;
 
+	button {
+		border: none;
+		background-color: transparent;
+	}
+
 	&.datepicker-dropdown-menu {
 		position: absolute;
 		z-index: 1000;
