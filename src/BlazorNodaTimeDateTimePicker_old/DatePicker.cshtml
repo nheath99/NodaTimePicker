@@ -1,4 +1,6 @@
-﻿@inherits PickerComponentBase<DatePickerState>
+﻿@namespace BlazorNodaTimeDateTimePicker
+@inherits PickerComponentBase<DatePickerState>
+@using Microsoft.AspNetCore.Components
 @using NodaTime
 @using NodaTime.Extensions
 
@@ -73,7 +75,7 @@
 				<div class="datepicker-header">
 					<button type="button" role="button" class="prev" onclick=@PreviousYear>@PrevContent</button>
 					<button type="button" role="button" class="header-text" onclick=@SelectYear>@YearText</button>
-					<button type="button" role="button" class="next" onclick="@NextYear">@NextContent</button>
+					<button type="button" role="button" class="next" onclick="@NextYear" >@NextContent</button>
 				</div>
 				<div class="months">
 					@for (int i = 1; i <= 12; i++)
@@ -135,11 +137,11 @@
 	/// <summary>In <see cref="ViewMode.Days"/>, the format of the month and year in the header. Defaults to MMMM yyyy, i.e. October 2018.</summary>
 	[Parameter] protected string DayViewHeaderFormat { get; set; } = "MMMM yyyy";
 	/// <summary>In <see cref="ViewMode.Months"/>, the format of the year in the header. Defaults to yyyy, i.e. 2018.</summary>
-	[Parameter] protected string MonthViewHeaderFormat { get; set; } = "yyyy";
+	[Parameter] protected string MonthViewHeaderFormat { get; set; } = "yyyy";	
 	/// <summary>If true, the Today button will be displayed. If false, it will be hidden.</summary>
 	[Parameter] protected bool ShowToday { get; set; } = true;
 	/// <summary>If true, the Clear button will be displayed. If false, it will be hidden.</summary>
-	[Parameter] protected bool ShowClear { get; set; } = true;
+	[Parameter] protected bool ShowClear { get; set; } = true;	
 	/// <summary>The text to display on the Today button.</summary>
 	[Parameter] protected string TodayText { get; set; } = "Today";
 	/// <summary>The text to display on the Clear button.</summary>
@@ -254,7 +256,7 @@
 			}
 		}
 	}
-
+	
 	protected override void OnInit()
 	{
 		State.WriteToLog = Logging;

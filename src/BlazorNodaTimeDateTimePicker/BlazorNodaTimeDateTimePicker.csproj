@@ -1,59 +1,30 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <OutputType>Library</OutputType>
     <IsPackable>true</IsPackable>
-    <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
+    <RestoreAdditionalProjectSources>
+      https://dotnet.myget.org/F/aspnetcore-dev/api/v3/index.json;
+      https://dotnet.myget.org/F/blazor-dev/api/v3/index.json;
+    </RestoreAdditionalProjectSources>
     <LangVersion>7.3</LangVersion>
-		<PackageId>BlazorNodaTimeDateTimePicker</PackageId>
-		<Version>0.0.5</Version>
-		<Authors>Nick Heath</Authors>
-		<Title>Blazor NodaTime Date Time Picker</Title>
-		<Description>A Date Time Picker for Blazor using NodaTime</Description>
-		<PackageProjectUrl>https://github.com/nheath99/BlazorNodaTimeDateTimePicker</PackageProjectUrl>
-		<PackageTags>blazor;nodatime;datepicker;datepicker;timepicker</PackageTags>
-		<RepositoryUrl>https://github.com/nheath99/BlazorNodaTimeDateTimePicker</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="compilerconfig.json" />
+    <!-- .js/.css files will be referenced via <script>/<link> tags; other content files will just be included in the app's 'dist' directory without any tags referencing them -->
+    <EmbeddedResource Include="content\**\*.js" LogicalName="blazor:js:%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="content\**\*.css" LogicalName="blazor:css:%(RecursiveDir)%(Filename)%(Extension)" />
+    <EmbeddedResource Include="content\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="compilerconfig.json" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Browser" Version="3.0.0-preview3-19153-02" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Build" Version="3.0.0-preview3-19153-02" PrivateAssets="all" />
+    <PackageReference Include="NodaTime" Version="2.4.4" />
   </ItemGroup>
-	
-	<ItemGroup>
-		<!-- .js/.css files will be referenced via <script>/<link> tags; other content files will just be included in the app's 'dist' directory without any tags referencing them -->
-		<EmbeddedResource Include="content\**\*.js" LogicalName="blazor:js:%(RecursiveDir)%(Filename)%(Extension)" />
-		<EmbeddedResource Include="content\**\*.css" LogicalName="blazor:css:%(RecursiveDir)%(Filename)%(Extension)" />
-		<EmbeddedResource Include="content\**" Exclude="**\*.js;**\*.css" LogicalName="blazor:file:%(RecursiveDir)%(Filename)%(Extension)" />
-	</ItemGroup>
-	
-	<ItemGroup>
-	  <None Remove="content\datepicker.min.css" />
-	  <None Remove="content\timepicker.css" />
-	  <None Remove="content\timepicker.min.css" />
-	  <None Remove="content\timepicker.scss" />
-	</ItemGroup>
-	
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.7.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.7.0" />
-    <PackageReference Include="NodaTime" Version="2.4.2" />
-  </ItemGroup>
-	
-  <ItemGroup>
-    <Content Update="TimePicker.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-  </ItemGroup>
-	
-  <ItemGroup>
-    <EmbeddedResource Update="content\timepicker.scss">
-      <LogicalName>blazor:file:%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-    </EmbeddedResource>
+    <Folder Include="content\" />
   </ItemGroup>
 
 </Project>

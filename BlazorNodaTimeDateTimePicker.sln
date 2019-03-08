@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28107.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28606.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorNodaTimeDateTimePicker.Demo", "src\BlazorNodaTimeDateTimePicker.Demo\BlazorNodaTimeDateTimePicker.Demo.csproj", "{21983A4A-4CE8-4598-ADD8-B0DD531A6DEB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorNodaTimeDateTimePicker", "src\BlazorNodaTimeDateTimePicker\BlazorNodaTimeDateTimePicker.csproj", "{F07BB3DF-F3C1-45E6-911B-02FED7C1FE66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorNodaTimeDateTimePicker.Tests", "tests\BlazorNodaTimeDateTimePicker.Tests\BlazorNodaTimeDateTimePicker.Tests.csproj", "{15F79422-4E2B-4CAA-8609-CDAE66F5DB8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorNodaTimeDateTimePicker.Tests", "tests\BlazorNodaTimeDateTimePicker.Tests\BlazorNodaTimeDateTimePicker.Tests.csproj", "{15F79422-4E2B-4CAA-8609-CDAE66F5DB8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

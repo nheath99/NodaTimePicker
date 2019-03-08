@@ -1,4 +1,6 @@
-﻿@inherits PickerComponentBase<TimePickerState>
+﻿@namespace BlazorNodaTimeDateTimePicker
+@inherits PickerComponentBase<TimePickerState>
+@using Microsoft.AspNetCore.Components
 @using NodaTime;
 
 <div class="@ClassName" style="@MainStyle">
@@ -7,19 +9,19 @@
 		case TimeViewMode.Clock:
 			{
 				<div class="timepicker-clock">
-					<button type="button" role="button" class="timepicker-hour-up timepicker-button" onclick=@IncrementHour>&uarr;</button>
+					<button type="button" role="button" class="timepicker-hour-up timepicker-button" onclick=@IncrementHour>@Html.Raw("&uarr;")</button>
 					<button type="button" role="button" class="timepicker-hour timepicker-button" onclick=@DisplayHours>
 						@HourDisplay
 					</button>
-					<button type="button" role="button" class="timepicker-hour-down timepicker-button" onclick=@DecrementHour>&darr;</button>
+					<button type="button" role="button" class="timepicker-hour-down timepicker-button" onclick=@DecrementHour>@Html.Raw("&darr;")</button>
 
 					<div class="timepicker-divider"><span>:</span></div>
 
-					<button type="button" role="button" class="timepicker-minute-up timepicker-button" onclick=@IncrementMinute>&uarr;</button>
+					<button type="button" role="button" class="timepicker-minute-up timepicker-button" onclick=@IncrementMinute>@Html.Raw("&uarr;")</button>
 					<button type="button" role="button" class="timepicker-minute timepicker-button" onclick=@DisplayMinutes>
 						@MinuteDisplay
 					</button>
-					<button type="button" role="button" class="timepicker-minute-down timepicker-button" onclick=@DecrementMinute>&darr;</button>
+					<button type="button" role="button" class="timepicker-minute-down timepicker-button" onclick=@DecrementMinute>@Html.Raw("&darr;")</button>
 
 					@if (Is24Hour == false)
 					{
@@ -86,7 +88,7 @@
 		get => State.MinuteStep;
 		set => State.MinuteStep = value;
 	}
-
+	
 	/// <summary>Gets or sets the time displayed on the <see cref="TimePicker"/>.</summary>
 	[Parameter]
 	protected LocalTime SelectedTime
@@ -124,7 +126,7 @@
 		get
 		{
 			var str = new List<string>()
-{
+			{
 				"min-height:182px;"
 			};
 

@@ -22,9 +22,9 @@ The easiest way to get started is to look at the Demo project, which has samples
 
 The library can be downloaded from NuGet by searching for: BlazorNodaTimeDateTimePicker in NuGet Package Manager, or by executing the following command in the Package Manager Console:
 ````shell
-PM> Install-Package BlazorNodaTimeDateTimePicker -Version 0.0.5
+PM> Install-Package BlazorNodaTimeDateTimePicker -Version 0.0.9
 ````
-Until the issue https://github.com/aspnet/Blazor/issues/1315 is resolved, insert the following line into your *_ViewImports.cshtml* file:
+Until the issue https://github.com/aspnet/AspNetCore/issues/5577 is resolved, insert the following line into your *_ViewImports.cshtml* file:
 ````C#
 @addTagHelper *, BlazorNodaTimeDateTimePicker
 ````

@@ -1,6 +1,5 @@
 using NodaTime;
 using Xunit;
-using BlazorNodaTimeDateTimePicker;
 
 namespace BlazorNodaTimeDateTimePicker.Tests
 {

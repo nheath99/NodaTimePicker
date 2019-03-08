@@ -1,0 +1,144 @@
+﻿@import "variables.scss";
+
+.timepicker {
+	&.timepicker-dropdown-menu {
+		position: absolute;
+		z-index: 1000;
+		background-color: white;
+		border: 1px solid rgba(0,0,0,.15);
+		border-radius: 0.25rem;
+		margin: 2px 0;
+		padding: 4px;
+
+		&:before {
+			content: '';
+			display: inline-block;
+			position: absolute;
+			// bottom
+			border-left: 7px solid transparent;
+			border-right: 7px solid transparent;
+			border-bottom: 7px solid #ccc;
+			border-bottom-color: rgba(0, 0, 0, 0.2);
+			top: -7px;
+			left: 7px;
+		}
+
+		&:after {
+			content: '';
+			display: inline-block;
+			position: absolute;
+			// bottom
+			border-left: 6px solid transparent;
+			border-right: 6px solid transparent;
+			border-bottom: 6px solid white;
+			top: -6px;
+			left: 8px;
+		}
+	}
+
+	.timepicker-clock {
+		display: grid;
+		grid-template-areas: "hour-up divider minute-up meridiem" "hour divider minute meridiem" "hour-down divider minute-down meridiem";
+		grid-template-columns: 1fr auto 1fr 1fr;
+		grid-gap: 10px;
+		justify-items: center;
+		align-items: center;
+		text-align: center;
+		font-weight: bold;
+		font-size: 1.2em;
+
+		.timepicker-hour-up {
+			grid-area: hour-up;
+		}
+
+		.timepicker-hour {
+			grid-area: hour;
+		}
+
+		.timepicker-hour-down {
+			grid-area: hour-down;
+		}
+
+		.timepicker-divider {
+			grid-area: divider;
+		}
+
+		.timepicker-minute-up {
+			grid-area: minute-up;
+		}
+
+		.timepicker-minute {
+			grid-area: minute;
+		}
+
+		.timepicker-minute-down {
+			grid-area: minute-down;
+		}
+
+		.timepicker-meridiem {
+			grid-area: meridiem;
+		}
+	}
+
+	.timepicker-button {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		background-color: #fff;
+		width: 54px;
+		height: 54px;
+		border-radius: 0.25rem;
+
+		&:hover {
+			background-color: $datetimepicker-btn-hover-bg;
+			cursor: pointer;
+		}
+
+		&.active {
+			background-color: $datetimepicker-active-bg;
+			color: $datetimepicker-active-color;
+		}
+	}
+
+	.timepicker-footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: stretch;
+	}
+
+	.timepicker-button-close {
+		flex-grow: 1;
+		text-align: center;
+		border: 1px solid rgba(0,0,0,.15);
+		border-radius: 5px;
+		padding: 0.22rem;
+		background-color: white;
+
+		&:not(:last-of-type) {
+			margin-right: 10px;
+		}
+
+		&:hover:not(.disabled) {
+			background-color: $datetimepicker-btn-hover-bg;
+			cursor: pointer;
+		}
+	}
+
+	.timepicker-hour-grid, .timepicker-minute-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		justify-items: center;
+		align-items: center;
+	}
+
+	.timepicker-hour-grid {
+		margin-bottom: 15px;
+	}
+
+	.timepicker-hour-meridiems {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-column-gap: 15px;
+		justify-items: center;
+	}
+}
