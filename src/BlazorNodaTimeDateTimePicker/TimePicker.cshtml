@@ -1,32 +1,33 @@
-﻿@using NodaTime;
+﻿@inherits PickerComponentBase<TimePickerState>
+@using NodaTime;
 
 <div class="@ClassName" style="@MainStyle">
 	@switch (ViewMode)
 	{
 		case TimeViewMode.Clock:
-		{
-			<div class="timepicker-clock">
-				<button type="button" role="button" class="timepicker-hour-up timepicker-button" onclick=@IncrementHour>&uarr;</button>
-				<button type="button" role="button" class="timepicker-hour timepicker-button" onclick=@DisplayHours>
-					@HourDisplay
-				</button>
-				<button type="button" role="button" class="timepicker-hour-down timepicker-button" onclick=@DecrementHour>&darr;</button>
-
-				<div class="timepicker-divider"><span>:</span></div>
-
-				<button type="button" role="button" class="timepicker-minute-up timepicker-button" onclick=@IncrementMinute>&uarr;</button>
-				<button type="button" role="button" class="timepicker-minute timepicker-button" onclick=@DisplayMinutes>
-					@MinuteDisplay
-				</button>
-				<button type="button" role="button" class="timepicker-minute-down timepicker-button" onclick=@DecrementMinute>&darr;</button>
-
-				@if (Is24Hour == false)
-				{
-					<button type="button" role="button" class="timepicker-meridiem timepicker-button" onclick=@ToggleMeridiem>
-						@(State.IsAM ? "AM" : "PM")
+			{
+				<div class="timepicker-clock">
+					<button type="button" role="button" class="timepicker-hour-up timepicker-button" onclick=@IncrementHour>@UpArrowIcon</button>
+					<button type="button" role="button" class="timepicker-hour timepicker-button" onclick=@DisplayHours>
+						@HourDisplay
 					</button>
-				}
-			</div>
+					<button type="button" role="button" class="timepicker-hour-down timepicker-button" onclick=@DecrementHour>@DownArrowIcon</button>
+
+					<div class="timepicker-divider"><span>:</span></div>
+
+					<button type="button" role="button" class="timepicker-minute-up timepicker-button" onclick=@IncrementMinute>@UpArrowIcon</button>
+					<button type="button" role="button" class="timepicker-minute timepicker-button" onclick=@DisplayMinutes>
+						@MinuteDisplay
+					</button>
+					<button type="button" role="button" class="timepicker-minute-down timepicker-button" onclick=@DecrementMinute>@DownArrowIcon</button>
+
+					@if (Is24Hour == false)
+					{
+						<button type="button" role="button" class="timepicker-meridiem timepicker-button" onclick=@ToggleMeridiem>
+							@(State.IsAM ? "AM" : "PM")
+						</button>
+					}
+				</div>
 			}
 			break;
 		case TimeViewMode.Hours:
@@ -40,7 +41,7 @@
 								@($"{(Is24Hour ? hour : i):00}")
 							</button>
 						}
-					</div>					
+					</div>
 					<div class="timepicker-hour-meridiems">
 						<button type="button" role="button" class="timepicker-button @(ViewModeHours_IsAM ? "active" : "")" onclick=@(() => ViewModeHours_IsAM = true)>AM</button>
 						<button type="button" role="button" class="timepicker-button @(ViewModeHours_IsAM ? "" : "active")" onclick=@(() => ViewModeHours_IsAM = false)>PM</button>
@@ -70,25 +71,14 @@
 			<button type="button" role="button" class="timepicker-button-close" onclick=@close>
 				Close
 			</button>
-		</div>		
+		</div>
 	}
 </div>
 
 @functions {
-		TimePickerState State = new TimePickerState();
-	/// <summary>Any CSS classes to be applied to the wrapper element.</summary>
-	[Parameter] protected string Class { get; set; }
-	/// <summary>Any CSS styles to be applied to the wrapper element.</summary>
-	[Parameter] protected string Style { get; set; }
-	/// <summary>The maximum width of the wrapper element. Must be a valid CSS width value.</summary>
-	[Parameter] protected string MaxWidth { get; set; }
-	/// <summary>The width of the wrapper element. Must be a valid CSS width value.</summary>
-	[Parameter] protected string Width { get; set; } = "250px;";
 	/// <summary>Whether to use 24-hour time. Default is 12-hour time.</summary>
 	[Parameter] protected bool Is24Hour { get; set; } = false;
-	/// <summary>Whether to show the close button or not.</summary>
-	[Parameter] protected bool ShowClose { get; set; }
-	[Parameter] protected bool CloseOnSelect { get; set; }
+
 	/// <summary>The number of minutes to increment or decrement by.</summary>
 	[Parameter]
 	protected int MinuteStep
@@ -96,29 +86,31 @@
 		get => State.MinuteStep;
 		set => State.MinuteStep = value;
 	}
-	/// <summary>Whether the <see cref="TimePicker"/> should display Inline or not.</summary>
-	[Parameter]
-	protected bool Inline
-	{
-		get => State.Inline;
-		set => State.Inline = value;
-	}
-	/// <summary>Whether the <see cref="TimePicker"/> should be visible or hidden.</summary>
-	[Parameter]
-	protected bool Visible
-	{
-		get => State.Visible;
-		set => State.Visible = value;
-	}
 
 	/// <summary>Gets or sets the time displayed on the <see cref="TimePicker"/>.</summary>
-	[Parameter] protected LocalTime SelectedTime
+	[Parameter]
+	protected LocalTime SelectedTime
 	{
 		get => State.SelectedTime;
 		set => State.SelectedTime = value;
 	}
 
 	[Parameter] protected Action<LocalTime> SelectedTimeChanged { get; set; }
+
+	[Parameter] protected RenderFragment UpArrowIcon { get; set; }
+	[Parameter] protected RenderFragment DownArrowIcon { get; set; }
+
+	protected override void OnParametersSet()
+	{
+		if (UpArrowIcon == null)
+		{
+			UpArrowIcon = builder => builder.AddContent(1, new MarkupString("&uarr;"));
+		}
+		if (DownArrowIcon == null)
+		{
+			DownArrowIcon = builder => builder.AddContent(1, new MarkupString("&darr;"));
+		}
+	}
 
 	void OnSelectedTimeChanged()
 	{
@@ -147,7 +139,7 @@
 		get
 		{
 			var str = new List<string>()
-			{
+{
 				"min-height:182px;"
 			};
 
@@ -239,9 +231,9 @@
 
 	bool ViewModeHours_IsAM { get; set; }
 
-	void close()
+	protected void close()
 	{
 		if (Inline == false)
-			Visible = false;		
+			Visible = false;
 	}
 }

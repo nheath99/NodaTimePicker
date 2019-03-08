@@ -1,6 +1,6 @@
 # BlazorNodaTimeDateTimePicker
 
-[![NuGet Pre Release](https://img.shields.io/badge/nuget-v0.0.5-orange.svg)](https://www.nuget.org/packages/BlazorNodaTimeDateTimePicker/)
+[![NuGet Pre Release](https://img.shields.io/badge/nuget-v0.0.9-orange.svg)](https://www.nuget.org/packages/BlazorNodaTimeDateTimePicker/)
 [![Build status](https://ci.appveyor.com/api/projects/status/hhwnir90iqjyeh5p/branch/master?svg=true)](https://ci.appveyor.com/project/nheath99/blazornodatimedatetimepicker/branch/master)
 [![CodeFactor](https://www.codefactor.io/repository/github/nheath99/blazornodatimedatetimepicker/badge)](https://www.codefactor.io/repository/github/nheath99/blazornodatimedatetimepicker)
 
@@ -22,11 +22,15 @@ The easiest way to get started is to look at the Demo project, which has samples
 
 The library can be downloaded from NuGet by searching for: BlazorNodaTimeDateTimePicker in NuGet Package Manager, or by executing the following command in the Package Manager Console:
 ````shell
-PM> Install-Package BlazorNodaTimeDateTimePicker -Version 0.0.5
+PM> Install-Package BlazorNodaTimeDateTimePicker -Version 0.0.9
 ````
-Until the issue https://github.com/aspnet/Blazor/issues/1315 is resolved, insert the following line into your *_ViewImports.cshtml* file:
+Until the issue https://github.com/aspnet/AspNetCore/issues/5577 is resolved, insert the following line into your *_ViewImports.cshtml* file:
 ````C#
 @addTagHelper *, BlazorNodaTimeDateTimePicker
+````
+When using the component, you must add a using statement for NodaTime:
+````
+@using NodaTime
 ````
 ### Inline
 
@@ -96,6 +100,7 @@ Disable specific days of the week:
 - Date+Time picker
 - Date range picker
 - Date+Time range picker
+- Week picker
 - Month picker
 - Year picker
 - Support for different calendars

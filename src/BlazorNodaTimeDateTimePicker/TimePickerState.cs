@@ -2,11 +2,9 @@
 
 namespace BlazorNodaTimeDateTimePicker
 {
-	internal class TimePickerState
+	public class TimePickerState : PickerStateBase
 	{		
 		internal LocalTime SelectedTime { get; set; }
-		internal bool Visible { get; set; }
-		internal bool Inline { get; set; }
 		internal int MinuteStep { get; set; } = 5;
 
 		internal bool IsAM => SelectedTime.Hour < 12;

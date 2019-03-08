@@ -1,8 +1,9 @@
-﻿@using NodaTime
+﻿@inherits PickerComponentBase<DatePickerState>
+@using NodaTime
 @using NodaTime.Extensions
 
 <div class="@ClassName" style="@MainStyle">
-	<div class="datepicker-content">
+	<div class="@ContentClassName">
 		@if (State.ViewMode == ViewMode.Days)
 		{
 			<div class="datepicker-days">
@@ -14,6 +15,10 @@
 				@if (DisplayDaysOfWeek)
 				{
 					<div class="datepicker-days-of-week">
+						@if (DisplayWeekNumber)
+						{
+							<div class="dow">@WeekAbbreviation</div>
+						}
 						@{
 							var dow = FirstDayOfWeek;
 							do
@@ -21,6 +26,15 @@
 								<div class="@CssClassGenerator.DayOfWeek(dow, DaysOfWeekDisabled)">@DayOfWeekAbbreviation(dow)</div>
 								dow = dow.Next();
 							} while (dow != FirstDayOfWeek);
+						}
+					</div>
+				}
+				@if (DisplayWeekNumber)
+				{
+					<div class="week-numbers">
+						@foreach (var week in GetWeeks)
+						{
+							<div class="week-number">@week</div>
 						}
 					</div>
 				}
@@ -59,7 +73,7 @@
 				<div class="datepicker-header">
 					<button type="button" role="button" class="prev" onclick=@PreviousYear>@PrevContent</button>
 					<button type="button" role="button" class="header-text" onclick=@SelectYear>@YearText</button>
-					<button type="button" role="button" class="next" onclick=@NextYear>@NextContent</button>
+					<button type="button" role="button" class="next" onclick="@NextYear">@NextContent</button>
 				</div>
 				<div class="months">
 					@for (int i = 1; i <= 12; i++)
@@ -112,14 +126,9 @@
 </div>
 
 @functions {
-	DatePickerState State { get; set; } = new DatePickerState();
-
-	/// <summary>Any CSS classes to be applied to the wrapper element.</summary>
-	[Parameter] protected string Class { get; set; }
-	/// <summary>Any CSS styles to be applied to the wrapper element.</summary>
-	[Parameter] protected string Style { get; set; }
 	/// <summary>If true, detailed information will be logged to the Console.</summary>
 	[Parameter] protected bool Logging { get; set; } = false;
+
 	[Parameter] protected System.Globalization.CultureInfo FormatProvider { get; set; } = System.Globalization.CultureInfo.InvariantCulture;
 	/// <summary>If true, a row will be displayed with the day-of-week names. If false, it will not.</summary>
 	[Parameter] protected bool DisplayDaysOfWeek { get; set; } = true;
@@ -127,16 +136,10 @@
 	[Parameter] protected string DayViewHeaderFormat { get; set; } = "MMMM yyyy";
 	/// <summary>In <see cref="ViewMode.Months"/>, the format of the year in the header. Defaults to yyyy, i.e. 2018.</summary>
 	[Parameter] protected string MonthViewHeaderFormat { get; set; } = "yyyy";
-	/// <summary>The maximum width of the wrapper element. Must be a valid CSS width value.</summary>
-	[Parameter] protected string MaxWidth { get; set; }
-	/// <summary>The width of the wrapper element. Must be a valid CSS width value.</summary>
-	[Parameter] protected string Width { get; set; } = "250px;";
 	/// <summary>If true, the Today button will be displayed. If false, it will be hidden.</summary>
 	[Parameter] protected bool ShowToday { get; set; } = true;
 	/// <summary>If true, the Clear button will be displayed. If false, it will be hidden.</summary>
 	[Parameter] protected bool ShowClear { get; set; } = true;
-	/// <summary>If true and <see cref="Inline"/> is true, the Clear button will be displayed. If false, or <see cref="Inline"/> is false, it will be hidden.</summary>
-	[Parameter] protected bool ShowClose { get; set; } = false;
 	/// <summary>The text to display on the Today button.</summary>
 	[Parameter] protected string TodayText { get; set; } = "Today";
 	/// <summary>The text to display on the Clear button.</summary>
@@ -145,66 +148,68 @@
 	[Parameter] protected string CloseText { get; set; } = "Close";
 	/// <summary>The <see cref="ViewMode"/> to display on initialization. Defaults to <see cref="ViewMode.Days"/>.</summary>
 	[Parameter] protected ViewMode InitialViewMode { get; set; } = ViewMode.Days;
+	/// <summary>The granularity of date selection. Defaults to <see cref="ViewMode.Days"/>.</summary>
+	[Parameter] protected ViewMode MinimumSelectionMode { get; set; } = ViewMode.Days;
+	/// <summary>Whether to show the week number in <see cref="ViewMode"/> = <see cref="ViewMode.Days"/>. Default is <see cref="false"/></summary>
+	[Parameter] protected bool DisplayWeekNumber { get; set; } = false;
+	/// <summary>The text to display on the Week number heading, if <see cref="DisplayWeekNumber"/> is set to true</summary>
+	[Parameter] protected string WeekAbbreviation { get; set; } = "Wk";
 	/// <summary>The content to display in the Previous button. Defaults to the Less Than character (&lt;)</summary>
 	[Parameter] protected RenderFragment PrevContent { get; set; }
 	/// <summary>The content to display in the Previous button. Defaults to the Greater Than character (&gt;)</summary>
 	[Parameter] protected RenderFragment NextContent { get; set; }
 
-	/// <summary>Whether the DatePicker should be visible or hidden.</summary>
-	[Parameter] protected bool Visible
-	{
-		get => State.Visible;
-		set => State.Visible = value;
-	}
-	/// <summary>Whether the DatePicker should display Inline or not.</summary>
-	[Parameter] protected bool Inline
-	{
-		get => State.Inline;
-		set => State.Inline = value;
-	}
 	/// <summary>The day of the week to start from, when in <see cref="ViewMode.Days"/>.</summary>
-	[Parameter] protected IsoDayOfWeek FirstDayOfWeek
+	[Parameter]
+	protected IsoDayOfWeek FirstDayOfWeek
 	{
 		get => State.FirstDayOfWeek;
 		set => State.FirstDayOfWeek = value;
 	}
-	[Parameter] protected LocalDate? SelectedDate
+	[Parameter]
+	protected LocalDate? SelectedDate
 	{
 		get => State.SelectedDate;
 		set => State.SelectedDate = value;
 	}
 	/// <summary>The earliest date that can be selected, inclusive. A value of null indicates that there is no minimum date.</summary>
-	[Parameter] protected LocalDate? MinDate
+	[Parameter]
+	protected LocalDate? MinDate
 	{
 		get => State.MinDate;
 		set => State.MinDate = value;
 	}
 	/// <summary>The latest date that can be selected, inclusive. A value of null indicates that there is no maximum date.</summary>
-	[Parameter] protected LocalDate? MaxDate
+	[Parameter]
+	protected LocalDate? MaxDate
 	{
 		get => State.MaxDate;
 		set => State.MaxDate = value;
 	}
 	/// <summary>Specific dates that cannot be selected.</summary>
-	[Parameter] protected IEnumerable<LocalDate> DisabledDates
+	[Parameter]
+	protected IEnumerable<LocalDate> DisabledDates
 	{
 		get => State.DisabledDates;
 		set => State.DisabledDates = value;
 	}
 	/// <summary>Specific dates that can be selected. Note this overrides any disabled state.</summary>
-	[Parameter] protected IEnumerable<LocalDate> EnabledDates
+	[Parameter]
+	protected IEnumerable<LocalDate> EnabledDates
 	{
 		get => State.EnabledDates;
 		set => State.EnabledDates = value;
 	}
 	/// <summary>Days of the week that cannot be selected.</summary>
-	[Parameter] protected IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled
+	[Parameter]
+	protected IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled
 	{
 		get => State.DaysOfWeekDisabled;
 		set => State.DaysOfWeekDisabled = value;
 	}
 	/// <summary>Inclusive date intervals that cannot be selected.</summary>
-	[Parameter] protected IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals
+	[Parameter]
+	protected IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals
 	{
 		get => State.DisabledDateIntervals;
 		set => State.DisabledDateIntervals = value;
@@ -219,9 +224,6 @@
 	/// <summary>An event that is invoked when the UI is updated.</summary>
 	[Parameter] protected Action Updated { get; set; }
 
-	// Parameters not yet in use
-	[Parameter] protected bool CloseOnSelect { get; set; } = true;
-
 	// Events not yet in use
 	[Parameter] protected Action Shown { get; set; }
 	[Parameter] protected Action Hidden { get; set; }
@@ -230,6 +232,28 @@
 
 	// Private properties and fields
 	IEnumerable<LocalDate> Days { get; set; }
+
+	internal IEnumerable<int> GetWeeks
+	{
+		get
+		{
+			if (Days != null && Days.Count() > 0)
+			{
+				int i = 0;
+				foreach (var day in Days)
+				{
+					if (i % 7 == 0)
+						yield return NodaTime.Calendars.WeekYearRules.Iso.GetWeekOfWeekYear(day);
+
+					i++;
+				}
+			}
+			else
+			{
+				yield break;
+			}
+		}
+	}
 
 	protected override void OnInit()
 	{
@@ -253,7 +277,7 @@
 	{
 		State.Log(nameof(OnParametersSet));
 
-		State.ViewMode = InitialViewMode;
+		State.ViewMode = InitialViewMode < MinimumSelectionMode ? MinimumSelectionMode : InitialViewMode;
 
 		switch (State.ViewMode)
 		{
@@ -305,30 +329,6 @@
 		Cleared?.Invoke();
 	}
 
-	#region Days
-
-	void RenderDays()
-	{
-		State.Log(nameof(RenderDays));
-
-		var startOfWeekOfMonth = State.MonthToDisplay.StartOfWeek(FirstDayOfWeek);
-
-		var endOfMonth = State.MonthToDisplay.EndOfMonth();
-		var endOfWeekOfMonth = endOfMonth.EndOfWeek(FirstDayOfWeek);
-
-		Days = GetDaysBetween(startOfWeekOfMonth, endOfWeekOfMonth);
-	}
-
-	void DayClicked(UIMouseEventArgs eventArgs, LocalDate date)
-	{
-		State.Log(nameof(DayClicked));
-
-		if (!State.IsDayDisabled(date))
-			State.SetSelectedDate(date);
-	}
-
-	#endregion
-
 	static IEnumerable<LocalDate> GetDaysBetween(LocalDate start, LocalDate end)
 	{
 		if (start > end)
@@ -351,6 +351,8 @@
 				return CssClassGenerator.DatePickerMain(Inline);
 		}
 	}
+
+	string ContentClassName => CssClassGenerator.DatePickerContent(DisplayWeekNumber);
 
 	protected string MainStyle
 	{
@@ -395,6 +397,30 @@
 
 	string CenturyText => State.MonthToDisplay.GetCenturyString();
 
+	#region Days
+
+	void RenderDays()
+	{
+		State.Log(nameof(RenderDays));
+
+		var startOfWeekOfMonth = State.MonthToDisplay.StartOfWeek(FirstDayOfWeek);
+
+		var endOfMonth = State.MonthToDisplay.EndOfMonth();
+		var endOfWeekOfMonth = endOfMonth.EndOfWeek(FirstDayOfWeek);
+
+		Days = GetDaysBetween(startOfWeekOfMonth, endOfWeekOfMonth);
+	}
+
+	void DayClicked(UIMouseEventArgs eventArgs, LocalDate date)
+	{
+		State.Log(nameof(DayClicked));
+
+		if (!State.IsDayDisabled(date))
+			State.SetSelectedDate(date);
+	}
+
+	#endregion
+
 	#region Months
 
 	bool[] disabledMonths;
@@ -411,6 +437,9 @@
 		}
 	}
 
+	/// <summary>Callback for when a Month has been selected.</summary>
+	/// <param name="eventArgs"></param>
+	/// <param name="month"></param>
 	void MonthClicked(UIMouseEventArgs eventArgs, int month)
 	{
 		State.Log(nameof(MonthClicked));
@@ -418,10 +447,19 @@
 		if (disabledMonths[month - 1] == false)
 		{
 			State.SetDisplayMonth(month);
-			State.PreviousViewMode();
+			if (MinimumSelectionMode == ViewMode.Months)
+			{
+				State.SetSelectedMonth(month);
+			}
+			else
+			{
+				State.PreviousViewMode();
+			}
 		}
 	}
 
+	/// <summary>Increments the MonthToDisplay value by one month.</summary>
+	/// <param name="eventArgs"></param>
 	void NextMonth(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(NextMonth));
@@ -431,6 +469,8 @@
 		OnUpdated();
 	}
 
+	/// <summary>Decrements the MonthToDisplay value by one month.</summary>
+	/// <param name="eventArgs"></param>
 	void PreviousMonth(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(PreviousMonth));
@@ -440,6 +480,8 @@
 		OnUpdated();
 	}
 
+	/// <summary>Displays the Month selection mode, i.e. a list of months of the year.</summary>
+	/// <param name="eventArgs"></param>
 	void SelectMonth(UIMouseEventArgs eventArgs)
 	{
 		State.Log(nameof(SelectMonth));
@@ -476,8 +518,15 @@
 		if (disabledYears[year] == false)
 		{
 			State.SetDisplayYear(year);
-			RenderMonths();
-			State.PreviousViewMode();
+			if (MinimumSelectionMode == ViewMode.Years)
+			{
+				State.SetSelectedYear(year);
+			}
+			else
+			{
+				RenderMonths();
+				State.PreviousViewMode();
+			}
 		}
 	}
 
@@ -533,8 +582,15 @@
 		if (disabledDecades[decade] == false)
 		{
 			State.SetDisplayYear(decade);
-			RenderYears();
-			State.PreviousViewMode();
+			if (MinimumSelectionMode == ViewMode.Decades)
+			{
+				State.SetSelectedYear(decade);
+			}
+			else
+			{
+				RenderYears();
+				State.PreviousViewMode();
+			}
 		}
 	}
 

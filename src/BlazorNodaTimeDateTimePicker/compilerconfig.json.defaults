@@ -13,6 +13,7 @@
       "sourceMap": false
     },
     "sass": {
+      "autoPrefix": "",
       "includePath": "",
       "indentType": "space",
       "indentWidth": 2,
@@ -20,6 +21,7 @@
       "Precision": 5,
       "relativeUrls": true,
       "sourceMapRoot": "",
+      "lineFeed": "",
       "sourceMap": false
     },
     "stylus": {
@@ -31,6 +33,18 @@
     "coffeescript": {
       "bare": false,
       "runtimeMode": "node",
+      "sourceMap": false
+    },
+    "handlebars": {
+      "root": "",
+      "noBOM": false,
+      "name": "",
+      "namespace": "",
+      "knownHelpersOnly": false,
+      "forcePartial": false,
+      "knownHelpers": [],
+      "commonjs": "",
+      "amd": false,
       "sourceMap": false
     }
   },

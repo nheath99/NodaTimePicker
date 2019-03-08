@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inherits ComponentBase
 @using NodaTime;
 
 <h3>Blazor NodaTime Date Picker</h3>
@@ -17,7 +18,7 @@
 <h3 id="gettingStarted">Getting Started</h3>
 <hr />
 <p>
-	The library can be downloaded from NuGet by searching for: BlazorNodaTimeDateTimePicker in NuGet Package Manager, or by executing the following command in the Package Manager Console:	
+	The library can be downloaded from NuGet by searching for: BlazorNodaTimeDateTimePicker in NuGet Package Manager, or by executing the following command in the Package Manager Console:
 </p>
 <p>
 	<code>PM> Install-Package BlazorNodaTimeDateTimePicker -Version 0.0.5</code>
@@ -338,20 +339,20 @@
 	}
 
 	string demo2String = @"<input type=""text"" onfocus=""@focussed"" />
-	<DatePicker Visible=""datePicker2Visible"" Selected=""selected2"" />
+<DatePicker Visible=""datePicker2Visible"" Selected=""selected2"" />
 
-	@functions {
-	  bool datePicker2Visible = false;
-	  void focussed2(UIFocusEventArgs e)
-	  {
-	    datePicker2Visible = true;
-	  }
-	  void selected2(LocalDate localDate)
-	  {
-	    datePicker2Visible = false;
-	    StateHasChanged();
-	  }
-	}";
+@functions {
+  bool datePicker2Visible = false;
+  void focussed2(UIFocusEventArgs e)
+  {
+	datePicker2Visible = true;
+  }
+  void selected2(LocalDate localDate)
+  {
+	datePicker2Visible = false;
+	StateHasChanged();
+  }
+}";
 
 	IsoDayOfWeek firstDOW3 = IsoDayOfWeek.Tuesday;
 
@@ -431,8 +432,8 @@
 
 	List<string> eventsList = new List<string>()
 {
-"Events will appear here..."
-};
+	"Events will appear here..."
+	};
 
 	void changed(LocalDate? d)
 	{

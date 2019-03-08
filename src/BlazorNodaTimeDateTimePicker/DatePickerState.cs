@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace BlazorNodaTimeDateTimePicker
 {
-	internal class DatePickerState
+	public class DatePickerState : PickerStateBase
 	{
-		internal DatePickerState()
+		public DatePickerState()
 		{
 			Clock = SystemClock.Instance;
 			MonthToDisplay = Today.StartOfMonth();
@@ -18,10 +18,9 @@ namespace BlazorNodaTimeDateTimePicker
 
 		internal LocalDate? SelectedDate { get; set; }
 		internal LocalDate MonthToDisplay { get; private set; }
-		internal ViewMode ViewMode { get; set; } = ViewMode.Days;
-		internal bool Visible { get; set; }
-		internal bool Inline { get; set; }
+		internal ViewMode ViewMode { get; set; } = ViewMode.Days;		
 		internal IsoDayOfWeek FirstDayOfWeek { get; set; } = IsoDayOfWeek.Monday;
+		internal bool DisplayWeekYearSelectionMode { get; set; } = false;
 
 		internal LocalDate? MinDate { get; set; }
 		internal LocalDate? MaxDate { get; set; }
@@ -93,6 +92,32 @@ namespace BlazorNodaTimeDateTimePicker
 
 			MonthToDisplay = new LocalDate(selectedDate.Year, selectedDate.Month, 1);
 			MonthToDisplayChanged();
+		}
+
+		internal void SetSelectedMonth(int month)
+		{
+			Log(nameof(SetSelectedMonth));
+
+			var selectedDate = new LocalDate(MonthToDisplay.Year, month, 1);
+
+			SelectedDate = selectedDate;
+			MonthToDisplay = selectedDate;
+
+			StateChanged();
+			SelectedDateChanged();
+		}
+
+		internal void SetSelectedYear(int year)
+		{
+			Log(nameof(SetSelectedMonth));
+
+			var selectedDate = new LocalDate(year, 1, 1);
+
+			SelectedDate = selectedDate;
+			MonthToDisplay = selectedDate;
+
+			StateChanged();
+			SelectedDateChanged();
 		}
 
 		internal void SetSelectedDateToday()
@@ -256,7 +281,7 @@ namespace BlazorNodaTimeDateTimePicker
 				if (EnabledDates != null)
 				{
 					if (EnabledDates.Contains(date) == false)
-					{						
+					{
 						return true;
 					}
 				}
