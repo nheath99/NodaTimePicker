@@ -14,6 +14,9 @@
 <p>
 	It is inspired by the very successful Javascript Date/Time picker developed by TempusDominus, though any dependencies on Bootstrap or jQuery have been removed - it is not simply a port of the code or interop, but a fresh start from a zero base.<br />
 </p>
+<p>
+	Check us out on <a href="https://github.com/nheath99/BlazorNodaTimeDateTimePicker">GitHub.</a>
+</p>
 
 <h3 id="gettingStarted">Getting Started</h3>
 <hr />
@@ -21,10 +24,10 @@
 	The library can be downloaded from NuGet by searching for: BlazorNodaTimeDateTimePicker in NuGet Package Manager, or by executing the following command in the Package Manager Console:
 </p>
 <p>
-	<code>PM> Install-Package BlazorNodaTimeDateTimePicker -Version 0.0.5</code>
+	<code>PM> Install-Package BlazorNodaTimeDateTimePicker -Version 0.0.9</code>
 </p>
 <p>
-	Until the issue <a href="https://github.com/aspnet/Blazor/issues/1315">https://github.com/aspnet/Blazor/issues/1315</a> is resolved, insert the following line into your _ViewImports.cshtml file:
+	Until the issue <a href="https://github.com/aspnet/AspNetCore/issues/5577" target="_blank">https://github.com/aspnet/AspNetCore/issues/5577</a> is resolved, insert the following line into your _ViewImports.cshtml file:
 </p>
 <p>
 	<code>@@addTagHelper *, BlazorNodaTimeDateTimePicker</code>
@@ -339,20 +342,20 @@
 	}
 
 	string demo2String = @"<input type=""text"" onfocus=""@focussed"" />
-<DatePicker Visible=""datePicker2Visible"" Selected=""selected2"" />
+	<DatePicker Visible=""datePicker2Visible"" Selected=""selected2"" />
 
-@functions {
-  bool datePicker2Visible = false;
-  void focussed2(UIFocusEventArgs e)
-  {
-	datePicker2Visible = true;
-  }
-  void selected2(LocalDate localDate)
-  {
-	datePicker2Visible = false;
-	StateHasChanged();
-  }
-}";
+	@functions {
+	bool datePicker2Visible = false;
+	void focussed2(UIFocusEventArgs e)
+	  {
+		datePicker2Visible = true;
+	  }
+	  void selected2(LocalDate localDate)
+	  {
+		datePicker2Visible = false;
+		StateHasChanged();
+	  }
+	}";
 
 	IsoDayOfWeek firstDOW3 = IsoDayOfWeek.Tuesday;
 
@@ -431,8 +434,8 @@
 	bool showClear = true;
 
 	List<string> eventsList = new List<string>()
-{
-	"Events will appear here..."
+	{
+		"Events will appear here..."
 	};
 
 	void changed(LocalDate? d)
