@@ -44,5 +44,5 @@ steps:
 - task NugetCommand@2
   displayName: 'NuGet Pack'
   inputs:
-    command: pack
+    command: 'pack'
     packagesToPack: '**/BlazorNodaTimeDateTimePicker.csproj'
