@@ -18,6 +18,16 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
+- task: VSTest@2
+  displayName: 'VsTest'
+  inputs:
+    testAssemblyVer2: |
+     **\$(BuildConfiguration)\**\*.Tests.dll
+     !**\obj\**
+    codeCoverageEnabled: false
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+
 - task: DotNetCoreCLI@2
   displayName: 'Publishing App...'
   inputs:
