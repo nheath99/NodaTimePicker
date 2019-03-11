@@ -15,7 +15,6 @@ steps:
   inputs:
     version: 3.0.100-preview-010184
 
-steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
