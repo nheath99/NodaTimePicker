@@ -40,3 +40,6 @@ steps:
   displayName: 'Publishing Build Artifacts...'
   inputs:
     pathToPublish: $(Build.ArtifactStagingDirectory)
+
+- script: dotnet pack --configuration $(buildConfiguration) --no-build --no-restore
+  displayName: 'dotnet pack'
