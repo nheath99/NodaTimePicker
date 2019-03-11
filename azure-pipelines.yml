@@ -40,3 +40,9 @@ steps:
   displayName: 'Publishing Build Artifacts...'
   inputs:
     pathToPublish: $(Build.ArtifactStagingDirectory)
+
+- task NugetCommand@2
+  displayName: 'NuGet Pack'
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/BlazorNodaTimeDateTimePicker.csproj'
