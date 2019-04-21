@@ -1,6 +1,6 @@
 ﻿@page "/"
-@inherits ComponentBase
 @using NodaTime;
+@using BlazorNodaTimeDateTimePicker
 
 <h3>Blazor NodaTime Date Picker</h3>
 <hr />
@@ -321,7 +321,7 @@
 
 	LocalDate? selectedDate1;
 	void changed1(LocalDate? localDate)
-	{
+	{		
 		selectedDate1 = localDate;
 		StateHasChanged();
 	}
@@ -403,24 +403,39 @@
 	bool friday10 = true;
 	bool saturday10 = true;
 	bool sunday10 = true;
+	
 	IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled10
 	{
 		get
 		{
 			if (!monday10)
+			{
 				yield return IsoDayOfWeek.Monday;
+			}
 			if (!tuesday10)
+			{
 				yield return IsoDayOfWeek.Tuesday;
+			}
 			if (!wednesday10)
+			{
 				yield return IsoDayOfWeek.Wednesday;
+			}
 			if (!thursday10)
+			{
 				yield return IsoDayOfWeek.Thursday;
+			}
 			if (!friday10)
+			{
 				yield return IsoDayOfWeek.Friday;
+			}
 			if (!saturday10)
+			{
 				yield return IsoDayOfWeek.Saturday;
+			}
 			if (!sunday10)
+			{
 				yield return IsoDayOfWeek.Sunday;
+			}
 		}
 	}
 

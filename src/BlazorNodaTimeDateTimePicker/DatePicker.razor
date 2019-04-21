@@ -1,6 +1,7 @@
 ﻿@inherits PickerComponentBase<DatePickerState>
 @using NodaTime
 @using NodaTime.Extensions
+@using Microsoft.AspNetCore.Components
 
 <div class="@ClassName" style="@MainStyle">
 	<div class="@ContentClassName">
@@ -126,7 +127,7 @@
 </div>
 
 @functions {
-	/// <summary>If true, detailed information will be logged to the Console.</summary>
+		/// <summary>If true, detailed information will be logged to the Console.</summary>
 	[Parameter] protected bool Logging { get; set; } = false;
 
 	[Parameter] protected System.Globalization.CultureInfo FormatProvider { get; set; } = System.Globalization.CultureInfo.InvariantCulture;
@@ -243,7 +244,9 @@
 				foreach (var day in Days)
 				{
 					if (i % 7 == 0)
+					{
 						yield return NodaTime.Calendars.WeekYearRules.Iso.GetWeekOfWeekYear(day);
+					}
 
 					i++;
 				}
@@ -332,7 +335,9 @@
 	static IEnumerable<LocalDate> GetDaysBetween(LocalDate start, LocalDate end)
 	{
 		if (start > end)
+		{
 			yield break;
+		}
 
 		do
 		{
@@ -346,9 +351,13 @@
 		get
 		{
 			if (!string.IsNullOrEmpty(Class))
+			{
 				return $"{CssClassGenerator.DatePickerMain(Inline)} {Class}";
+			}
 			else
+			{
 				return CssClassGenerator.DatePickerMain(Inline);
+			}
 		}
 	}
 
@@ -361,11 +370,17 @@
 			var str = new List<string>();
 
 			if (Inline == false && Visible == false)
+			{
 				str.Add("display:none;");
+			}
 			if (!string.IsNullOrEmpty(Width))
+			{
 				str.Add($"width:{Width};");
+			}
 			if (!string.IsNullOrEmpty(MaxWidth))
+			{
 				str.Add($"max-width:{MaxWidth};");
+			}
 
 			str.Add(Style);
 
@@ -416,7 +431,9 @@
 		State.Log(nameof(DayClicked));
 
 		if (!State.IsDayDisabled(date))
+		{
 			State.SetSelectedDate(date);
+		}
 	}
 
 	#endregion
@@ -659,7 +676,9 @@
 		State.Log(nameof(CloseClicked));
 
 		if (!Inline)
+		{
 			State.Close();
+		}
 	}
 
 	void OnUpdated()

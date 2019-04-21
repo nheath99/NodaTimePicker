@@ -1,5 +1,7 @@
 ﻿@inherits PickerComponentBase<TimePickerState>
+@using BlazorNodaTimeDateTimePicker
 @using NodaTime;
+@using Microsoft.AspNetCore.Components
 
 <div class="@ClassName" style="@MainStyle">
 	@switch (ViewMode)
@@ -116,7 +118,9 @@
 	{
 		SelectedTimeChanged?.Invoke(State.SelectedTime);
 		if (Inline == false && CloseOnSelect)
+		{
 			close();
+		}
 
 		StateHasChanged();
 	}
@@ -128,9 +132,13 @@
 		get
 		{
 			if (!string.IsNullOrEmpty(Class))
+			{
 				return $"{CssClassGenerator.TimePickerMain(Inline)} {Class}";
+			}
 			else
+			{
 				return CssClassGenerator.TimePickerMain(Inline);
+			}
 		}
 	}
 
@@ -144,11 +152,17 @@
 			};
 
 			if (Inline == false && Visible == false)
+			{
 				str.Add("display:none;");
+			}
 			if (!string.IsNullOrEmpty(Width))
+			{
 				str.Add($"width:{Width};");
+			}
 			if (!string.IsNullOrEmpty(MaxWidth))
+			{
 				str.Add($"max-width:{MaxWidth};");
+			}
 
 			str.Add(Style);
 
@@ -161,9 +175,13 @@
 		get
 		{
 			if (Is24Hour)
+			{
 				return State.SelectedTime.ToString("HH", null);
+			}
 			else
+			{
 				return State.SelectedTime.ToString("hh", null);
+			}
 		}
 	}
 
@@ -234,6 +252,8 @@
 	protected void close()
 	{
 		if (Inline == false)
+		{
 			Visible = false;
+		}
 	}
 }

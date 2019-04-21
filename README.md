@@ -1,6 +1,7 @@
 # BlazorNodaTimeDateTimePicker
 
 [![NuGet Pre Release](https://img.shields.io/badge/nuget-v0.0.9-orange.svg)](https://www.nuget.org/packages/BlazorNodaTimeDateTimePicker/)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/BlazorNodaTimeDateTimePicker)](https://www.nuget.org/packages/BlazorNodaTimeDateTimePicker)
 [![Build Status](https://dev.azure.com/PublicAdministration/BlazorNodaTimeDateTimePicker/_apis/build/status/nheath99.BlazorNodaTimeDateTimePicker?branchName=master)](https://dev.azure.com/PublicAdministration/BlazorNodaTimeDateTimePicker/_build/latest?definitionId=1&branchName=master)
 [![CodeFactor](https://www.codefactor.io/repository/github/nheath99/blazornodatimedatetimepicker/badge)](https://www.codefactor.io/repository/github/nheath99/blazornodatimedatetimepicker)
 
@@ -23,10 +24,6 @@ The easiest way to get started is to look at the Demo project, which has samples
 The library can be downloaded from NuGet by searching for: BlazorNodaTimeDateTimePicker in NuGet Package Manager, or by executing the following command in the Package Manager Console:
 ````shell
 PM> Install-Package BlazorNodaTimeDateTimePicker -Version 0.0.9
-````
-Until the issue https://github.com/aspnet/AspNetCore/issues/5577 is resolved, insert the following line into your *_ViewImports.cshtml* file:
-````C#
-@addTagHelper *, BlazorNodaTimeDateTimePicker
 ````
 When using the component, you must add a using statement for NodaTime:
 ````
