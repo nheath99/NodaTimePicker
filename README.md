@@ -1,7 +1,7 @@
 # BlazorNodaTimeDateTimePicker
 
 [![NuGet Pre Release](https://img.shields.io/badge/nuget-v0.0.9-orange.svg)](https://www.nuget.org/packages/BlazorNodaTimeDateTimePicker/)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/BlazorNodaTimeDateTimePicker)](https://www.nuget.org/packages/BlazorNodaTimeDateTimePicker)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/BlazorNodaTimeDateTimePicker.svg)](https://www.nuget.org/packages/BlazorNodaTimeDateTimePicker)
 [![Build Status](https://dev.azure.com/PublicAdministration/BlazorNodaTimeDateTimePicker/_apis/build/status/nheath99.BlazorNodaTimeDateTimePicker?branchName=master)](https://dev.azure.com/PublicAdministration/BlazorNodaTimeDateTimePicker/_build/latest?definitionId=1&branchName=master)
 [![CodeFactor](https://www.codefactor.io/repository/github/nheath99/blazornodatimedatetimepicker/badge)](https://www.codefactor.io/repository/github/nheath99/blazornodatimedatetimepicker)
 
