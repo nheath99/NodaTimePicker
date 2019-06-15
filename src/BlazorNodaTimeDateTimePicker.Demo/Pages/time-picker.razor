@@ -30,7 +30,7 @@
 	Select a Date to close the DatePicker.
 </p>
 
-<input type="text" onfocus=@focussed4 value=@selectedTime4 class="form-control mb-2" />
+<input type="text" @onfocus=@focussed4 value=@selectedTime4 class="form-control mb-2" />
 <TimePicker Visible=visible4 SelectedTimeChanged=@changed4 ShowClose=true CloseOnSelect=true />
 
 <pre>
@@ -77,7 +77,7 @@
 </pre>
 <hr />
 
-@functions {
+@code {
 	LocalTime selectedTime1;
 	string demoString1 = "<TimePicker Inline=true />";
 

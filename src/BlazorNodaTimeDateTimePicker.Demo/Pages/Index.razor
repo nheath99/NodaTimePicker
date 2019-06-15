@@ -63,7 +63,7 @@
 	Select a Date to close the DatePicker.
 </p>
 
-<input type="text" onfocus=@focussed2 value=@selectedDate2 class="form-control mb-2" placeholder="Focus to open DatePicker..." />
+<input type="text" @onfocus=@focussed2 value=@selectedDate2 class="form-control mb-2" placeholder="Focus to open DatePicker..." />
 <DatePicker Visible=@datePicker2Visible Selected=@selected2 ShowClose=@true />
 
 <pre>
@@ -82,7 +82,7 @@
 	<div class="order-0 order-sm-1">
 		<p>
 			First Day of Week:
-			<select bind=@firstDOW3 class="custom-select">
+			<select @bind=@firstDOW3 class="custom-select">
 				<option value="@IsoDayOfWeek.Monday">Monday</option>
 				<option value="@IsoDayOfWeek.Tuesday">Tuesday</option>
 				<option value="@IsoDayOfWeek.Wednesday">Wednesday</option>
@@ -107,7 +107,7 @@
 	</div>
 	<div class="order-0 order-sm-1">
 		<label>
-			<input type="checkbox" bind=@displayDOW4 />
+			<input type="checkbox" @bind=@displayDOW4 />
 			Display Days of Week
 		</label>
 	</div>
@@ -124,10 +124,11 @@
 		<DatePicker Inline=true FormatProvider=@formatProvider5 />
 	</div>
 	<p class="order-0 order-sm-1">
-		<select bind=@formatProvider5String class="custom-select">
-			<option selected value="fr-FR">fr-FR</option>
-			<option value="pl-PL">pl-PL</option>
-			<option value="en-GB">en-GB</option>
+		<select @bind=@formatProvider5String class="custom-select">
+			@foreach (var cultureName in cultureNames)
+			{
+				<option value=@cultureName>@cultureName</option>
+			}
 		</select>
 	</p>
 </div>
@@ -204,13 +205,13 @@
 		<DatePicker Inline=true DaysOfWeekDisabled=@DaysOfWeekDisabled10 />
 	</div>
 	<ul class="list-unstyled order-0 order-sm-1">
-		<li><label><input type="checkbox" bind=monday10 /> Monday</label></li>
-		<li><label><input type="checkbox" bind=tuesday10 /> Tuesday</label></li>
-		<li><label><input type="checkbox" bind=wednesday10 /> Wednesday</label></li>
-		<li><label><input type="checkbox" bind=thursday10 /> Thursday</label></li>
-		<li><label><input type="checkbox" bind=friday10 /> Friday</label></li>
-		<li><label><input type="checkbox" bind=saturday10 /> Saturday</label></li>
-		<li><label><input type="checkbox" bind=sunday10 /> Sunday</label></li>
+		<li><label><input type="checkbox" @bind=monday10 /> Monday</label></li>
+		<li><label><input type="checkbox" @bind=tuesday10 /> Tuesday</label></li>
+		<li><label><input type="checkbox" @bind=wednesday10 /> Wednesday</label></li>
+		<li><label><input type="checkbox" @bind=thursday10 /> Thursday</label></li>
+		<li><label><input type="checkbox" @bind=friday10 /> Friday</label></li>
+		<li><label><input type="checkbox" @bind=saturday10 /> Saturday</label></li>
+		<li><label><input type="checkbox" @bind=sunday10 /> Sunday</label></li>
 	</ul>
 </div>
 
@@ -224,9 +225,9 @@
 		<DatePicker Inline=true SelectedDate=@selectedDate11 />
 	</div>
 	<p class="order-0 order-sm-1">
-		<button type="button" class="btn btn-outline-primary mb-2" onclick="@(() => selectedDate11 = setSelectedDate11_1)">Set date to @setSelectedDate11_1</button><br />
-		<button type="button" class="btn btn-outline-primary mb-2" onclick="@(() => selectedDate11 = setSelectedDate11_2)">Set date to @setSelectedDate11_2</button><br />
-		<button type="button" class="btn btn-outline-primary" onclick="@(() => selectedDate11 = setSelectedDate11_3)">Set date to @setSelectedDate11_3</button>
+		<button type="button" class="btn btn-outline-primary mb-2" @onclick="@(() => selectedDate11 = setSelectedDate11_1)">Set date to @setSelectedDate11_1</button><br />
+		<button type="button" class="btn btn-outline-primary mb-2" @onclick="@(() => selectedDate11 = setSelectedDate11_2)">Set date to @setSelectedDate11_2</button><br />
+		<button type="button" class="btn btn-outline-primary" @onclick="@(() => selectedDate11 = setSelectedDate11_3)">Set date to @setSelectedDate11_3</button>
 	</p>
 </div>
 
@@ -274,11 +275,11 @@
 	</div>
 	<div class="order-0 order-sm-1">
 		<label>
-			<input type="checkbox" bind=@showToday />
+			<input type="checkbox" @bind=@showToday />
 			Show Today
 		</label><br />
 		<label>
-			<input type="checkbox" bind=@showClear />
+			<input type="checkbox" @bind=@showClear />
 			Show Clear
 		</label>
 	</div>
@@ -315,13 +316,13 @@
 	</ul>
 </div>
 
-@functions {
+@code {
 	System.Globalization.CultureInfo FormatProvider = new System.Globalization.CultureInfo("fr-FR");
 	static LocalDate Today = SystemClock.Instance.GetCurrentInstant().InUtc().LocalDateTime.Date;
 
 	LocalDate? selectedDate1;
 	void changed1(LocalDate? localDate)
-	{		
+	{
 		selectedDate1 = localDate;
 		StateHasChanged();
 	}
@@ -342,31 +343,39 @@
 	}
 
 	string demo2String = @"<input type=""text"" onfocus=""@focussed"" />
-	<DatePicker Visible=""datePicker2Visible"" Selected=""selected2"" />
+<DatePicker Visible=""datePicker2Visible"" Selected=""selected2"" />
 
-	@functions {
-	bool datePicker2Visible = false;
-	void focussed2(UIFocusEventArgs e)
-	  {
-		datePicker2Visible = true;
-	  }
-	  void selected2(LocalDate localDate)
-	  {
-		datePicker2Visible = false;
-		StateHasChanged();
-	  }
-	}";
+@functions {
+bool datePicker2Visible = false;
+void focussed2(UIFocusEventArgs e)
+{
+datePicker2Visible = true;
+}
+void selected2(LocalDate localDate)
+{
+datePicker2Visible = false;
+StateHasChanged();
+}
+}";
 
 	IsoDayOfWeek firstDOW3 = IsoDayOfWeek.Tuesday;
 
 	bool displayDOW4 = false;
 
+	string cultureName = cultureNames[0];
+	static string[] cultureNames = new[] { "fr-FR", "pl-PL", "en-GB" };
+
 	string formatProvider5String
 	{
-		get => formatProvider5.DisplayName;
-		set => formatProvider5 = new System.Globalization.CultureInfo(value);
+		get => cultureName;
+		set
+		{
+			cultureName = value;
+			formatProvider5 = new System.Globalization.CultureInfo(value);
+		}
 	}
-	System.Globalization.CultureInfo formatProvider5 = new System.Globalization.CultureInfo("fr-FR");
+
+	System.Globalization.CultureInfo formatProvider5 = new System.Globalization.CultureInfo(cultureNames[0]);
 
 	LocalDate minDate6 = Today;
 	LocalDate maxDate7 = Today;
@@ -403,7 +412,7 @@
 	bool friday10 = true;
 	bool saturday10 = true;
 	bool sunday10 = true;
-	
+
 	IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled10
 	{
 		get
@@ -449,7 +458,7 @@
 	bool showClear = true;
 
 	List<string> eventsList = new List<string>()
-	{
+{
 		"Events will appear here..."
 	};
 
