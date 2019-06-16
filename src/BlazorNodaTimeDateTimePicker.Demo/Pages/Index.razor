@@ -2,7 +2,7 @@
 @using NodaTime;
 @using BlazorNodaTimeDateTimePicker
 
-<h3>Blazor NodaTime Date Picker</h3>
+<h3>NodaTime Date Picker</h3>
 <hr />
 
 <p>
@@ -342,7 +342,7 @@
 		StateHasChanged();
 	}
 
-	string demo2String = @"<input type=""text"" onfocus=""@focussed"" />
+	string demo2String = @"<input type=""text"" @onfocus=""@focussed"" />
 <DatePicker Visible=""datePicker2Visible"" Selected=""selected2"" />
 
 @functions {
