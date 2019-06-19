@@ -2,7 +2,7 @@
 
 [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/BlazorNodaTimeDateTimePicker.svg)](https://www.nuget.org/packages/BlazorNodaTimeDateTimePicker/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/BlazorNodaTimeDateTimePicker.svg)](https://www.nuget.org/packages/BlazorNodaTimeDateTimePicker)
-[![Build Status](https://dev.azure.com/PublicAdministration/BlazorNodaTimeDateTimePicker/_apis/build/status/nheath99.BlazorNodaTimeDateTimePicker?branchName=master)](https://dev.azure.com/PublicAdministration/BlazorNodaTimeDateTimePicker/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://dev.azure.com/nodatimepicker/NodaTimePicker/_apis/build/status/Live%20Build?branchName=master)](https://dev.azure.com/nodatimepicker/NodaTimePicker/_build/latest?definitionId=1&branchName=master)
 [![CodeFactor](https://www.codefactor.io/repository/github/nheath99/blazornodatimedatetimepicker/badge)](https://www.codefactor.io/repository/github/nheath99/blazornodatimedatetimepicker)
 
 A Date/Time picker for [Blazor](https://github.com/aspnet/Blazor), using [NodaTime](https://github.com/nodatime/nodatime).

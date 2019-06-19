@@ -41,5 +41,17 @@ steps:
   inputs:
     pathToPublish: $(Build.ArtifactStagingDirectory)
 
-- script: dotnet pack --configuration $(buildConfiguration) --no-build --no-restore
-  displayName: 'dotnet pack'
+steps:
+- task: NuGetCommand@2
+  displayName: 'NuGet pack'
+  inputs:
+    command: pack
+    packagesToPack: src/BlazorNodaTimeDateTimePicker/BlazorNodaTimeDateTimePicker.csproj
+
+steps:
+- task: NuGetCommand@2
+  displayName: 'NuGet push'
+  inputs:
+    command: push
+    nuGetFeedType: external
+    publishFeedCredentials: 'NodaTimePicker NuGet'
