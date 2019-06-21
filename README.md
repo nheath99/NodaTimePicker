@@ -1,9 +1,9 @@
-# BlazorNodaTimeDateTimePicker
+# NodaTimePicker
 
 [![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/BlazorNodaTimeDateTimePicker.svg)](https://www.nuget.org/packages/BlazorNodaTimeDateTimePicker/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/BlazorNodaTimeDateTimePicker.svg)](https://www.nuget.org/packages/BlazorNodaTimeDateTimePicker)
 [![Build Status](https://dev.azure.com/nodatimepicker/NodaTimePicker/_apis/build/status/Live%20Build?branchName=master)](https://dev.azure.com/nodatimepicker/NodaTimePicker/_build/latest?definitionId=1&branchName=master)
-[![CodeFactor](https://www.codefactor.io/repository/github/nheath99/blazornodatimedatetimepicker/badge)](https://www.codefactor.io/repository/github/nheath99/blazornodatimedatetimepicker)
+[![CodeFactor](https://www.codefactor.io/repository/github/nheath99/nodatimepicker/badge)](https://www.codefactor.io/repository/github/nheath99/nodatimepicker)
 
 A Date/Time picker for [Blazor](https://github.com/aspnet/Blazor), using [NodaTime](https://github.com/nodatime/nodatime).
 
@@ -21,9 +21,9 @@ It is inspired by the very successful Javascript Date/Time picker developed by [
 
 The easiest way to get started is to look at the Demo project, which has samples for most of the functionality.
 
-The library can be downloaded from NuGet by searching for: BlazorNodaTimeDateTimePicker in NuGet Package Manager, or by executing the following command in the Package Manager Console:
+The library can be downloaded from NuGet by searching for: NodaTimePicker in NuGet Package Manager, or by executing the following command in the Package Manager Console:
 ````shell
-PM> Install-Package BlazorNodaTimeDateTimePicker -Version 0.0.10
+PM> Install-Package NodaTimePicker -Version 0.0.10
 ````
 When using the component, you must add a using statement for NodaTime:
 ````
@@ -41,20 +41,22 @@ To display a simple inline DatePicker, use the following code:
 
 To bind a DatePicker to an Input element, use Blazor event bindings:
 ````C#
-<input type="text" onfocus=@focussed />
+<input type="text" @onfocus=@focussed />
 <DatePicker Visible=@visible Selected=@selected />
 
-@functions {
-  bool visible = false;
-  void focussed(UIFocusEventArgs e)
-  {
-	visible = true;
-  }
-  void selected(LocalDate localDate)
-  {
-	visible = false;
-	StateHasChanged();
-  }
+@functions
+{
+    bool visible = false;
+    void focussed(UIFocusEventArgs e)
+    {
+        visible = true;
+    }
+    
+    void selected(LocalDate localDate)
+    {
+        visible = false;
+        StateHasChanged();
+    }
 }
 ````
 ![DatePicker1](/docs/images/DatePicker_BoundToInput.png)
