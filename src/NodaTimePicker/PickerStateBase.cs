@@ -1,4 +1,4 @@
-﻿namespace BlazorNodaTimeDateTimePicker
+﻿namespace NodaTimePicker
 {
 	/// <summary>
 	/// Base class for the state machines.

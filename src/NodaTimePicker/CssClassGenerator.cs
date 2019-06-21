@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BlazorNodaTimeDateTimePicker
+namespace NodaTimePicker
 {
 	internal static class CssClassGenerator
 	{

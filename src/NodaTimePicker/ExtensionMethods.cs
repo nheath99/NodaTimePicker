@@ -1,7 +1,7 @@
-﻿namespace BlazorNodaTimeDateTimePicker
+﻿namespace NodaTimePicker
 {
 	internal static class ExtensionMethods
-    {
+	{
 		/// <summary>
 		/// Given a year, returns the first year of the current decade.
 		/// </summary>
@@ -18,5 +18,5 @@
 		{
 			return (year / 10) * 10;
 		}
-    }
+	}
 }

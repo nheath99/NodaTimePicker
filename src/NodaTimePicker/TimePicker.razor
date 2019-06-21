@@ -1,5 +1,5 @@
 ﻿@inherits PickerComponentBase<TimePickerState>
-@using BlazorNodaTimeDateTimePicker
+@using NodaTimePicker
 @using NodaTime;
 @using Microsoft.AspNetCore.Components
 
@@ -9,23 +9,23 @@
 		case TimeViewMode.Clock:
 			{
 				<div class="timepicker-clock">
-					<button type="button" role="button" class="timepicker-hour-up timepicker-button" onclick=@IncrementHour>@UpArrowIcon</button>
-					<button type="button" role="button" class="timepicker-hour timepicker-button" onclick=@DisplayHours>
+					<button type="button" role="button" class="timepicker-hour-up timepicker-button" @onclick=@IncrementHour>@UpArrowIcon</button>
+					<button type="button" role="button" class="timepicker-hour timepicker-button" @onclick=@DisplayHours>
 						@HourDisplay
 					</button>
-					<button type="button" role="button" class="timepicker-hour-down timepicker-button" onclick=@DecrementHour>@DownArrowIcon</button>
+					<button type="button" role="button" class="timepicker-hour-down timepicker-button" @onclick=@DecrementHour>@DownArrowIcon</button>
 
 					<div class="timepicker-divider"><span>:</span></div>
 
-					<button type="button" role="button" class="timepicker-minute-up timepicker-button" onclick=@IncrementMinute>@UpArrowIcon</button>
-					<button type="button" role="button" class="timepicker-minute timepicker-button" onclick=@DisplayMinutes>
+					<button type="button" role="button" class="timepicker-minute-up timepicker-button" @onclick=@IncrementMinute>@UpArrowIcon</button>
+					<button type="button" role="button" class="timepicker-minute timepicker-button" @onclick=@DisplayMinutes>
 						@MinuteDisplay
 					</button>
-					<button type="button" role="button" class="timepicker-minute-down timepicker-button" onclick=@DecrementMinute>@DownArrowIcon</button>
+					<button type="button" role="button" class="timepicker-minute-down timepicker-button" @onclick=@DecrementMinute>@DownArrowIcon</button>
 
 					@if (Is24Hour == false)
 					{
-						<button type="button" role="button" class="timepicker-meridiem timepicker-button" onclick=@ToggleMeridiem>
+						<button type="button" role="button" class="timepicker-meridiem timepicker-button" @onclick=@ToggleMeridiem>
 							@(State.IsAM ? "AM" : "PM")
 						</button>
 					}
@@ -39,14 +39,14 @@
 						@for (int i = 0; i < 12; i++)
 						{
 							var hour = ViewModeHours_IsAM ? i : i + 12;
-							<button type="button" role="button" class="timepicker-button hour @(State.SelectedTime.Hour == hour ? "active" : "")" onclick=@(() => HourSelected(hour))>
+							<button type="button" role="button" class="timepicker-button hour @(State.SelectedTime.Hour == hour ? "active" : "")" @onclick=@(() => HourSelected(hour))>
 								@($"{(Is24Hour ? hour : i):00}")
 							</button>
 						}
 					</div>
 					<div class="timepicker-hour-meridiems">
-						<button type="button" role="button" class="timepicker-button @(ViewModeHours_IsAM ? "active" : "")" onclick=@(() => ViewModeHours_IsAM = true)>AM</button>
-						<button type="button" role="button" class="timepicker-button @(ViewModeHours_IsAM ? "" : "active")" onclick=@(() => ViewModeHours_IsAM = false)>PM</button>
+						<button type="button" role="button" class="timepicker-button @(ViewModeHours_IsAM ? "active" : "")" @onclick=@(() => ViewModeHours_IsAM = true)>AM</button>
+						<button type="button" role="button" class="timepicker-button @(ViewModeHours_IsAM ? "" : "active")" @onclick=@(() => ViewModeHours_IsAM = false)>PM</button>
 					</div>
 				</div>
 			}
@@ -58,7 +58,7 @@
 						@for (int i = 0; i < 60; i += MinuteStep)
 						{
 							var minute = i;
-							<button type="button" role="button" class="timepicker-button minute @(State.SelectedTime.Minute == minute ? "active" : "")" onclick=@(() => MinuteSelected(minute))>
+							<button type="button" role="button" class="timepicker-button minute @(State.SelectedTime.Minute == minute ? "active" : "")" @onclick=@(() => MinuteSelected(minute))>
 								@($"{i:00}")
 							</button>
 						}
@@ -70,7 +70,7 @@
 	@if (ShowClose)
 	{
 		<div class="timepicker-footer">
-			<button type="button" role="button" class="timepicker-button-close" onclick=@close>
+			<button type="button" role="button" class="timepicker-button-close" @onclick=@close>
 				Close
 			</button>
 		</div>

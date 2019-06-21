@@ -1,6 +1,6 @@
 ﻿using NodaTime;
 
-namespace BlazorNodaTimeDateTimePicker
+namespace NodaTimePicker
 {
 	public class TimePickerState : PickerStateBase
 	{		

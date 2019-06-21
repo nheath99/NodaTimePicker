@@ -12,12 +12,12 @@
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 		<Version>0.0.10</Version>
 		<Authors>Nick Heath</Authors>
-		<PackageId>BlazorNodaTimeDateTimePicker</PackageId>
+		<PackageId>NodaTimePicker</PackageId>
 		<Title>Blazor NodaTime Date Time Picker</Title>
 		<Description>A Date Time Picker for Blazor using NodaTime</Description>
-		<PackageProjectUrl>https://github.com/nheath99/BlazorNodaTimeDateTimePicker</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/nheath99/NodaTimePicker</PackageProjectUrl>
 		<PackageTags>blazor;nodatime;datepicker;datepicker;timepicker</PackageTags>
-		<RepositoryUrl>https://github.com/nheath99/BlazorNodaTimeDateTimePicker</RepositoryUrl>
+		<RepositoryUrl>https://github.com/nheath99/NodaTimePicker</RepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>

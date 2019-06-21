@@ -20,7 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\BlazorNodaTimeDateTimePicker\BlazorNodaTimeDateTimePicker.csproj" />
+		<ProjectReference Include="..\NodaTimePicker\NodaTimePicker.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BlazorNodaTimeDateTimePicker
+namespace NodaTimePicker
 {
 	public class DatePickerState : PickerStateBase
 	{

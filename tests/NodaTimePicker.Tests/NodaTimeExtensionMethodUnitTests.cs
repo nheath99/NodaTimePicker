@@ -1,7 +1,7 @@
 using NodaTime;
 using Xunit;
 
-namespace BlazorNodaTimeDateTimePicker.Tests
+namespace NodaTimePicker.Tests
 {
 	public class NodaTimeExtensionMethodUnitTests
 	{

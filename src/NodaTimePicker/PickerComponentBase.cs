@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace BlazorNodaTimeDateTimePicker
+namespace NodaTimePicker
 {
 	/// <summary>Base class for any picker components.</summary>
 	/// <typeparam name="TState"></typeparam>

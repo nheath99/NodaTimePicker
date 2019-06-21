@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Blazor.Hosting;
 
-namespace BlazorNodaTimeDateTimePicker.Demo
+namespace NodaTimePicker.Demo
 {
 	public class Program
 	{

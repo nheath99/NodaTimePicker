@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BlazorNodaTimeDateTimePicker.Demo
+namespace NodaTimePicker.Demo
 {
 	public class Startup
 	{
