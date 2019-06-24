@@ -10,6 +10,9 @@ variables:
   buildConfiguration: 'Debug'
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
 
+trigger:
+  - dev
+
 steps:
 # Install the latest version of the dotnet sdk
 - task: DotNetCoreInstaller@0
