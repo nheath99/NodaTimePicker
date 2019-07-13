@@ -23,7 +23,7 @@ The easiest way to get started is to look at the Demo project, which has samples
 
 The library can be downloaded from NuGet by searching for: NodaTimePicker in NuGet Package Manager, or by executing the following command in the Package Manager Console:
 ````shell
-PM> Install-Package NodaTimePicker -Version 0.1.0
+PM> Install-Package NodaTimePicker -Version 0.2.0
 ````
 When using the component, you must add a using statement for NodaTime:
 ````
