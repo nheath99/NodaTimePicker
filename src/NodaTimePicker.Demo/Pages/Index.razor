@@ -42,18 +42,15 @@
 </p>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
-		<DatePicker Inline=true SelectedDateChanged=changed1 />
+		<DatePicker Inline=true OnSelectedDateChanged=changed1 />
 	</div>
 	<div class="order-0 order-sm-1">
-		Selected Date: <span>@selectedDate1</span>
+		<div>Selected Date: <span>@selectedDate1</span></div>
 	</div>
 </div>
 
-<pre>
-<code class="html">
-	@demo1String
-</code>
-</pre>
+<pre><code class="html">@demo1String</code></pre>
+
 <hr />
 
 <h3 id="boundToInput">Bound to Input</h3>
@@ -64,15 +61,12 @@
 </p>
 
 <input type="text" @onfocus=@focussed2 value=@selectedDate2 class="form-control mb-2" placeholder="Focus to open DatePicker..." />
-<DatePicker Visible=@datePicker2Visible Selected=@selected2 ShowClose=@true />
+<DatePicker Visible=@datePicker2Visible OnSelected=@selected2 ShowClose=@true />
 
-<pre>
-<code class="html">
-	@demo2String
-</code>
-</pre>
+<pre><code class="html">@demo2String</code></pre>
 
 <hr />
+
 <h3 id="firstDayOfWeek">First Day of Week</h3>
 <p>Specify the first day of the week. Default is Monday.</p>
 <div class="d-flex flex-sm-row flex-column">
@@ -256,11 +250,11 @@
 </p>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
-		<DatePicker Inline=true MonthViewHeaderFormat="yy" InitialViewMode=@ViewMode.Months />
+		<DatePicker Inline=true MonthViewHeaderFormat="yy" ViewMode=@ViewMode.Months />
 	</div>
 	<p class="order-0 order-sm-1">
 		MonthViewHeaderFormat: <strong>yy</strong><br />
-		InitialViewMode: <strong>ViewMode.Months</strong>
+		ViewMode: <strong>ViewMode.Months</strong>
 	</p>
 </div>
 
@@ -286,16 +280,16 @@
 </div>
 
 <hr />
-<h3 id="initialViewMode">Initial View Mode</h3>
+<h3 id="viewMode">Initial View Mode</h3>
 <p>
 	Set the initial <strong>ViewMode</strong> of the control.
 </p>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
-		<DatePicker Inline=true InitialViewMode=@ViewMode.Years />
+		<DatePicker Inline=true ViewMode=@ViewMode.Years />
 	</div>
 	<div class="order-0 order-sm-1">
-		InitialViewMode: <strong>ViewMode.Years</strong>
+		ViewMode: <strong>ViewMode.Years</strong>
 	</div>
 </div>
 
@@ -306,7 +300,7 @@
 </p>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3">
-		<DatePicker Inline=true SelectedDateChanged=@changed Selected=@selected Cleared=@cleared />
+		<DatePicker Inline=true OnSelectedDateChanged=@changed OnSelected=@selected OnCleared=@cleared />
 	</div>
 	<ul>
 		@foreach (var e in eventsList)
@@ -326,7 +320,7 @@
 		selectedDate1 = localDate;
 		StateHasChanged();
 	}
-	string demo1String = "<DatePicker Inline=true  SelectedDateChanged=changed1 />";
+	string demo1String = "<DatePicker Inline=true OnSelectedDateChanged=changed1 />";
 
 	bool datePicker2Visible = false;
 	LocalDate? selectedDate2;
@@ -343,7 +337,7 @@
 	}
 
 	string demo2String = @"<input type=""text"" @onfocus=""@focussed"" />
-<DatePicker Visible=""datePicker2Visible"" Selected=""selected2"" />
+<DatePicker Visible=""datePicker2Visible"" OnSelected=""selected2"" />
 
 @functions {
 bool datePicker2Visible = false;

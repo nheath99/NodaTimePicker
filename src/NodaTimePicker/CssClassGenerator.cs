@@ -31,7 +31,7 @@ namespace NodaTimePicker
 		/// <param name="Date">The day to render.</param>
 		/// <param name="State"></param>
 		/// <returns></returns>
-		internal static string Day(LocalDate Date, DatePickerState State)
+		internal static string Day(LocalDate Date, DatePickerComponentBase State)
 		{
 			bool disabled = State.IsDayDisabled(Date);
 			bool isToday = Date == State.Today;
@@ -75,7 +75,7 @@ namespace NodaTimePicker
 			return strClass;
 		}
 
-		internal static string Month(int month, bool disabled, DatePickerState state)
+		internal static string Month(int month, bool disabled, DatePickerComponentBase state)
 		{
 			var strClass = "month";
 
@@ -91,7 +91,7 @@ namespace NodaTimePicker
 			return strClass;
 		}
 
-		internal static string Year(int year, bool disabled, DatePickerState state)
+		internal static string Year(int year, bool disabled, DatePickerComponentBase state)
 		{
 			var (start, end) = state.MonthToDisplay.GetDecade();
 			var strClass = "year";
@@ -110,12 +110,12 @@ namespace NodaTimePicker
 			return strClass;
 		}
 
-		internal static string Decade(int decade, bool disabled, DatePickerState State)
+		internal static string Decade(int decade, bool disabled, DatePickerComponentBase state)
 		{
-			var (start, end) = State.MonthToDisplay.GetCentury();
+			var (start, end) = state.MonthToDisplay.GetCentury();
 			var strClass = "decade";
 
-			if (State.SelectedDecade.HasValue && decade == State.SelectedDecade.Value)
+			if (state.SelectedDecade.HasValue && decade == state.SelectedDecade.Value)
 				strClass += " active";
 
 			if (disabled)
