@@ -9,18 +9,14 @@
 
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
-		<TimePicker Inline=true SelectedTimeChanged=changed1 />
+		<TimePicker Inline=true OnSelectedTimeChanged=changed1 />
 	</div>
 	<div class="order-0 order-sm-1">
 		Selected Time: <span>@selectedTime1.ToString("hh:mm:ss tt", null)</span>
 	</div>
 </div>
 
-<pre>
-<code class="html">
-	@demoString1
-</code>
-</pre>
+<pre><code class="html">@demoString1</code></pre>
 <hr />
 
 <h3>Bound to Input</h3>
@@ -31,31 +27,24 @@
 </p>
 
 <input type="text" @onfocus=@focussed4 value=@selectedTime4 class="form-control mb-2" />
-<TimePicker Visible=visible4 SelectedTimeChanged=@changed4 ShowClose=true CloseOnSelect=true />
+<TimePicker Visible=visible4 OnSelectedTimeChanged=@changed4 ShowClose=true CloseOnSelect=true />
 
-<pre>
-<code class="html">
-	@demoString4
-</code>
-</pre>
+<pre><code class="html">@demoString4</code></pre>
 
 <hr />
 <h3>24-hour</h3>
 <p>The default mode is 12 hour. Changing to 24-hour disables the AM/PM toggle.</p>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
-		<TimePicker Inline=true Is24Hour=true SelectedTimeChanged=changed2 />
+		<TimePicker Inline=true Is24Hour=true OnSelectedTimeChanged=changed2 />
 	</div>
 	<div class="order-0 order-sm-1">
 		Selected Time: <span>@selectedTime2</span>
 	</div>
 </div>
 
-<pre>
-<code class="html">
-	@demoString2
-</code>
-</pre>
+<pre><code class="html">@demoString2</code></pre>
+
 <hr />
 
 <h3>Minute Step</h3>
@@ -63,18 +52,15 @@
 
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3 order-1 order-sm-0">
-		<TimePicker Inline=true MinuteStep=15 SelectedTimeChanged=changed3 />
+		<TimePicker Inline=true MinuteStep=15 OnSelectedTimeChanged=changed3 />
 	</div>
 	<div class="order-0 order-sm-1">
 		Selected Time: <span>@selectedTime3.ToString("hh:mm:ss tt", null)</span>
 	</div>
 </div>
 
-<pre>
-<code class="html">
-	@demoString3
-</code>
-</pre>
+<pre><code class="html">@demoString3</code></pre>
+
 <hr />
 
 @code {

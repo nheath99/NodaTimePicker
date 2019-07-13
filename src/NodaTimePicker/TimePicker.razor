@@ -1,7 +1,4 @@
-﻿@inherits PickerComponentBase<TimePickerState>
-@using NodaTimePicker
-@using NodaTime;
-@using Microsoft.AspNetCore.Components
+﻿@inherits TimePickerComponentBase
 
 <div class="@ClassName" style="@MainStyle">
 	@switch (ViewMode)
@@ -10,24 +7,18 @@
 			{
 				<div class="timepicker-clock">
 					<button type="button" role="button" class="timepicker-hour-up timepicker-button" @onclick=@IncrementHour>@UpArrowIcon</button>
-					<button type="button" role="button" class="timepicker-hour timepicker-button" @onclick=@DisplayHours>
-						@HourDisplay
-					</button>
+					<button type="button" role="button" class="timepicker-hour timepicker-button" @onclick=@DisplayHours>@HourDisplay</button>
 					<button type="button" role="button" class="timepicker-hour-down timepicker-button" @onclick=@DecrementHour>@DownArrowIcon</button>
 
 					<div class="timepicker-divider"><span>:</span></div>
 
 					<button type="button" role="button" class="timepicker-minute-up timepicker-button" @onclick=@IncrementMinute>@UpArrowIcon</button>
-					<button type="button" role="button" class="timepicker-minute timepicker-button" @onclick=@DisplayMinutes>
-						@MinuteDisplay
-					</button>
+					<button type="button" role="button" class="timepicker-minute timepicker-button" @onclick=@DisplayMinutes>@MinuteDisplay</button>
 					<button type="button" role="button" class="timepicker-minute-down timepicker-button" @onclick=@DecrementMinute>@DownArrowIcon</button>
 
 					@if (Is24Hour == false)
 					{
-						<button type="button" role="button" class="timepicker-meridiem timepicker-button" @onclick=@ToggleMeridiem>
-							@(State.IsAM ? "AM" : "PM")
-						</button>
+						<button type="button" role="button" class="timepicker-meridiem timepicker-button" @onclick=@ToggleMeridiem>@(IsAM ? "AM" : "PM")</button>
 					}
 				</div>
 			}
@@ -39,7 +30,7 @@
 						@for (int i = 0; i < 12; i++)
 						{
 							var hour = ViewModeHours_IsAM ? i : i + 12;
-							<button type="button" role="button" class="timepicker-button hour @(State.SelectedTime.Hour == hour ? "active" : "")" @onclick=@(() => HourSelected(hour))>
+							<button type="button" role="button" class="timepicker-button hour @(SelectedTime.Hour == hour ? "active" : "")" @onclick=@(() => HourSelected(hour))>
 								@($"{(Is24Hour ? hour : i):00}")
 							</button>
 						}
@@ -58,7 +49,7 @@
 						@for (int i = 0; i < 60; i += MinuteStep)
 						{
 							var minute = i;
-							<button type="button" role="button" class="timepicker-button minute @(State.SelectedTime.Minute == minute ? "active" : "")" @onclick=@(() => MinuteSelected(minute))>
+							<button type="button" role="button" class="timepicker-button minute @(SelectedTime.Minute == minute ? "active" : "")" @onclick=@(() => MinuteSelected(minute))>
 								@($"{i:00}")
 							</button>
 						}
@@ -70,190 +61,7 @@
 	@if (ShowClose)
 	{
 		<div class="timepicker-footer">
-			<button type="button" role="button" class="timepicker-button-close" @onclick=@close>
-				Close
-			</button>
+			<button type="button" role="button" class="timepicker-button-close" @onclick=@close>Close</button>
 		</div>
 	}
 </div>
-
-@functions {
-	/// <summary>Whether to use 24-hour time. Default is 12-hour time.</summary>
-	[Parameter] protected bool Is24Hour { get; set; } = false;
-
-	/// <summary>The number of minutes to increment or decrement by.</summary>
-	[Parameter]
-	protected int MinuteStep
-	{
-		get => State.MinuteStep;
-		set => State.MinuteStep = value;
-	}
-
-	/// <summary>Gets or sets the time displayed on the <see cref="TimePicker"/>.</summary>
-	[Parameter]
-	protected LocalTime SelectedTime
-	{
-		get => State.SelectedTime;
-		set => State.SelectedTime = value;
-	}
-
-	[Parameter] protected Action<LocalTime> SelectedTimeChanged { get; set; }
-
-	[Parameter] protected RenderFragment UpArrowIcon { get; set; }
-	[Parameter] protected RenderFragment DownArrowIcon { get; set; }
-
-	protected override void OnParametersSet()
-	{
-		if (UpArrowIcon == null)
-		{
-			UpArrowIcon = builder => builder.AddContent(1, new MarkupString("&uarr;"));
-		}
-		if (DownArrowIcon == null)
-		{
-			DownArrowIcon = builder => builder.AddContent(1, new MarkupString("&darr;"));
-		}
-	}
-
-	void OnSelectedTimeChanged()
-	{
-		SelectedTimeChanged?.Invoke(State.SelectedTime);
-		if (Inline == false && CloseOnSelect)
-		{
-			close();
-		}
-
-		StateHasChanged();
-	}
-
-	TimeViewMode ViewMode = TimeViewMode.Clock;
-
-	string ClassName
-	{
-		get
-		{
-			if (!string.IsNullOrEmpty(Class))
-			{
-				return $"{CssClassGenerator.TimePickerMain(Inline)} {Class}";
-			}
-			else
-			{
-				return CssClassGenerator.TimePickerMain(Inline);
-			}
-		}
-	}
-
-	protected string MainStyle
-	{
-		get
-		{
-			var str = new List<string>()
-{
-				"min-height:182px;"
-			};
-
-			if (Inline == false && Visible == false)
-			{
-				str.Add("display:none;");
-			}
-			if (!string.IsNullOrEmpty(Width))
-			{
-				str.Add($"width:{Width};");
-			}
-			if (!string.IsNullOrEmpty(MaxWidth))
-			{
-				str.Add($"max-width:{MaxWidth};");
-			}
-
-			str.Add(Style);
-
-			return string.Join(" ", str);
-		}
-	}
-
-	string HourDisplay
-	{
-		get
-		{
-			if (Is24Hour)
-			{
-				return State.SelectedTime.ToString("HH", null);
-			}
-			else
-			{
-				return State.SelectedTime.ToString("hh", null);
-			}
-		}
-	}
-
-	string MinuteDisplay => State.SelectedTime.ToString("mm", null);
-
-	void DisplayClock()
-	{
-		ViewMode = TimeViewMode.Clock;
-	}
-
-	void DisplayHours()
-	{
-		ViewModeHours_IsAM = State.IsAM;
-		ViewMode = TimeViewMode.Hours;
-	}
-
-	void DisplayMinutes()
-	{
-		ViewMode = TimeViewMode.Minutes;
-	}
-
-	void IncrementHour()
-	{
-		State.IncrementHour();
-		OnSelectedTimeChanged();
-	}
-
-	void DecrementHour()
-	{
-		State.DecrementHour();
-		OnSelectedTimeChanged();
-	}
-
-	void IncrementMinute()
-	{
-		State.IncrementMinute();
-		OnSelectedTimeChanged();
-	}
-
-	void DecrementMinute()
-	{
-		State.DecrementMinute();
-		OnSelectedTimeChanged();
-	}
-
-	void ToggleMeridiem()
-	{
-		State.ToggleMeridiem();
-		OnSelectedTimeChanged();
-	}
-
-	void HourSelected(int hour)
-	{
-		State.SetHour(hour);
-		ViewMode = TimeViewMode.Clock;
-		OnSelectedTimeChanged();
-	}
-
-	void MinuteSelected(int minute)
-	{
-		State.SetMinute(minute);
-		ViewMode = TimeViewMode.Clock;
-		OnSelectedTimeChanged();
-	}
-
-	bool ViewModeHours_IsAM { get; set; }
-
-	protected void close()
-	{
-		if (Inline == false)
-		{
-			Visible = false;
-		}
-	}
-}
