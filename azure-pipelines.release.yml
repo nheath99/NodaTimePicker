@@ -12,6 +12,8 @@ variables:
 trigger:
 - master
 
+pr: none
+
 steps:
 - task: DotNetCoreInstaller@0
   displayName: 'Installing .NET Core SDK...'
