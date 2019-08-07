@@ -41,11 +41,6 @@ steps:
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: false
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publishing Build Artifacts...'
-  inputs:
-    pathToPublish: $(Build.ArtifactStagingDirectory)
-
 - task: NuGetToolInstaller@0
   inputs:
     versionSpec: '4.9.1'
@@ -55,3 +50,8 @@ steps:
   inputs:
     command: pack
     packagesToPack: src/BlazorNodaTimeDateTimePicker/BlazorNodaTimeDateTimePicker.csproj
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publishing Build Artifacts...'
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
