@@ -10,7 +10,7 @@
 		<LangVersion>7.3</LangVersion>
 		<RazorLangVersion>3.0</RazorLangVersion>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-		<Version>0.2.0</Version>
+		<Version>0.2.1</Version>
 		<Authors>Nick Heath</Authors>
 		<PackageId>NodaTimePicker</PackageId>
 		<Title>Blazor NodaTime Date Time Picker</Title>
