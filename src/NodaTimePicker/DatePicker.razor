@@ -128,5 +128,5 @@
 @code {
 	// Render Fragments - need to put this to the bottom otherwise Visual Studio formating is affected
 	[Parameter]
-	private RenderFragment<LocalDate> DayTemplate { get; set; } = day =>@<text>@day.Day</text>;
+	public RenderFragment<LocalDate> DayTemplate { get; set; } = day =>@<text>@day.Day</text>;
 }
