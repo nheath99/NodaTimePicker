@@ -90,9 +90,9 @@ namespace NodaTimePicker
 
 		#region Overriden Methods
 
-		protected override void OnInit()
+		protected override void OnInitialized()
 		{
-			Log(nameof(OnInit));
+			Log(nameof(OnInitialized));
 
 			Clock = SystemClock.Instance;
 

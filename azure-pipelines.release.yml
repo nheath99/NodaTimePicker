@@ -12,11 +12,13 @@ variables:
 trigger:
 - master
 
+pr: none
+
 steps:
 - task: DotNetCoreInstaller@0
   displayName: 'Installing .NET Core SDK...'
   inputs:
-    version: 3.0.100-preview6-012264
+    version: 3.0.100-preview8-013656
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
@@ -39,11 +41,6 @@ steps:
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: false
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publishing Build Artifacts...'
-  inputs:
-    pathToPublish: $(Build.ArtifactStagingDirectory)
-
 - task: NuGetToolInstaller@0
   inputs:
     versionSpec: '4.9.1'
@@ -53,3 +50,8 @@ steps:
   inputs:
     command: pack
     packagesToPack: src/BlazorNodaTimeDateTimePicker/BlazorNodaTimeDateTimePicker.csproj
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publishing Build Artifacts...'
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
