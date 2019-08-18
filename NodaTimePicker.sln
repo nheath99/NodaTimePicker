@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.28606.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NodaTimePicker.Demo", "src\NodaTimePicker.Demo\NodaTimePicker.Demo.csproj", "{21983A4A-4CE8-4598-ADD8-B0DD531A6DEB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NodaTimePicker", "src\NodaTimePicker\NodaTimePicker.csproj", "{F07BB3DF-F3C1-45E6-911B-02FED7C1FE66}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NodaTimePicker.Tests", "tests\NodaTimePicker.Tests\NodaTimePicker.Tests.csproj", "{15F79422-4E2B-4CAA-8609-CDAE66F5DB8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodaTimePicker", "src\NodaTimePicker\NodaTimePicker.csproj", "{7AEFDF8E-9C2F-47BA-976A-D9A4212DF1E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{21983A4A-4CE8-4598-ADD8-B0DD531A6DEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21983A4A-4CE8-4598-ADD8-B0DD531A6DEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21983A4A-4CE8-4598-ADD8-B0DD531A6DEB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F07BB3DF-F3C1-45E6-911B-02FED7C1FE66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F07BB3DF-F3C1-45E6-911B-02FED7C1FE66}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F07BB3DF-F3C1-45E6-911B-02FED7C1FE66}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F07BB3DF-F3C1-45E6-911B-02FED7C1FE66}.Release|Any CPU.Build.0 = Release|Any CPU
 		{15F79422-4E2B-4CAA-8609-CDAE66F5DB8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{15F79422-4E2B-4CAA-8609-CDAE66F5DB8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15F79422-4E2B-4CAA-8609-CDAE66F5DB8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15F79422-4E2B-4CAA-8609-CDAE66F5DB8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AEFDF8E-9C2F-47BA-976A-D9A4212DF1E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AEFDF8E-9C2F-47BA-976A-D9A4212DF1E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AEFDF8E-9C2F-47BA-976A-D9A4212DF1E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AEFDF8E-9C2F-47BA-976A-D9A4212DF1E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
