@@ -49,7 +49,7 @@ steps:
   displayName: 'NuGet pack'
   inputs:
     command: pack
-    packagesToPack:  src/NodaTimePicker/NodaTimePicker.csproj
+    packagesToPack: src/NodaTimePicker/NodaTimePicker.csproj
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publishing Build Artifacts...'
