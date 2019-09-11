@@ -18,7 +18,7 @@ steps:
 - task: DotNetCoreInstaller@0
   displayName: 'Installing .NET Core SDK...'
   inputs:
-    version: 3.0.100-preview8-013656
+    version: 3.0.100-preview9-014004
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
@@ -43,7 +43,7 @@ steps:
 
 - task: NuGetToolInstaller@0
   inputs:
-    versionSpec: '4.9.1'
+    versionSpec: 5.2.0
 
 - task: NuGetCommand@2
   displayName: 'NuGet pack'
