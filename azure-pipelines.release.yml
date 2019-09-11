@@ -20,7 +20,7 @@ steps:
   inputs:
     packageType: sdk
     version: 3.0.100-preview9-014004
-
+    
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
@@ -42,10 +42,6 @@ steps:
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: false
 
-- task: NuGetToolInstaller@0
-  inputs:
-    versionSpec: 5.2.0
-
 - task: NuGetCommand@2
   displayName: 'NuGet pack'
   inputs:
@@ -53,6 +49,6 @@ steps:
     packagesToPack: src/NodaTimePicker/NodaTimePicker.csproj
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publishing Build Artifacts...'
+  displayName: 'Publish Build Artifacts'
   inputs:
     pathToPublish: $(Build.ArtifactStagingDirectory)
