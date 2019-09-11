@@ -15,10 +15,11 @@ trigger:
 pr: none
 
 steps:
-- task: DotNetCoreInstaller@0
-  displayName: 'Installing .NET Core SDK...'
+- task: UseDotNet@2
+  displayName: 'Use .NET Core sdk'
   inputs:
-    version: 3.0.100-preview8-013656
+    packageType: sdk
+    version: 3.0.100-preview9-014004
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
@@ -43,13 +44,13 @@ steps:
 
 - task: NuGetToolInstaller@0
   inputs:
-    versionSpec: '4.9.1'
+    versionSpec: 5.2.0
 
 - task: NuGetCommand@2
   displayName: 'NuGet pack'
   inputs:
     command: pack
-    packagesToPack: src/BlazorNodaTimeDateTimePicker/BlazorNodaTimeDateTimePicker.csproj
+    packagesToPack: src/NodaTimePicker/NodaTimePicker.csproj
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publishing Build Artifacts...'

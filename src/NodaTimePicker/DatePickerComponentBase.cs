@@ -12,79 +12,79 @@ namespace NodaTimePicker
 		#region Parameters
 
 		/// <summary>If true, detailed information will be logged to the Console.</summary>
-		[Parameter] internal bool Logging { get; set; } = false;
+		[Parameter] public bool Logging { get; set; } = false;
 		/// <summary> Specify the culture to display dates and text in. Default is InvariantCulture.</summary>
-		[Parameter] internal System.Globalization.CultureInfo FormatProvider { get; set; } = System.Globalization.CultureInfo.InvariantCulture;
+		[Parameter] public System.Globalization.CultureInfo FormatProvider { get; set; } = System.Globalization.CultureInfo.InvariantCulture;
 		/// <summary>If true, a row will be displayed with the day-of-week names. If false, it will not.</summary>
-		[Parameter] internal bool DisplayDaysOfWeek { get; set; } = true;
+		[Parameter] public bool DisplayDaysOfWeek { get; set; } = true;
 		/// <summary>In <see cref="ViewMode.Days"/>, the format of the month and year in the header. Defaults to MMMM yyyy, i.e. October 2018.</summary>
-		[Parameter] internal string DayViewHeaderFormat { get; set; } = "MMMM yyyy";
+		[Parameter] public string DayViewHeaderFormat { get; set; } = "MMMM yyyy";
 		/// <summary>In <see cref="ViewMode.Months"/>, the format of the year in the header. Defaults to yyyy, i.e. 2018.</summary>
-		[Parameter] internal string MonthViewHeaderFormat { get; set; } = "yyyy";
+		[Parameter] public string MonthViewHeaderFormat { get; set; } = "yyyy";
 		/// <summary>If true, the Today button will be displayed. If false, it will be hidden.</summary>
-		[Parameter] internal bool ShowToday { get; set; } = true;
+		[Parameter] public bool ShowToday { get; set; } = true;
 		/// <summary>If true, the Clear button will be displayed. If false, it will be hidden.</summary>
-		[Parameter] internal bool ShowClear { get; set; } = true;
+		[Parameter] public bool ShowClear { get; set; } = true;
 		/// <summary>The text to display on the Today button.</summary>
-		[Parameter] internal string TodayText { get; set; } = "Today";
+		[Parameter] public string TodayText { get; set; } = "Today";
 		/// <summary>The text to display on the Clear button.</summary>
-		[Parameter] internal string ClearText { get; set; } = "Clear";
+		[Parameter] public string ClearText { get; set; } = "Clear";
 		/// <summary>The text to display on the Close button.</summary>
-		[Parameter] internal string CloseText { get; set; } = "Close";
+		[Parameter] public string CloseText { get; set; } = "Close";
 		/// <summary>The <see cref="ViewMode"/> to display on initialization. Defaults to <see cref="ViewMode.Days"/>.</summary>
-		[Parameter] internal ViewMode ViewMode { get; set; } = ViewMode.Days;
+		[Parameter] public ViewMode ViewMode { get; set; } = ViewMode.Days;
 		/// <summary>The granularity of date selection. Defaults to <see cref="ViewMode.Days"/>.</summary>
-		[Parameter] internal ViewMode MinimumSelectionMode { get; set; } = ViewMode.Days;
+		[Parameter] public ViewMode MinimumSelectionMode { get; set; } = ViewMode.Days;
 		/// <summary>Whether to show the week number in <see cref="ViewMode"/> = <see cref="ViewMode.Days"/>. Default is <see cref="false"/></summary>
-		[Parameter] internal bool DisplayWeekNumber { get; set; } = false;
+		[Parameter] public bool DisplayWeekNumber { get; set; } = false;
 		/// <summary>The text to display on the Week number heading, if <see cref="DisplayWeekNumber"/> is set to true</summary>
-		[Parameter] internal string WeekAbbreviation { get; set; } = "Wk";
+		[Parameter] public string WeekAbbreviation { get; set; } = "Wk";
 		/// <summary>The content to display in the Previous button. Defaults to the Less Than character (&lt;)</summary>
-		[Parameter] internal RenderFragment PrevContent { get; set; } = builder => builder.AddContent(1, new MarkupString("&lt;"));
+		[Parameter] public RenderFragment PrevContent { get; set; } = builder => builder.AddContent(1, new MarkupString("&lt;"));
 		/// <summary>The content to display in the Previous button. Defaults to the Greater Than character (&gt;)</summary>
-		[Parameter] internal RenderFragment NextContent { get; set; } = builder => builder.AddContent(1, new MarkupString("&gt;"));
+		[Parameter] public RenderFragment NextContent { get; set; } = builder => builder.AddContent(1, new MarkupString("&gt;"));
 		/// <summary>The day of the week to start from, when in <see cref="ViewMode.Days"/>.</summary>
-		[Parameter] internal IsoDayOfWeek FirstDayOfWeek { get; set; } = IsoDayOfWeek.Monday;
+		[Parameter] public IsoDayOfWeek FirstDayOfWeek { get; set; } = IsoDayOfWeek.Monday;
 		/// <summary>The currently selected date.</summary>
 		[Parameter] public LocalDate? SelectedDate { get; set; }
 		/// <summary>The earliest date that can be selected, inclusive. A value of null indicates that there is no minimum date.</summary>
-		[Parameter] internal LocalDate? MinDate { get; set; }
+		[Parameter] public LocalDate? MinDate { get; set; }
 		/// <summary>The latest date that can be selected, inclusive. A value of null indicates that there is no maximum date.</summary>
-		[Parameter] internal LocalDate? MaxDate { get; set; }
+		[Parameter] public LocalDate? MaxDate { get; set; }
 		/// <summary>Specific dates that cannot be selected.</summary>
-		[Parameter] internal IEnumerable<LocalDate> DisabledDates { get; set; }
+		[Parameter] public IEnumerable<LocalDate> DisabledDates { get; set; }
 		/// <summary>Specific dates that can be selected. Note this overrides any disabled state.</summary>
-		[Parameter] internal IEnumerable<LocalDate> EnabledDates { get; set; }
+		[Parameter] public IEnumerable<LocalDate> EnabledDates { get; set; }
 		/// <summary>Days of the week that cannot be selected.</summary>
-		[Parameter] internal IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled { get; set; }
+		[Parameter] public IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled { get; set; }
 		/// <summary>Inclusive date intervals that cannot be selected.</summary>
-		[Parameter] internal IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals { get; set; }
+		[Parameter] public IEnumerable<(LocalDate start, LocalDate end)> DisabledDateIntervals { get; set; }
 		/// <summary>Whether to display the DatePicker with display:inline (true) or display:block (false).</summary>
-		[Parameter] internal bool Inline { get; set; } = false;
+		[Parameter] public bool Inline { get; set; } = false;
 		/// <summary>If <see cref="Inline"></see> = false, whether the DatePicker is visible or not.</summary>
-		[Parameter] internal bool Visible { get; set; } = true;
+		[Parameter] public bool Visible { get; set; } = true;
 		/// <summary></summary>
-		[Parameter] internal bool DisplayWeekYearSelectionMode { get; set; } = false;		
+		[Parameter] public bool DisplayWeekYearSelectionMode { get; set; } = false;
 		/// <summary>An event that is invoked whenever the <see cref="SelectedDate"/> value is changed.</summary>
-		[Parameter] internal EventCallback<LocalDate?> OnSelectedDateChanged { get; set; }
+		[Parameter] public EventCallback<LocalDate?> OnSelectedDateChanged { get; set; }
 		/// <summary>An event that is invoked when the a day is selected.</summary>
-		[Parameter] internal EventCallback<LocalDate> OnSelected { get; set; }
+		[Parameter] public EventCallback<LocalDate> OnSelected { get; set; }
 		/// <summary>An event that is invoked when the selected day is cleared.</summary>
-		[Parameter] internal EventCallback OnCleared { get; set; }
+		[Parameter] public EventCallback OnCleared { get; set; }
 		/// <summary>An event that is invoked when the UI is updated.</summary>
-		[Parameter] internal EventCallback OnUpdated { get; set; }
+		[Parameter] public EventCallback OnUpdated { get; set; }
 		/// <summary>An event that is invoked when the ViewMode is changed.</summary>
-		[Parameter] internal EventCallback<ViewMode> OnViewModeChanged { get; set; }
-		[Parameter] internal EventCallback<LocalDate> OnMonthChanged { get; set; }
-		[Parameter] internal EventCallback<int> OnYearChanged { get; set; }
+		[Parameter] public EventCallback<ViewMode> OnViewModeChanged { get; set; }
+		[Parameter] public EventCallback<LocalDate> OnMonthChanged { get; set; }
+		[Parameter] public EventCallback<int> OnYearChanged { get; set; }
 		/// <summary>An event that is invoked when the DatePicker is opened.</summary>
-		[Parameter] internal EventCallback OnOpened { get; set; }
+		[Parameter] public EventCallback OnOpened { get; set; }
 		/// <summary>An event that is invoked when the DatePicker is closed.</summary>
-		[Parameter] internal EventCallback OnClosed { get; set; }
+		[Parameter] public EventCallback OnClosed { get; set; }
 
-		[Parameter] internal EventCallback OnDisabled { get; set; }
+		[Parameter] public EventCallback OnDisabled { get; set; }
 
-		[Parameter] internal EventCallback OnEnabled { get; set; }
+		[Parameter] public EventCallback OnEnabled { get; set; }
 
 		#endregion
 
@@ -184,9 +184,9 @@ namespace NodaTimePicker
 		#region Display Strings
 
 		internal string DayOfWeekAbbreviation(IsoDayOfWeek isoDayOfWeek) => FormatProvider.DateTimeFormat.GetShortestDayName(isoDayOfWeek.ToDayOfWeek());
-		
+
 		internal string MonthText => MonthToDisplay.ToString(DayViewHeaderFormat, FormatProvider);
-		
+
 		internal string MonthName(int month) => FormatProvider.DateTimeFormat.GetAbbreviatedMonthName(month);
 
 		internal string YearText => MonthToDisplay.ToString(MonthViewHeaderFormat, FormatProvider);
@@ -274,7 +274,7 @@ namespace NodaTimePicker
 			Days = GetDaysBetween(startOfWeekOfMonth, endOfWeekOfMonth);
 		}
 
-		internal void DayClicked(UIMouseEventArgs eventArgs, LocalDate date)
+		internal void DayClicked(EventArgs eventArgs, LocalDate date)
 		{
 			Log(nameof(DayClicked));
 
@@ -305,7 +305,7 @@ namespace NodaTimePicker
 		/// <summary>Callback for when a Month has been selected.</summary>
 		/// <param name="eventArgs"></param>
 		/// <param name="month"></param>
-		internal void MonthClicked(UIMouseEventArgs eventArgs, int month)
+		internal void MonthClicked(EventArgs eventArgs, int month)
 		{
 			Log(nameof(MonthClicked));
 
@@ -325,7 +325,7 @@ namespace NodaTimePicker
 
 		/// <summary>Increments the MonthToDisplay value by one month.</summary>
 		/// <param name="eventArgs"></param>
-		internal void NextMonth(UIMouseEventArgs eventArgs)
+		internal void NextMonth(EventArgs eventArgs)
 		{
 			Log(nameof(NextMonth));
 
@@ -347,7 +347,7 @@ namespace NodaTimePicker
 
 		/// <summary>Displays the Month selection mode, i.e. a list of months of the year.</summary>
 		/// <param name="eventArgs"></param>
-		internal void SelectMonth(UIMouseEventArgs eventArgs)
+		internal void SelectMonth(EventArgs eventArgs)
 		{
 			Log(nameof(SelectMonth));
 
@@ -393,7 +393,7 @@ namespace NodaTimePicker
 			}
 		}
 
-		internal void YearClicked(UIMouseEventArgs eventArgs, int year)
+		internal void YearClicked(EventArgs eventArgs, int year)
 		{
 			Log(nameof(YearClicked));
 
@@ -412,7 +412,7 @@ namespace NodaTimePicker
 			}
 		}
 
-		internal void NextYear(UIMouseEventArgs eventArgs)
+		internal void NextYear(EventArgs eventArgs)
 		{
 			Log(nameof(NextYear));
 
@@ -421,7 +421,7 @@ namespace NodaTimePicker
 			_onUpdated();
 		}
 
-		internal void PreviousYear(UIMouseEventArgs eventArgs)
+		internal void PreviousYear(EventArgs eventArgs)
 		{
 			Log(nameof(PreviousYear));
 
@@ -430,7 +430,7 @@ namespace NodaTimePicker
 			_onUpdated();
 		}
 
-		internal void SelectYear(UIMouseEventArgs eventArgs)
+		internal void SelectYear(EventArgs eventArgs)
 		{
 			Log(nameof(SelectYear));
 
@@ -476,7 +476,7 @@ namespace NodaTimePicker
 			}
 		}
 
-		internal void DecadeClicked(UIMouseEventArgs eventArgs, int decade)
+		internal void DecadeClicked(EventArgs eventArgs, int decade)
 		{
 			Log(nameof(DecadeClicked));
 
@@ -495,7 +495,7 @@ namespace NodaTimePicker
 			}
 		}
 
-		internal void NextDecade(UIMouseEventArgs eventArgs)
+		internal void NextDecade(EventArgs eventArgs)
 		{
 			Log(nameof(NextDecade));
 
@@ -504,7 +504,7 @@ namespace NodaTimePicker
 			_onUpdated();
 		}
 
-		internal void PreviousDecade(UIMouseEventArgs eventArgs)
+		internal void PreviousDecade(EventArgs eventArgs)
 		{
 			Log(nameof(PreviousDecade));
 
@@ -513,7 +513,7 @@ namespace NodaTimePicker
 			_onUpdated();
 		}
 
-		internal void SelectDecade(UIMouseEventArgs eventArgs)
+		internal void SelectDecade(EventArgs eventArgs)
 		{
 			Log(nameof(SelectDecade));
 
@@ -525,7 +525,7 @@ namespace NodaTimePicker
 
 		#region Centuries
 
-		internal void NextCentury(UIMouseEventArgs eventArgs)
+		internal void NextCentury(EventArgs eventArgs)
 		{
 			Log(nameof(NextCentury));
 
@@ -534,7 +534,7 @@ namespace NodaTimePicker
 			_onUpdated();
 		}
 
-		internal void PreviousCentury(UIMouseEventArgs eventArgs)
+		internal void PreviousCentury(EventArgs eventArgs)
 		{
 			Log(nameof(PreviousCentury));
 
@@ -547,21 +547,21 @@ namespace NodaTimePicker
 
 		#region EventHandlers
 
-		internal void TodayClicked(UIMouseEventArgs eventArgs)
+		internal void TodayClicked(EventArgs eventArgs)
 		{
 			Log(nameof(TodayClicked));
 
 			SetSelectedDate(Today);
 		}
 
-		internal void ClearClicked(UIMouseEventArgs eventArgs)
+		internal void ClearClicked(EventArgs eventArgs)
 		{
 			Log(nameof(ClearClicked));
 
 			ClearSelectedDate();
 		}
 
-		internal void CloseClicked(UIMouseEventArgs eventArgs)
+		internal void CloseClicked(EventArgs eventArgs)
 		{
 			Log(nameof(CloseClicked));
 

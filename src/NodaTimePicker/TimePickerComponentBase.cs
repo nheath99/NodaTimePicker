@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using NodaTime;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace NodaTimePicker
 {
@@ -11,21 +9,21 @@ namespace NodaTimePicker
 		#region Parameters
 
 		/// <summary>Whether to use 24-hour time. Default is 12-hour time.</summary>
-		[Parameter] protected bool Is24Hour { get; set; } = false;
+		[Parameter] public bool Is24Hour { get; set; } = false;
 
 		/// <summary>The number of minutes to increment or decrement by.</summary>
-		[Parameter] protected int MinuteStep { get; set; } = 5;
+		[Parameter] public int MinuteStep { get; set; } = 5;
 
 		/// <summary>Gets or sets the time displayed on the <see cref="TimePicker"/>.</summary>
-		[Parameter] protected LocalTime SelectedTime { get; set; }
+		[Parameter] public LocalTime SelectedTime { get; set; }
 
-		[Parameter] protected bool Inline { get; set; } = false;
-		[Parameter] protected bool Visible { get; set; } = true;
+		[Parameter] public bool Inline { get; set; } = false;
+		[Parameter] public bool Visible { get; set; } = true;
 
-		[Parameter] protected EventCallback<LocalTime> OnSelectedTimeChanged { get; set; }
+		[Parameter] public EventCallback<LocalTime> OnSelectedTimeChanged { get; set; }
 
-		[Parameter] protected RenderFragment UpArrowIcon { get; set; }
-		[Parameter] protected RenderFragment DownArrowIcon { get; set; }
+		[Parameter] public RenderFragment UpArrowIcon { get; set; }
+		[Parameter] public RenderFragment DownArrowIcon { get; set; }
 
 		#endregion
 
