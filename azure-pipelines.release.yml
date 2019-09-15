@@ -15,10 +15,9 @@ trigger:
 pr: none
 
 steps:
-- task: UseDotNet@2
+- task: DotNetCoreInstaller@0
   displayName: 'Use .NET Core sdk'
   inputs:
-    packageType: sdk
     version: 3.0.100-preview9-014004
     
 - script: dotnet build --configuration $(buildConfiguration)
