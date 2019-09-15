@@ -45,8 +45,7 @@ steps:
   inputs:
     versionSpec: 5.2.0
 
-- task: NuGetCommand@2
-  displayName: 'NuGet pack'
+- task: DotNetCoreCLI@2
   inputs:
     command: pack
     packagesToPack: src/NodaTimePicker/NodaTimePicker.csproj
