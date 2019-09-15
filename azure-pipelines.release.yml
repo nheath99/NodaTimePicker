@@ -15,10 +15,9 @@ trigger:
 pr: none
 
 steps:
-- task: UseDotNet@2
+- task: DotNetCoreInstaller@0
   displayName: 'Use .NET Core sdk'
   inputs:
-    packageType: sdk
     version: 3.0.100-preview9-014004
     
 - script: dotnet build --configuration $(buildConfiguration)
@@ -41,6 +40,10 @@ steps:
     publishWebProjects: true
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: false
+
+- task: NuGetToolInstaller@0
+  inputs:
+    versionSpec: 5.2.0
 
 - task: NuGetCommand@2
   displayName: 'NuGet pack'
