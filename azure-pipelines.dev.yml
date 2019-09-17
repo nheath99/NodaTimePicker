@@ -21,7 +21,7 @@ steps:
   displayName: 'Use .NET Core sdk'
   inputs:
     packageType: sdk
-    version: 3.0.100-preview9-014004
+    version: 3.0.100-rc1-014190
 
 # Build the solution
 - script: dotnet build --configuration $(buildConfiguration)
