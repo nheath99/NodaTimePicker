@@ -7,7 +7,7 @@
 
 A Date/Time picker for [Blazor](https://github.com/aspnet/Blazor), using [NodaTime](https://github.com/nodatime/nodatime).
 
-View the [Demo](https://nodatimepicker.azurewebsites.net/)
+View the [Demo](https://nodatimepicker.z13.web.core.windows.net/)
 
 The aim of this project is to develop Date/Time picker components for Blazor applications, using NodaTime as the only dependency for Date and Time calculations, and CSS Grid for layout.
 
