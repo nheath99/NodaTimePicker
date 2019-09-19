@@ -36,6 +36,9 @@ steps:
     projects: 'tests/**/*.csproj'
     nobuild: true
 
+- script: dotnet publish -c $(buildConfiguration)
+  displayName: 'dotnet publish $(buildConfiguration)'
+
 # Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
 # First install the tool on the machine, then run it
 - script: |
