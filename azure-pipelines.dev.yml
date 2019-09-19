@@ -36,7 +36,7 @@ steps:
     projects: 'tests/**/*.csproj'
     nobuild: true
 
-- script: dotnet publish -c $(buildConfiguration)
+- script: dotnet publish --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)
   displayName: 'dotnet publish $(buildConfiguration)'
 
 # Generate the report using ReportGenerator (https://github.com/danielpalme/ReportGenerator)
