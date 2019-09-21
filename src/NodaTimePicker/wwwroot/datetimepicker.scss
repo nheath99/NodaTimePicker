@@ -1,0 +1,104 @@
+﻿@import "variables.scss";
+
+.datetimepicker {
+	display: flex;
+	margin-bottom: 10px;
+
+	button {
+		border: none;
+		background-color: transparent;
+	}
+
+	&.datetimepicker-dropdown-menu {
+		position: absolute;
+		z-index: 1000;
+		background-color: white;
+		border: 1px solid rgba(0,0,0,.15);
+		border-radius: 0.25rem;
+		margin: 2px 0;
+		padding: 4px;
+
+		&:before {
+			content: '';
+			display: inline-block;
+			position: absolute;
+			// bottom
+			border-left: 7px solid transparent;
+			border-right: 7px solid transparent;
+			border-bottom: 7px solid #ccc;
+			border-bottom-color: rgba(0, 0, 0, 0.2);
+			top: -7px;
+			left: 7px;
+		}
+
+		&:after {
+			content: '';
+			display: inline-block;
+			position: absolute;
+			// bottom
+			border-left: 6px solid transparent;
+			border-right: 6px solid transparent;
+			border-bottom: 6px solid white;
+			top: -6px;
+			left: 8px;
+		}
+	}
+}
+
+.datetimepicker-content {
+	display: grid;
+	grid-template-areas: "header" "days-of-week" "days" "footer";
+
+	.datetimepicker-header {
+		grid-area: header;
+		display: grid;
+		grid-template-columns: 1fr 5fr 1fr;
+		grid-template-areas: "prev header next";
+		justify-items: stretch;
+		align-items: center;
+		font-weight: bold;
+		border-top: 1px solid rgb(222, 226, 230);
+
+		> .next, > .prev, > .header-text {
+			text-align: center;
+			border-radius: 0.25rem;
+			padding: 0.1rem;
+
+			&:hover:not(.disabled):not(.active):not(.header-text-no-action) {
+				background: $datetimepicker-btn-hover-bg;
+				cursor: pointer;
+			}
+		}
+	}
+
+	.disabled {
+		background: none;
+		color: $datetimepicker-disabled-color;
+		cursor: not-allowed;
+	}
+
+	.datetimepicker-footer {
+		grid-area : footer;
+		margin-top: 2px;
+		display: flex;
+		justify-content: space-around;
+
+		> button {
+			flex-grow: 1;
+			text-align: center;
+			border: 1px solid rgba(0,0,0,.15);
+			border-radius: 5px;
+			padding: 0.22rem;
+			background-color: white;
+
+			&:not(:last-of-type) {
+				margin-right: 10px;
+			}
+
+			&:hover:not(.disabled) {
+				background-color: $datetimepicker-btn-hover-bg;
+				cursor: pointer;
+			}
+		}
+	}
+}

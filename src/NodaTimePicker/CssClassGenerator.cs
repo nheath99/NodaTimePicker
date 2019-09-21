@@ -6,14 +6,18 @@ namespace NodaTimePicker
 {
 	internal static class CssClassGenerator
 	{
+		const string datepicker_prefix = "datepicker";
+		const string timepicker_prefix = "timepicker";
+		const string datetimepicker_prefix = "datetimepicker";
+
 		/// <summary>The value of the class attribute for the root html element of the DatePicker.</summary>
 		/// <param name="inline">Whether the DatePicker is being displayed inline or not.</param>
 		/// <returns></returns>
 		internal static string DatePickerMain(bool inline)
 		{
-			var str = "datepicker";
+			var str = datepicker_prefix;
 			if (inline == false)
-				str += " datepicker-dropdown-menu";
+				str += $" {datepicker_prefix}-dropdown-menu";
 			
 			return str;
 		}
@@ -128,12 +132,21 @@ namespace NodaTimePicker
 
 			return strClass;
 		}
-
+		
 		internal static string TimePickerMain(bool inline)
 		{
-			var str = "timepicker";
+			var str = timepicker_prefix;
 			if (inline == false)
-				str += " timepicker-dropdown-menu";
+				str += $" {timepicker_prefix}-dropdown-menu";
+
+			return str;
+		}
+
+		internal static string DateTimePickerMain(bool inline)
+		{
+			var str = datetimepicker_prefix;
+			if (inline == false)
+				str += $" {datetimepicker_prefix}-dropdown-menu";
 
 			return str;
 		}

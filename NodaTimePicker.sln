@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NodaTimePicker.Demo", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NodaTimePicker.Tests", "tests\NodaTimePicker.Tests\NodaTimePicker.Tests.csproj", "{15F79422-4E2B-4CAA-8609-CDAE66F5DB8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodaTimePicker", "src\NodaTimePicker\NodaTimePicker.csproj", "{7AEFDF8E-9C2F-47BA-976A-D9A4212DF1E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NodaTimePicker", "src\NodaTimePicker\NodaTimePicker.csproj", "{7AEFDF8E-9C2F-47BA-976A-D9A4212DF1E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

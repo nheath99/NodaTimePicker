@@ -6,5 +6,9 @@
   {
     "outputFile": "content/timepicker.css",
     "inputFile": "content/timepicker.scss"
+  },
+  {
+    "outputFile": "wwwroot/datetimepicker.css",
+    "inputFile": "wwwroot/datetimepicker.scss"
   }
 ]

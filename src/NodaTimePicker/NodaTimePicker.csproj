@@ -19,7 +19,6 @@
 		<RepositoryUrl>https://github.com/nheath99/NodaTimePicker</RepositoryUrl>		
   </PropertyGroup>
 
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.0.0-rc1.19457.4" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0-rc1.19457.4" />
@@ -28,6 +27,5 @@
 
 	<ItemGroup>		
 		<EmbeddedResource Include="wwwroot\**\*.css" LogicalName="blazor:css:%(RecursiveDir)%(Filename)%(Extension)" />		
-	</ItemGroup>
-	
+	</ItemGroup>	
 </Project>
