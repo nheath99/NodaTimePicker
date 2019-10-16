@@ -13,9 +13,9 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview9.19457.4" />
-		<PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview9.19457.4" PrivateAssets="all" />
-		<PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0.0-preview9.19457.4" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.1.0-preview1.19508.20" />
+		<PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.1.0-preview1.19508.20" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.1.0-preview1.19508.20" PrivateAssets="all" />
 		<PackageReference Include="NodaTime" Version="3.0.0-beta01" />
 	</ItemGroup>
 
@@ -24,13 +24,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Update="Pages\DateRangePicker.razor">
+		<Content Update="Pages\DateRangePickerDemo.razor">
 			<Pack>$(IncludeRazorContentInPack)</Pack>
 		</Content>
-		<Content Update="Pages\TimePicker.razor">
+		<Content Update="Pages\TimePickerDemo.razor">
 			<Pack>$(IncludeRazorContentInPack)</Pack>
 		</Content>
-		<Content Update="Pages\DateTimePicker.razor">
+		<Content Update="Pages\DateTimePickerDemo.razor">
 			<Pack>$(IncludeRazorContentInPack)</Pack>
 		</Content>
 	</ItemGroup>
