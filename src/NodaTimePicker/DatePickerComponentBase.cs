@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components;
 using NodaTime;
 using NodaTime.Extensions;
 using System;
@@ -252,6 +253,8 @@ namespace NodaTimePicker
 			Log(nameof(ClearSelectedDate));
 
 			SelectedDate = null;
+
+			OnCleared.InvokeAsync(null).Wait();
 		}
 
 		#endregion
