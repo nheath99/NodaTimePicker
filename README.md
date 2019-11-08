@@ -4,6 +4,7 @@
 [![Nuget](https://img.shields.io/nuget/dt/NodaTimePicker.svg)](https://www.nuget.org/packages/NodaTimePicker)
 [![Build Status](https://dev.azure.com/nodatimepicker/NodaTimePicker/_apis/build/status/Live%20Build?branchName=master)](https://dev.azure.com/nodatimepicker/NodaTimePicker/_build/latest?definitionId=1&branchName=master)
 [![CodeFactor](https://www.codefactor.io/repository/github/nheath99/nodatimepicker/badge)](https://www.codefactor.io/repository/github/nheath99/nodatimepicker)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nheath99_NodaTimePicker&metric=alert_status)](https://sonarcloud.io/dashboard?id=nheath99_NodaTimePicker)
 
 A Date/Time picker for [Blazor](https://github.com/aspnet/Blazor), using [NodaTime](https://github.com/nodatime/nodatime).
 
