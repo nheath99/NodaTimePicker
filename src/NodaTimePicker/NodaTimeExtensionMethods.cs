@@ -221,36 +221,6 @@ namespace NodaTimePicker
 				yield return begin.PlusDays(i);
 			}
 		}
-		
-		internal static string ToStringAbbr(this IsoDayOfWeek isoDayOfWeek, System.Globalization.CultureInfo culture = null)
-		{
-			// Todo: #5
-			// Return the Localized version of the week name
-
-			if (culture == null)
-				culture = System.Globalization.CultureInfo.InvariantCulture;
-
-			switch (isoDayOfWeek)
-			{
-				case IsoDayOfWeek.Monday:
-					return "Mo";
-				case IsoDayOfWeek.Tuesday:
-					return "Tu";
-				case IsoDayOfWeek.Wednesday:
-					return "We";
-				case IsoDayOfWeek.Thursday:
-					return "Th";
-				case IsoDayOfWeek.Friday:
-					return "Fr";
-				case IsoDayOfWeek.Saturday:
-					return "Sa";
-				case IsoDayOfWeek.Sunday:
-					return "Su";
-				case IsoDayOfWeek.None:
-				default:
-					return string.Empty;
-			}
-		}
 
 		/// <summary>
 		/// Returns the first and last years of the decade that contains <paramref name="year"/>.
