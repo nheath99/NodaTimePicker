@@ -26,6 +26,11 @@ The library can be downloaded from NuGet by searching for: NodaTimePicker in NuG
 ````shell
 PM> Install-Package NodaTimePicker -Version 0.6.0
 ````
+Include the following lines of code inside index.html for Blazor Client Side (WebAssembly) or _Host.cshtml for Blazor Server Side.
+````
+<link href="_content/NodaTimePicker/datepicker.css" rel="stylesheet" />
+<link href="_content/NodaTimePicker/timepicker.css" rel="stylesheet" />
+````
 When using the component, you must add a using statement for NodaTime:
 ````
 @using NodaTime
