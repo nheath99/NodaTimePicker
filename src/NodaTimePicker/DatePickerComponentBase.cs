@@ -330,26 +330,49 @@ namespace NodaTimePicker
 			}
 		}
 
+		internal bool CanNextMonth()
+		{
+			
+			var next = MonthToDisplay.PlusMonths(1);
+			return !this.MaxDate.HasValue || this.MaxDate >= next.StartOfMonth();
+		}
+
+		internal bool CanPreviousMonth()
+		{
+			var next = MonthToDisplay.PlusMonths(-1);
+			return !this.MinDate.HasValue || this.MinDate <= next.EndOfMonth();
+		}
+
 		/// <summary>Increments the MonthToDisplay value by one month.</summary>
 		/// <param name="eventArgs"></param>
 		internal void NextMonth(EventArgs eventArgs)
 		{
-			Log(nameof(NextMonth));
+			if (CanNextMonth())
+			{
+				Log(nameof(NextMonth));
 
-			MonthToDisplay = MonthToDisplay.PlusMonths(1);
-			RenderDays();
-			_onUpdated();
+				MonthToDisplay = MonthToDisplay.PlusMonths(1);
+				RenderDays();
+				OnMonthChanged.InvokeAsync(MonthToDisplay).Wait();
+				_onUpdated();
+			}
+			
 		}
 
 		/// <summary>Decrements the MonthToDisplay value by one month.</summary>
 		/// <param name="eventArgs"></param>
 		internal void PreviousMonth()
 		{
-			Log(nameof(PreviousMonth));
+			if (CanPreviousMonth())
+			{
+				Log(nameof(PreviousMonth));
 
-			MonthToDisplay = MonthToDisplay.PlusMonths(-1);
-			RenderDays();
-			_onUpdated();
+				MonthToDisplay = MonthToDisplay.PlusMonths(-1);
+				RenderDays();
+				OnMonthChanged.InvokeAsync(MonthToDisplay).Wait();
+				_onUpdated();
+			}
+			
 		}
 
 		/// <summary>Displays the Month selection mode, i.e. a list of months of the year.</summary>
@@ -374,6 +397,7 @@ namespace NodaTimePicker
 
 			SelectedDate = selectedDate;
 			MonthToDisplay = selectedDate;
+			OnMonthChanged.InvokeAsync(MonthToDisplay).Wait();
 		}
 
 		internal void SetDisplayMonth(int month)

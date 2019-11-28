@@ -307,13 +307,18 @@
 <h3 id="events">Tests julien</h3>
 <div class="d-flex flex-sm-row flex-column">
 	<div class="mr-3">
-		<DatePicker Inline=true CanNavigate="false" DisplayWeekNumber="true" ShowClear="false" ShowClose="false" ShowToday="false"
+		<DatePicker Inline=true DisplayWeekNumber="true" ShowClear="false" ShowClose="false" ShowToday="false"
 					ViewMode="NodaTimePicker.ViewMode.Days" FormatProvider=@(System.Globalization.CultureInfo.CurrentUICulture) 
+					MinDate="MinDateTest" MaxDate="MaxDateTest" SelectedDate="SelectedDateTest"
 					HideOldAndNew="true" CanSelectDisabled="true" DisabledDates="@this.ClosedDaysTest" OnSelectedDateChanged="@OnSelectedDateChangedTest" />
 	</div>
 </div>
 
 @code {
+
+    public LocalDate SelectedDateTest => LocalDate.FromDateTime(DateTime.Now);
+	public LocalDate MinDateTest => SelectedDateTest.PlusMonths(-3);
+	public LocalDate MaxDateTest => SelectedDateTest.PlusMonths(3);
 
     protected IList<LocalDate> ClosedDaysTest { get; set; } = new List<LocalDate>();
 
@@ -323,11 +328,11 @@
         {
             if (ClosedDaysTest.Contains(date.Value))
             {
-				ClosedDaysTest.Remove(date.Value);
+                ClosedDaysTest.Remove(date.Value);
             }
             else
             {
-				ClosedDaysTest.Add(date.Value);
+                ClosedDaysTest.Add(date.Value);
             }
         }
     }

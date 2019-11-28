@@ -9,7 +9,7 @@
 				<div class="datepicker-header">
 					@if (CanNavigate)
 					{
-						<button type="button" role="button" class="prev" @onclick="@PreviousMonth">@PrevContent</button>
+						<button type="button" disabled="@(!CanPreviousMonth())" role="button" class="prev" @onclick="@PreviousMonth">@PrevContent</button>
 					}
 					else
 					{
@@ -18,7 +18,7 @@
 					<button type="button" role="button" class="header-text" @onclick="@SelectMonth">@MonthText</button>
 					@if (CanNavigate)
 					{
-						<button type="button" role="button" class="next" @onclick="@NextMonth">@NextContent</button>
+						<button type="button" disabled="@(!CanNextMonth())" role="button" class="next" @onclick="@NextMonth">@NextContent</button>
 					}
 					else
 					{
@@ -49,7 +49,7 @@
 					<div class="week-numbers">
 						@foreach (var week in GetWeeks)
 						{
-							<div class="week-number">@week</div>
+							<div class="week-number"><span>@week</span></div>
 						}
 					</div>
 				}
