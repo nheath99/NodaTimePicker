@@ -10,5 +10,9 @@
   {
     "outputFile": "wwwroot/datetimepicker.css",
     "inputFile": "wwwroot/datetimepicker.scss"
+  },
+  {
+    "outputFile": "wwwroot/datepicker.css",
+    "inputFile": "wwwroot/datepicker.scss"
   }
 ]

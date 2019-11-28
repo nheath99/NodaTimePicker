@@ -86,6 +86,11 @@ namespace NodaTimePicker
 
 		[Parameter] public EventCallback OnEnabled { get; set; }
 
+
+		[Parameter] public bool CanNavigate { get; set; } = true;
+		[Parameter] public bool HideOldAndNew { get; set; } = false;
+		[Parameter] public bool CanSelectDisabled { get; set; } = false;
+
 		#endregion
 
 		#region Overriden Methods
@@ -280,7 +285,7 @@ namespace NodaTimePicker
 		{
 			Log(nameof(DayClicked));
 
-			if (!IsDayDisabled(date))
+			if (CanSelectDisabled || !IsDayDisabled(date))
 			{
 				SetSelectedDate(date);
 			}
@@ -351,10 +356,14 @@ namespace NodaTimePicker
 		/// <param name="eventArgs"></param>
 		internal void SelectMonth(EventArgs eventArgs)
 		{
-			Log(nameof(SelectMonth));
+			if (this.CanNavigate)
+			{
+				Log(nameof(SelectMonth));
 
-			RenderMonths();
-			NextViewMode();
+				RenderMonths();
+				NextViewMode();
+			}
+			
 		}
 
 		internal void SetSelectedMonth(int month)

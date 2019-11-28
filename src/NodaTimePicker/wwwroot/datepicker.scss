@@ -162,6 +162,19 @@
 				border-bottom-color: $white;
 			}
 		}
+
+		&.hide-external {
+			.old, .new {
+				display: none;
+			}
+		}
+
+		&.can-select-disabled {
+
+			.disabled {
+				cursor: pointer !important;
+			}
+		}
 	}
 
 	.disabled {
@@ -171,7 +184,7 @@
 	}
 
 	.datepicker-footer {
-		grid-area : footer;
+		grid-area: footer;
 		margin-top: 2px;
 		display: flex;
 		justify-content: space-around;

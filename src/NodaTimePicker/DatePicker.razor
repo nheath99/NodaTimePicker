@@ -7,9 +7,25 @@
 		{
 			<div class="datepicker-days">
 				<div class="datepicker-header">
-					<button type="button" role="button" class="prev" @onclick="@PreviousMonth">@PrevContent</button>
+					@if (CanNavigate)
+					{
+						<button type="button" role="button" class="prev" @onclick="@PreviousMonth">@PrevContent</button>
+					}
+					else
+					{
+						<div></div>
+					}
 					<button type="button" role="button" class="header-text" @onclick="@SelectMonth">@MonthText</button>
-					<button type="button" role="button" class="next" @onclick="@NextMonth">@NextContent</button>
+					@if (CanNavigate)
+					{
+						<button type="button" role="button" class="next" @onclick="@NextMonth">@NextContent</button>
+					}
+					else
+					{
+						<div></div>
+					}
+
+
 				</div>
 				@if (DisplayDaysOfWeek)
 				{
@@ -37,12 +53,12 @@
 						}
 					</div>
 				}
-				<div class="days">
+				<div class="days @(HideOldAndNew ? "hide-external" : "") @(CanSelectDisabled ? "can-select-disabled" : "")">
 					@foreach (var date in Days)
 					{
 						<div class="day-wrapper">
 							<button type="button" role="button" class="@CssClassGenerator.Day(date, this)" @onclick="@(e => DayClicked(e, date))">
-								@DayTemplate(date)
+								<span>@DayTemplate(date)</span>
 							</button>
 						</div>
 					}
