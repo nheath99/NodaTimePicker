@@ -45,8 +45,19 @@ namespace NodaTimePicker
 		[Parameter] public RenderFragment NextContent { get; set; } = builder => builder.AddContent(1, new MarkupString("&gt;"));
 		/// <summary>The day of the week to start from, when in <see cref="ViewMode.Days"/>.</summary>
 		[Parameter] public IsoDayOfWeek FirstDayOfWeek { get; set; } = IsoDayOfWeek.Monday;
+
+		internal LocalDate? _selectedDate;
 		/// <summary>The currently selected date.</summary>
-		[Parameter] public LocalDate? SelectedDate { get; set; }
+		[Parameter] public LocalDate? SelectedDate
+		{
+			get => _selectedDate;
+			set
+			{
+				_selectedDate = value;
+				DisplaySelectedMonth();
+			}
+		}
+
 		/// <summary>The earliest date that can be selected, inclusive. A value of null indicates that there is no minimum date.</summary>
 		[Parameter] public LocalDate? MinDate { get; set; }
 		/// <summary>The latest date that can be selected, inclusive. A value of null indicates that there is no maximum date.</summary>
@@ -241,10 +252,6 @@ namespace NodaTimePicker
 
 				SelectedDateChanged();
 			}
-
-			MonthToDisplay = new LocalDate(selectedDate.Year, selectedDate.Month, 1);
-			Log(MonthToDisplay.ToString());
-			RenderDays();
 		}
 
 		internal void ClearSelectedDate()
@@ -254,6 +261,16 @@ namespace NodaTimePicker
 			SelectedDate = null;
 
 			OnCleared.InvokeAsync(null).Wait();
+		}
+
+		internal void DisplaySelectedMonth()
+		{
+			if (SelectedDate.HasValue)
+			{
+				MonthToDisplay = SelectedDate.Value.StartOfMonth();
+
+				RenderDays();
+			}
 		}
 
 		#endregion
@@ -274,16 +291,6 @@ namespace NodaTimePicker
 			var endOfWeekOfMonth = endOfMonth.EndOfWeek(FirstDayOfWeek);
 
 			Days = GetDaysBetween(startOfWeekOfMonth, endOfWeekOfMonth);
-		}
-
-		internal void DayClicked(EventArgs eventArgs, LocalDate date)
-		{
-			Log(nameof(DayClicked));
-
-			if (!IsDayDisabled(date))
-			{
-				SetSelectedDate(date);
-			}
 		}
 
 		#endregion
@@ -548,6 +555,16 @@ namespace NodaTimePicker
 		#endregion
 
 		#region EventHandlers
+
+		internal void DayClicked(EventArgs eventArgs, LocalDate date)
+		{
+			Log(nameof(DayClicked));
+
+			if (!IsDayDisabled(date))
+			{
+				SetSelectedDate(date);
+			}
+		}
 
 		internal void TodayClicked(EventArgs eventArgs)
 		{
