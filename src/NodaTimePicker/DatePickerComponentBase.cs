@@ -297,8 +297,6 @@ namespace NodaTimePicker
 
 			Days = GetDaysBetween(startOfWeekOfMonth, endOfWeekOfMonth);
 		}
-
-			if (CanSelectDisabled || !IsDayDisabled(date))
 		#endregion
 
 		#region Months
@@ -594,7 +592,7 @@ namespace NodaTimePicker
 		{
 			Log(nameof(DayClicked));
 
-			if (!IsDayDisabled(date))
+			if (CanSelectDisabled || !IsDayDisabled(date))
 			{
 				SetSelectedDate(date);
 			}

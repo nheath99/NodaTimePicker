@@ -212,11 +212,12 @@
 	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true SelectedDate=@selectedDate11 />
 	</div>
-	<p class="order-0 order-sm-1">
-		<button type="button" class="btn btn-outline-primary mb-2" @onclick="@(() => selectedDate11 = setSelectedDate11_1)">Set date to @setSelectedDate11_1</button><br />
-		<button type="button" class="btn btn-outline-primary mb-2" @onclick="@(() => selectedDate11 = setSelectedDate11_2)">Set date to @setSelectedDate11_2</button><br />
-		<button type="button" class="btn btn-outline-primary" @onclick="@(() => selectedDate11 = setSelectedDate11_3)">Set date to @setSelectedDate11_3</button>
-	</p>
+    <p class="order-0 order-sm-1">
+        <button type="button" class="btn btn-outline-primary mb-2" @onclick="@(() => selectedDate11 = setSelectedDate11_1)">Set date to @setSelectedDate11_1</button><br />
+        <button type="button" class="btn btn-outline-primary mb-2" @onclick="@(() => selectedDate11 = setSelectedDate11_2)">Set date to @setSelectedDate11_2</button><br />
+        <button type="button" class="btn btn-outline-primary" @onclick="@(() => selectedDate11 = setSelectedDate11_3)">Set date to @setSelectedDate11_3</button>
+        <button type="button" class="btn btn-outline-primary" @onclick="@(() => selectedDate11 = setSelectedDate11_4)">Set date to @setSelectedDate11_4</button>
+    </p>
 </div>
 
 <hr />
@@ -317,8 +318,8 @@
 @code {
 
     public LocalDate SelectedDateTest => LocalDate.FromDateTime(DateTime.Now);
-	public LocalDate MinDateTest => SelectedDateTest.PlusMonths(-3);
-	public LocalDate MaxDateTest => SelectedDateTest.PlusMonths(3);
+    public LocalDate MinDateTest => SelectedDateTest.PlusMonths(-3);
+    public LocalDate MaxDateTest => SelectedDateTest.PlusMonths(3);
 
     protected IList<LocalDate> ClosedDaysTest { get; set; } = new List<LocalDate>();
 
@@ -474,6 +475,7 @@ StateHasChanged();
     LocalDate setSelectedDate11_1 = Today.PlusDays(2);
     LocalDate setSelectedDate11_2 = Today.PlusWeeks(1);
     LocalDate setSelectedDate11_3 = Today.PlusMonths(1);
+    LocalDate setSelectedDate11_4 = Today.PlusMonths(2).PlusYears(1);
 
     bool showToday = true;
     bool showClear = true;
