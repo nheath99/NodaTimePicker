@@ -100,6 +100,7 @@ app {
 		height: 100vh;
 		position: sticky;
 		top: 0;
+		min-width: 250px;
 	}
 
 	.main .top-row {
