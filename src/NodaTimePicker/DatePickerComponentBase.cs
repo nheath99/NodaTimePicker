@@ -3,6 +3,7 @@ using NodaTime;
 using NodaTime.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace NodaTimePicker
@@ -14,7 +15,7 @@ namespace NodaTimePicker
 		/// <summary>If true, detailed information will be logged to the Console.</summary>
 		[Parameter] public bool Logging { get; set; } = false;
 		/// <summary> Specify the culture to display dates and text in. Default is InvariantCulture.</summary>
-		[Parameter] public System.Globalization.CultureInfo FormatProvider { get; set; } = System.Globalization.CultureInfo.InvariantCulture;
+		[Parameter] public CultureInfo FormatProvider { get; set; } = CultureInfo.CurrentUICulture;
 		/// <summary>If true, a row will be displayed with the day-of-week names. If false, it will not.</summary>
 		[Parameter] public bool DisplayDaysOfWeek { get; set; } = true;
 		/// <summary>In <see cref="ViewMode.Days"/>, the format of the month and year in the header. Defaults to MMMM yyyy, i.e. October 2018.</summary>
@@ -48,7 +49,8 @@ namespace NodaTimePicker
 
 		internal LocalDate? _selectedDate;
 		/// <summary>The currently selected date.</summary>
-		[Parameter] public LocalDate? SelectedDate
+		[Parameter]
+		public LocalDate? SelectedDate
 		{
 			get => _selectedDate;
 			set
@@ -97,6 +99,13 @@ namespace NodaTimePicker
 
 		[Parameter] public EventCallback OnEnabled { get; set; }
 
+
+		[Parameter] public bool CanNavigate { get; set; } = true;
+		[Parameter] public bool HideOldAndNew { get; set; } = false;
+		[Parameter] public bool CanSelectDisabled { get; set; } = false;
+
+		[Parameter] public CalendarSystem CalendarSystem { get; set; } = CalendarSystem.Iso;
+
 		#endregion
 
 		#region Overriden Methods
@@ -109,7 +118,7 @@ namespace NodaTimePicker
 
 			if (SelectedDate != null)
 			{
-				MonthToDisplay = new LocalDate(SelectedDate.Value.Year, SelectedDate.Value.Month, 1);
+				MonthToDisplay = new LocalDate(SelectedDate.Value.Year, SelectedDate.Value.Month, 1).WithCalendar(CalendarSystem);
 			}
 			else
 			{
@@ -292,7 +301,6 @@ namespace NodaTimePicker
 
 			Days = GetDaysBetween(startOfWeekOfMonth, endOfWeekOfMonth);
 		}
-
 		#endregion
 
 		#region Months
@@ -332,53 +340,81 @@ namespace NodaTimePicker
 			}
 		}
 
+		internal bool CanNextMonth()
+		{
+
+			var next = MonthToDisplay.PlusMonths(1);
+			return !this.MaxDate.HasValue || this.MaxDate >= next.StartOfMonth();
+		}
+
+		internal bool CanPreviousMonth()
+		{
+			var next = MonthToDisplay.PlusMonths(-1);
+			return !this.MinDate.HasValue || this.MinDate <= next.EndOfMonth();
+		}
+
 		/// <summary>Increments the MonthToDisplay value by one month.</summary>
 		/// <param name="eventArgs"></param>
 		internal void NextMonth(EventArgs eventArgs)
 		{
-			Log(nameof(NextMonth));
+			if (CanNextMonth())
+			{
+				Log(nameof(NextMonth));
 
-			MonthToDisplay = MonthToDisplay.PlusMonths(1);
-			RenderDays();
-			_onUpdated();
+				MonthToDisplay = MonthToDisplay.PlusMonths(1);
+				RenderDays();
+				OnMonthChanged.InvokeAsync(MonthToDisplay).Wait();
+				_onUpdated();
+			}
+
 		}
 
 		/// <summary>Decrements the MonthToDisplay value by one month.</summary>
 		/// <param name="eventArgs"></param>
 		internal void PreviousMonth()
 		{
-			Log(nameof(PreviousMonth));
+			if (CanPreviousMonth())
+			{
+				Log(nameof(PreviousMonth));
 
-			MonthToDisplay = MonthToDisplay.PlusMonths(-1);
-			RenderDays();
-			_onUpdated();
+				MonthToDisplay = MonthToDisplay.PlusMonths(-1);
+				RenderDays();
+				OnMonthChanged.InvokeAsync(MonthToDisplay).Wait();
+				_onUpdated();
+			}
+
 		}
 
 		/// <summary>Displays the Month selection mode, i.e. a list of months of the year.</summary>
 		/// <param name="eventArgs"></param>
 		internal void SelectMonth(EventArgs eventArgs)
 		{
-			Log(nameof(SelectMonth));
+			if (this.CanNavigate)
+			{
+				Log(nameof(SelectMonth));
 
-			RenderMonths();
-			NextViewMode();
+				RenderMonths();
+				NextViewMode();
+			}
+
 		}
 
 		internal void SetSelectedMonth(int month)
 		{
 			Log(nameof(SetSelectedMonth));
 
-			var selectedDate = new LocalDate(MonthToDisplay.Year, month, 1);
+			var selectedDate = new LocalDate(MonthToDisplay.Year, month, 1).WithCalendar(CalendarSystem);
 
 			SelectedDate = selectedDate;
 			MonthToDisplay = selectedDate;
+			OnMonthChanged.InvokeAsync(MonthToDisplay).Wait();
 		}
 
 		internal void SetDisplayMonth(int month)
 		{
 			Log(nameof(SetDisplayMonth));
 
-			MonthToDisplay = new LocalDate(MonthToDisplay.Year, month, 1);
+			MonthToDisplay = new LocalDate(MonthToDisplay.Year, month, 1).WithCalendar(CalendarSystem);
 		}
 
 		#endregion
@@ -451,7 +487,7 @@ namespace NodaTimePicker
 		{
 			Log(nameof(SetSelectedMonth));
 
-			var selectedDate = new LocalDate(year, 1, 1);
+			var selectedDate = new LocalDate(year, 1, 1).WithCalendar(CalendarSystem);
 
 			SelectedDate = selectedDate;
 			MonthToDisplay = selectedDate;
@@ -461,7 +497,7 @@ namespace NodaTimePicker
 		{
 			Log(nameof(SetDisplayYear));
 
-			MonthToDisplay = new LocalDate(year, MonthToDisplay.Month, 1);
+			MonthToDisplay = new LocalDate(year, MonthToDisplay.Month, 1).WithCalendar(CalendarSystem);
 		}
 
 		#endregion
@@ -560,7 +596,7 @@ namespace NodaTimePicker
 		{
 			Log(nameof(DayClicked));
 
-			if (!IsDayDisabled(date))
+			if (CanSelectDisabled || !IsDayDisabled(date))
 			{
 				SetSelectedDate(date);
 			}
@@ -644,10 +680,10 @@ namespace NodaTimePicker
 			// If any date in the month is enabled, enable the month
 			if (DaysEnabledFunction != null)
 			{
-				var daysInMonth = NodaTime.CalendarSystem.Iso.GetDaysInMonth(year, month);
+				var daysInMonth = CalendarSystem.GetDaysInMonth(year, month);
 				for (int i = 1; i <= daysInMonth; i++)
 				{
-					var date = new LocalDate(year, month, i);
+					var date = new LocalDate(year, month, i).WithCalendar(CalendarSystem);
 					if (DaysEnabledFunction(date))
 						return true;
 				}
@@ -792,7 +828,7 @@ namespace NodaTimePicker
 		internal int? SelectedYear => SelectedDate?.Year;
 		internal int? SelectedDecade => SelectedDate?.Year.Decade();
 		internal IClock Clock { get; set; }
-		internal LocalDate Today => Clock.Today();
+		internal LocalDate Today => Clock.Today().WithCalendar(CalendarSystem);
 		internal LocalDate MonthToDisplay { get; private set; }
 
 		internal static IEnumerable<LocalDate> GetDaysBetween(LocalDate start, LocalDate end)

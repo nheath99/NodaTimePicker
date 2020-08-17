@@ -108,6 +108,10 @@
           right: 4px; }
       .datepicker-content .days .day.active.today:before {
         border-bottom-color: #fff; }
+    .datepicker-content .days.hide-external .old, .datepicker-content .days.hide-external .new {
+      display: none; }
+    .datepicker-content .days.can-select-disabled .disabled {
+      cursor: pointer !important; }
   .datepicker-content .disabled {
     background: none;
     color: #6c757d;

@@ -24,7 +24,7 @@
 	The library can be downloaded from NuGet by searching for: BlazorNodaTimeDateTimePicker in NuGet Package Manager, or by executing the following command in the Package Manager Console:
 </p>
 <p>
-	<code>PM> Install-Package NodaTimePicker -Version 0.7.0</code>
+	<code>PM> Install-Package NodaTimePicker -Version 0.8.0</code>
 </p>
 
 <h3 id="examples">Examples</h3>
@@ -212,11 +212,12 @@
 	<div class="mr-3 order-1 order-sm-0">
 		<DatePicker Inline=true SelectedDate=@selectedDate11 />
 	</div>
-	<p class="order-0 order-sm-1">
-		<button type="button" class="btn btn-outline-primary mb-2" @onclick="@(() => selectedDate11 = setSelectedDate11_1)">Set date to @setSelectedDate11_1</button><br />
-		<button type="button" class="btn btn-outline-primary mb-2" @onclick="@(() => selectedDate11 = setSelectedDate11_2)">Set date to @setSelectedDate11_2</button><br />
-		<button type="button" class="btn btn-outline-primary" @onclick="@(() => selectedDate11 = setSelectedDate11_3)">Set date to @setSelectedDate11_3</button>
-	</p>
+    <p class="order-0 order-sm-1">
+        <button type="button" class="btn btn-outline-primary mb-2" @onclick="@(() => selectedDate11 = setSelectedDate11_1)">Set date to @setSelectedDate11_1</button><br />
+        <button type="button" class="btn btn-outline-primary mb-2" @onclick="@(() => selectedDate11 = setSelectedDate11_2)">Set date to @setSelectedDate11_2</button><br />
+        <button type="button" class="btn btn-outline-primary" @onclick="@(() => selectedDate11 = setSelectedDate11_3)">Set date to @setSelectedDate11_3</button>
+        <button type="button" class="btn btn-outline-primary" @onclick="@(() => selectedDate11 = setSelectedDate11_4)">Set date to @setSelectedDate11_4</button>
+    </p>
 </div>
 
 <hr />
@@ -303,34 +304,67 @@
 		}
 	</ul>
 </div>
+<hr />
+<h3 id="events">Tests julien</h3>
+<div class="d-flex flex-sm-row flex-column">
+	<div class="mr-3">
+		<DatePicker Inline=true DisplayWeekNumber="true" ShowClear="false" ShowClose="false" ShowToday="false"
+					ViewMode="NodaTimePicker.ViewMode.Days" FormatProvider=@(System.Globalization.CultureInfo.CurrentUICulture) 
+					MinDate="MinDateTest" MaxDate="MaxDateTest" SelectedDate="SelectedDateTest"
+					HideOldAndNew="true" CanSelectDisabled="true" DisabledDates="@this.ClosedDaysTest" OnSelectedDateChanged="@OnSelectedDateChangedTest" />
+	</div>
+</div>
 
 @code {
-	System.Globalization.CultureInfo FormatProvider = new System.Globalization.CultureInfo("fr-FR");
-	static LocalDate Today = SystemClock.Instance.GetCurrentInstant().InUtc().LocalDateTime.Date;
 
-	LocalDate? selectedDate1;
-	void changed1(LocalDate? localDate)
-	{
-		selectedDate1 = localDate;
-		StateHasChanged();
-	}
-	string demo1String = "<DatePicker Inline=true OnSelectedDateChanged=changed1 />";
+    public LocalDate SelectedDateTest => LocalDate.FromDateTime(DateTime.Now);
+    public LocalDate MinDateTest => SelectedDateTest.PlusMonths(-3);
+    public LocalDate MaxDateTest => SelectedDateTest.PlusMonths(3);
 
-	bool datePicker2Visible = false;
-	LocalDate? selectedDate2;
-	void focussed2(EventArgs e)
-	{
-		datePicker2Visible = true;
-	}
+    protected IList<LocalDate> ClosedDaysTest { get; set; } = new List<LocalDate>();
 
-	void selected2(LocalDate localDate)
-	{
-		selectedDate2 = localDate;
-		datePicker2Visible = false;
-		StateHasChanged();
-	}
+    protected void OnSelectedDateChangedTest(LocalDate? date)
+    {
+        if (date.HasValue)
+        {
+            if (ClosedDaysTest.Contains(date.Value))
+            {
+                ClosedDaysTest.Remove(date.Value);
+            }
+            else
+            {
+                ClosedDaysTest.Add(date.Value);
+            }
+        }
+    }
 
-	string demo2String = @"<input type=""text"" @onfocus=""@focussed"" />
+
+    System.Globalization.CultureInfo FormatProvider = new System.Globalization.CultureInfo("fr-FR");
+    static LocalDate Today = SystemClock.Instance.GetCurrentInstant().InUtc().LocalDateTime.Date;
+
+    LocalDate? selectedDate1;
+    void changed1(LocalDate? localDate)
+    {
+        selectedDate1 = localDate;
+        StateHasChanged();
+    }
+    string demo1String = "<DatePicker Inline=true OnSelectedDateChanged=changed1 />";
+
+    bool datePicker2Visible = false;
+    LocalDate? selectedDate2;
+    void focussed2(EventArgs e)
+    {
+        datePicker2Visible = true;
+    }
+
+    void selected2(LocalDate localDate)
+    {
+        selectedDate2 = localDate;
+        datePicker2Visible = false;
+        StateHasChanged();
+    }
+
+    string demo2String = @"<input type=""text"" @onfocus=""@focussed"" />
 <DatePicker Visible=""datePicker2Visible"" OnSelected=""selected2"" />
 
 @functions {
@@ -346,125 +380,126 @@ StateHasChanged();
 }
 }";
 
-	IsoDayOfWeek firstDOW3 = IsoDayOfWeek.Tuesday;
+    IsoDayOfWeek firstDOW3 = IsoDayOfWeek.Tuesday;
 
-	bool displayDOW4 = false;
+    bool displayDOW4 = false;
 
-	string cultureName = cultureNames[0];
-	static string[] cultureNames = new[] { "fr-FR", "pl-PL", "en-GB" };
+    string cultureName = cultureNames[0];
+    static string[] cultureNames = new[] { "fr-FR", "pl-PL", "en-GB" };
 
-	string formatProvider5String
-	{
-		get => cultureName;
-		set
-		{
-			cultureName = value;
-			formatProvider5 = new System.Globalization.CultureInfo(value);
-		}
-	}
+    string formatProvider5String
+    {
+        get => cultureName;
+        set
+        {
+            cultureName = value;
+            formatProvider5 = new System.Globalization.CultureInfo(value);
+        }
+    }
 
-	System.Globalization.CultureInfo formatProvider5 = new System.Globalization.CultureInfo(cultureNames[0]);
+    System.Globalization.CultureInfo formatProvider5 = new System.Globalization.CultureInfo(cultureNames[0]);
 
-	LocalDate minDate6 = Today;
-	LocalDate maxDate7 = Today;
+    LocalDate minDate6 = Today;
+    LocalDate maxDate7 = Today;
 
-	IEnumerable<LocalDate> disabledDates8
-	{
-		get
-		{
-			yield return Today.PlusDays(-1);
-			yield return Today.PlusDays(1);
-			yield return Today.PlusDays(5);
-			yield return Today.PlusDays(7);
-			yield return Today.PlusDays(8);
-		}
-	}
+    IEnumerable<LocalDate> disabledDates8
+    {
+        get
+        {
+            yield return Today.PlusDays(-1);
+            yield return Today.PlusDays(1);
+            yield return Today.PlusDays(5);
+            yield return Today.PlusDays(7);
+            yield return Today.PlusDays(8);
+        }
+    }
 
-	IEnumerable<LocalDate> enabledDates9
-	{
-		get
-		{
-			yield return Today.PlusDays(-1);
-			yield return Today;
-			yield return Today.PlusDays(1);
-			yield return Today.PlusDays(5);
-			yield return Today.PlusDays(7);
-			yield return Today.PlusDays(8);
-		}
-	}
+    IEnumerable<LocalDate> enabledDates9
+    {
+        get
+        {
+            yield return Today.PlusDays(-1);
+            yield return Today;
+            yield return Today.PlusDays(1);
+            yield return Today.PlusDays(5);
+            yield return Today.PlusDays(7);
+            yield return Today.PlusDays(8);
+        }
+    }
 
-	bool monday10 = true;
-	bool tuesday10 = false;
-	bool wednesday10 = true;
-	bool thursday10 = false;
-	bool friday10 = true;
-	bool saturday10 = true;
-	bool sunday10 = true;
+    bool monday10 = true;
+    bool tuesday10 = false;
+    bool wednesday10 = true;
+    bool thursday10 = false;
+    bool friday10 = true;
+    bool saturday10 = true;
+    bool sunday10 = true;
 
-	IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled10
-	{
-		get
-		{
-			if (!monday10)
-			{
-				yield return IsoDayOfWeek.Monday;
-			}
-			if (!tuesday10)
-			{
-				yield return IsoDayOfWeek.Tuesday;
-			}
-			if (!wednesday10)
-			{
-				yield return IsoDayOfWeek.Wednesday;
-			}
-			if (!thursday10)
-			{
-				yield return IsoDayOfWeek.Thursday;
-			}
-			if (!friday10)
-			{
-				yield return IsoDayOfWeek.Friday;
-			}
-			if (!saturday10)
-			{
-				yield return IsoDayOfWeek.Saturday;
-			}
-			if (!sunday10)
-			{
-				yield return IsoDayOfWeek.Sunday;
-			}
-		}
-	}
+    IEnumerable<IsoDayOfWeek> DaysOfWeekDisabled10
+    {
+        get
+        {
+            if (!monday10)
+            {
+                yield return IsoDayOfWeek.Monday;
+            }
+            if (!tuesday10)
+            {
+                yield return IsoDayOfWeek.Tuesday;
+            }
+            if (!wednesday10)
+            {
+                yield return IsoDayOfWeek.Wednesday;
+            }
+            if (!thursday10)
+            {
+                yield return IsoDayOfWeek.Thursday;
+            }
+            if (!friday10)
+            {
+                yield return IsoDayOfWeek.Friday;
+            }
+            if (!saturday10)
+            {
+                yield return IsoDayOfWeek.Saturday;
+            }
+            if (!sunday10)
+            {
+                yield return IsoDayOfWeek.Sunday;
+            }
+        }
+    }
 
-	// Default to Today
-	LocalDate selectedDate11 = Today;
-	LocalDate setSelectedDate11_1 = Today.PlusDays(2);
-	LocalDate setSelectedDate11_2 = Today.PlusWeeks(1);
-	LocalDate setSelectedDate11_3 = Today.PlusMonths(1);
+    // Default to Today
+    LocalDate selectedDate11 = Today;
+    LocalDate setSelectedDate11_1 = Today.PlusDays(2);
+    LocalDate setSelectedDate11_2 = Today.PlusWeeks(1);
+    LocalDate setSelectedDate11_3 = Today.PlusMonths(1);
+    LocalDate setSelectedDate11_4 = Today.PlusMonths(2).PlusYears(1);
 
-	bool showToday = true;
-	bool showClear = true;
+    bool showToday = true;
+    bool showClear = true;
 
-	List<string> eventsList = new List<string>()
-	{
-		"Events will appear here..."
-	};
+    List<string> eventsList = new List<string>()
+{
+        "Events will appear here..."
+    };
 
-	void changed(LocalDate? d)
-	{
-		eventsList.Add($"Changed. Value: {d}");
-		StateHasChanged();
-	}
+    void changed(LocalDate? d)
+    {
+        eventsList.Add($"Changed. Value: {d}");
+        StateHasChanged();
+    }
 
-	void selected(LocalDate d)
-	{
-		eventsList.Add($"Selected. Value: {d}");
-		StateHasChanged();
-	}
+    void selected(LocalDate d)
+    {
+        eventsList.Add($"Selected. Value: {d}");
+        StateHasChanged();
+    }
 
-	void cleared()
-	{
-		eventsList.Add("Cleared");
-		StateHasChanged();
-	}
+    void cleared()
+    {
+        eventsList.Add("Cleared");
+        StateHasChanged();
+    }
 }
