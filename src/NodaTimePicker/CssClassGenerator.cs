@@ -9,6 +9,7 @@ namespace NodaTimePicker
 		const string datepicker_prefix = "datepicker";
 		const string timepicker_prefix = "timepicker";
 		const string datetimepicker_prefix = "datetimepicker";
+		const string daterangepicker_prefix = "daterangepicker";
 
 		/// <summary>The value of the class attribute for the root html element of the DatePicker.</summary>
 		/// <param name="inline">Whether the DatePicker is being displayed inline or not.</param>
@@ -19,6 +20,15 @@ namespace NodaTimePicker
 			if (inline == false)
 				str += $" {datepicker_prefix}-dropdown-menu";
 			
+			return str;
+		}
+
+		internal static string DaterangePickerMain(bool inline)
+		{
+			var str = daterangepicker_prefix;
+			if (inline == false)
+				str += $" {datepicker_prefix}-dropdown-menu";
+
 			return str;
 		}
 

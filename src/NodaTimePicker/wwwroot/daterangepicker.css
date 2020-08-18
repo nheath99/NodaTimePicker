@@ -1,0 +1,106 @@
+﻿.timepicker button {
+  border: none;
+  background-color: transparent; }
+
+.timepicker.timepicker-dropdown-menu {
+  position: absolute;
+  z-index: 1000;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+  margin: 2px 0;
+  padding: 4px; }
+  .timepicker.timepicker-dropdown-menu:before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #ccc;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    top: -7px;
+    left: 7px; }
+  .timepicker.timepicker-dropdown-menu:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid white;
+    top: -6px;
+    left: 8px; }
+
+.timepicker .timepicker-clock {
+  display: grid;
+  grid-template-areas: "hour-up divider minute-up meridiem" "hour divider minute meridiem" "hour-down divider minute-down meridiem";
+  grid-template-columns: 1fr auto 1fr 1fr;
+  grid-gap: 10px;
+  justify-items: center;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2em; }
+  .timepicker .timepicker-clock .timepicker-hour-up {
+    grid-area: hour-up; }
+  .timepicker .timepicker-clock .timepicker-hour {
+    grid-area: hour; }
+  .timepicker .timepicker-clock .timepicker-hour-down {
+    grid-area: hour-down; }
+  .timepicker .timepicker-clock .timepicker-divider {
+    grid-area: divider; }
+  .timepicker .timepicker-clock .timepicker-minute-up {
+    grid-area: minute-up; }
+  .timepicker .timepicker-clock .timepicker-minute {
+    grid-area: minute; }
+  .timepicker .timepicker-clock .timepicker-minute-down {
+    grid-area: minute-down; }
+  .timepicker .timepicker-clock .timepicker-meridiem {
+    grid-area: meridiem; }
+
+.timepicker .timepicker-button {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #fff;
+  width: 54px;
+  height: 54px;
+  border-radius: 0.25rem; }
+  .timepicker .timepicker-button:hover {
+    background-color: #e9ecef;
+    cursor: pointer; }
+  .timepicker .timepicker-button.active {
+    background-color: #007bff;
+    color: #fff; }
+
+.timepicker .timepicker-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch; }
+
+.timepicker .timepicker-button-close {
+  flex-grow: 1;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  padding: 0.22rem;
+  background-color: white; }
+  .timepicker .timepicker-button-close:not(:last-of-type) {
+    margin-right: 10px; }
+  .timepicker .timepicker-button-close:hover:not(.disabled) {
+    background-color: #e9ecef;
+    cursor: pointer; }
+
+.timepicker .timepicker-hour-grid, .timepicker .timepicker-minute-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+  align-items: center; }
+
+.timepicker .timepicker-hour-grid {
+  margin-bottom: 15px; }
+
+.timepicker .timepicker-hour-meridiems {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 15px;
+  justify-items: center; }
